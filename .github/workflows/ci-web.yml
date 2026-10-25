@@ -77,9 +77,6 @@ jobs:
   web_build:
     name: Web Build
     runs-on: ubuntu-latest
-    # The static entries exist only once the workspace shell has landed; until
-    # then a full vite build cannot succeed and would report a misleading failure.
-    if: ${{ hashFiles('web/src/ide_shell.tsx') != '' }}
     defaults:
       run:
         working-directory: web
@@ -94,4 +91,7 @@ jobs:
           cache: pnpm
           cache-dependency-path: web/pnpm-lock.yaml
       - run: pnpm install --frozen-lockfile
+      # The static entries exist only once the workspace shell has landed; until
+      # then a full vite build cannot succeed and would report a misleading failure.
       - run: pnpm build
+        if: ${{ hashFiles('web/src/ide_shell.tsx') != '' }}
