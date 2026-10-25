@@ -61,27 +61,40 @@ Meterless provider contract for the backend:
 The `Meterless Hotspot Smoke` CI job runs the status check and one chat round
 trip against a configured runtime, and skips cleanly when no runtime is set.
 
-**Memory engine spec.** The development environment also runs the Meterless
-runtime as an OpenAI-compatible provider beside NVIDIA, with the same headers
-and routing-mode ids.
+**H-MEM in the product.** `terminal/src/memory/` is our implementation of the
+H-MEM engine: canonical records with mandatory source and provenance, the
+tiered store with enrichment and decay, the documented hybrid ranking formula
+(0.35 semantic / 0.20 keyword / 0.10 tag / 0.10 domain / 0.15 entity / 0.05
+layer / 0.05 recency minus 0.20 superseded, multiplied by confidence), exact
+feedback deltas, the append-only trust ledger, sleep preview/execute guardrails
+with backups, conflict detection with auto-resolution, and dreaming behind an
+approval boundary.
 
-The H-MEM engine ships with a conformance suite, and we keep it green:
+It powers project memory in the CLI. Durable preference statements in a prompt
+are mined into `user_config/memory/`, relevant records are recalled on each
+prompt and appended to the wire payload as a memory context block, completed
+categories are recorded as plan completions, and `/memory` lists or searches
+what is stored while `/memory forget <id>` lowers confidence through the trust
+ledger. Memory stays on the developer's machine, matching the product's
+local-first stance.
+
+The official conformance suite runs against that implementation:
 
 ```bash
-npx -y degit meterless/meterless/engines/hmem hmem-engine
+npx -y degit meterless/meterless/engines/hmem#1742dec56a66e58eef9dda2d2b865823758ca8cd hmem-engine
 cd hmem-engine/reference
-npm install --no-audit --no-fund && npm test
-HMEM_IMPL="$PWD/src/index.ts" npx tsx ../conformance/runner.ts
+npm install --no-audit --no-fund
+HMEM_IMPL=/abs/path/to/leopardcode/terminal/src/memory/index.ts npx tsx ../conformance/runner.ts
 ```
 
-Last run against `meterless/meterless@HEAD`: reference tests 10/10, conformance
-13/13, exit 0. The `Meterless Conformance` workflow re-runs the same suite on
-`main`.
+Last run: 13/13 checks, exit 0. The `H-MEM Conformance` job in
+`meterless-conformance.yml` runs the same suite on pull requests that touch the
+engine and on `main`.
 
-Unique here: both the runtime contract and the memory-engine spec are checked by
-executable suites rather than described in prose, and the client encodes the
-contract's edge cases (status semantics, header scope, URL normalization,
-timeout) so the product fails honestly.
+Unique here: the engine spec is implemented in the product and verified by the
+published conformance suite on every engine change, and the runtime client
+encodes the contract's edge cases (status semantics, header scope, URL
+normalization, timeout) so the product fails honestly.
 
 ## Zetaris
 
@@ -119,8 +132,9 @@ small scoped commits, a pull request, and a merge only after the triggered
 checks were green.
 
 **Cursor was not used during development**, so there is no Cursor usage to
-report. The tools used were opencode with Nemotron, GitHub Actions, and the
-scripts in `backend/` and `docs/`.
+report. Cursor is optional under the current guide; development ran through
+opencode configured with NVIDIA Nemotron, GitHub Actions, and the scripts in
+`backend/` and `docs/`.
 
 ## Where the sponsor proof lives
 
@@ -128,7 +142,7 @@ scripts in `backend/` and `docs/`.
 |---|---|---|
 | `Nemotron NIM Smoke` | `.github/workflows/sponsor-smoke.yml` | NIM auth, model listing, and a live Nemotron completion |
 | `Meterless Hotspot Smoke` | `.github/workflows/sponsor-smoke.yml` | runtime status and one chat round trip with the required headers |
-| `H-MEM Conformance` | `.github/workflows/meterless-conformance.yml` | H-MEM reference tests and the 13-check conformance suite |
+| `H-MEM Conformance` | `.github/workflows/meterless-conformance.yml` | our H-MEM engine against the pinned conformance suite (13/13) |
 | `Zetaris REST Smoke` | `.github/workflows/sponsor-smoke.yml` | datasource listing plus the committed verification query |
 
 Variable names live in `.env.example`; values come from the environment locally

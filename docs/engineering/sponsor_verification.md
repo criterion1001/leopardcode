@@ -36,21 +36,24 @@ Two checks cover the hotspot:
    [`sponsor-smoke.yml`](../../.github/workflows/sponsor-smoke.yml) runs it
    against a configured runtime.
 
-2. The H-MEM engine conformance suite, run against the engine's reference
-   implementation:
+2. The H-MEM engine conformance suite, run against the engine implemented in
+   this repository (`terminal/src/memory/index.ts`):
 
    ```bash
-   npx -y degit meterless/meterless/engines/hmem hmem-engine
+   npx -y degit meterless/meterless/engines/hmem#1742dec56a66e58eef9dda2d2b865823758ca8cd hmem-engine
    cd hmem-engine/reference
    npm install --no-audit --no-fund
-   npm test
-   HMEM_IMPL="$PWD/src/index.ts" npx tsx ../conformance/runner.ts
+   HMEM_IMPL=/abs/path/to/leopardcode/terminal/src/memory/index.ts npx tsx ../conformance/runner.ts
    ```
 
-   Last local run against `meterless/meterless@HEAD`: reference tests 10/10,
-   conformance 13/13 (exit 0). The `H-MEM Conformance` job in
+   Last local run against the pinned spec (`1742dec`): 13/13 checks, exit 0. The
+   `H-MEM Conformance` job in
    [`meterless-conformance.yml`](../../.github/workflows/meterless-conformance.yml)
-   re-runs the suite on `main` changes to the sponsor package.
+   runs the same command on pull requests that touch the engine and on `main`.
+
+The engine's first product feature is project memory in the CLI: durable
+preferences are mined into `user_config/memory`, recalled into later prompts,
+and inspected with `/memory` (see [terminal_reference](terminal_reference.md)).
 
 ## Zetaris
 

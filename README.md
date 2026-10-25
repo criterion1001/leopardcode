@@ -46,6 +46,9 @@ Today's coding agents treat every prompt as a fresh start:
   dependencies finish, and a failure cascades `blocked` to everything downstream.
 - **In-flight protection.** Running work is immutable, so "keep sending prompts"
   can never race an executor mid-change.
+- **Memory that compounds.** H-MEM (the Meterless engine) keeps durable
+  preferences per project and recalls them into later plans; `/memory` shows
+  what it knows.
 - **Your code stays yours.** In the CLI, file and shell tools run on your machine;
   the server only makes model calls and optional web searches.
 
@@ -125,7 +128,7 @@ backend client with a guarded CI smoke job:
 | Sponsor | Where it lives | Proof |
 |---|---|---|
 | **NVIDIA Nemotron** | Models 2–4 (`model/model_client.py`) run on Nemotron through NIM; `backend/sponsor/nim_client.py` covers the same endpoint with authenticated model listing plus chat completions | `Nemotron NIM Smoke` picks a Nemotron model and completes a live prompt through NIM |
-| **Meterless** | `backend/sponsor/meterless_client.py` — the Meterless provider contract: status from `GET /v1/models`, `meterless-app`/`meterless-scope` headers, `meterless/*` routing models | `Meterless Hotspot Smoke` runs a chat through a local runtime, and `H-MEM Conformance` keeps the engine suite green |
+| **Meterless** | `terminal/src/memory/` — our H-MEM engine, wired as per-project CLI memory; `backend/sponsor/meterless_client.py` — the runtime contract: status from `GET /v1/models`, `meterless-app`/`meterless-scope` headers, `meterless/*` routing modes | `H-MEM Conformance` runs our engine against the pinned suite (13/13), and `Meterless Hotspot Smoke` runs a chat through a local runtime |
 | **Zetaris** | `backend/sponsor/zetaris_client.py` — documented REST queries (`/sql-editor/sqls/run` with Bearer key, `X-Org-ID`, and `X-Request-ID`) | `Zetaris REST Smoke` runs the committed verification query (`backend/sponsor/sql/zetaris_verification_select.sql`) through the REST API |
 
 Configuration is environment-only: variable names are documented in
@@ -171,9 +174,9 @@ Nemotron 3.5 Super 120B, 3 is Nemotron 3.5 Lightning 30B, and 4 is Nemotron 3
 Ultra 550B. The web workspace also offers model 6 (DeepSeek Flash), funded by the
 operator via `PROVIDED_MODEL_KEY` and refused for non-web clients. Every model
 reads its credential from the server environment (`NVIDIA_API_KEY` for Nemotron),
-so clients never handle a provider key. In the CLI, `↑`/`↓` and
-`PageUp`/`PageDown` scroll the chat, `Ctrl+↑`/`Ctrl+↓` scroll the Tasks pane, and
-`Esc` clears the prompt.
+so clients never handle a provider key. In the CLI, `/memory` shows the project
+memories H-MEM has stored, `↑`/`↓` and `PageUp`/`PageDown` scroll the chat,
+`Ctrl+↑`/`Ctrl+↓` scroll the Tasks pane, and `Esc` clears the prompt.
 
 Setup details — environment variables, OCI storage, rate limits, and checks —
 live in [build_and_run](docs/engineering/build_and_run.md).

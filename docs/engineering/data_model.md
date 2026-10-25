@@ -80,8 +80,8 @@ Path: `<cwd>/user_config/config.json` (`terminal/src/save/config_path.ts`,
 
 ```json
 {
-  "api_key": { "1": "sk-..." },
-  "main_agent_id": 1,
+  "api_key": {},
+  "main_agent_id": 2,
   "session": {
     "<uuid>": {
       "categories": [TaskCategoryDTO],
@@ -103,6 +103,18 @@ Notes:
   first option (Nemotron 3.5 Super, id 2).
 - The web workspace stores the same shape in `localStorage`; its default model is
   the provided model 6.
+
+## Project memory (CLI)
+
+Path: `<cwd>/user_config/memory/` (`terminal/src/session/project_memory.ts`).
+
+- `state.json` — H-MEM records: content, type, layer, confidence, source,
+  provenance, domain, entities, related links, lineage.
+- `ledger.jsonl` — append-only trust ledger, one JSON entry per line.
+
+Durable preference statements in a prompt are mined into this store, relevant
+records are recalled on later prompts, and completed categories are recorded as
+plan completions. The backend never reads it.
 
 ## Wire DTOs (client side, `terminal/src/dto/wire.ts`)
 

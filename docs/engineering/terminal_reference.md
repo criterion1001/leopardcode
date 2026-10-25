@@ -20,6 +20,7 @@ two-pane workspace.
 | Tools | `tool/*` | Local execution of forwarded file/shell calls |
 | Persistence | `save/*`, `session/user_data.ts` | JSON config read/write |
 | Config | `systemconfig/limits.ts`, `systemconfig/model.ts`, `systemconfig/file.ts` | Local limits, model list, config path/name |
+| Memory | `memory/*` (H-MEM engine), `session/project_memory.ts` (mining + recall) | Project memory persists in `user_config/memory/` and is recalled into prompts |
 
 ## Slash commands
 
@@ -28,6 +29,7 @@ two-pane workspace.
 | `/model` | Pick a model (current first); if a key is missing, prompt for it, then reconnect |
 | `/key` | Pick a model and (re)enter its API key; reconnects if it is the active model |
 | `/session` | Choose a saved session or start a new one; reloads graph + history and reconnects |
+| `/memory` | List recent project memories; `/memory find <text>` searches them, `/memory forget <id>` lowers confidence and records the feedback |
 | `/restart` | Flush config, reconnect socket, clear the UI back to the logo |
 | `/exit` | Flush config and quit |
 
@@ -99,7 +101,9 @@ Set `LEOPARDCODE_BACKEND_URL` explicitly to target a gateway, e.g.
 Authentication sends `main_agent_id`, `client_kind: "cli"`, `api_key` (the server
 now funds every model and ignores it), `categories`, and `history`
 (`socket/client.ts`). The CLI offers models 2–4 (Nemotron, funded by the server);
-the provided model 6 is web-only.
+the provided model 6 is web-only. Each prompt carries the user text plus a
+recalled-memory block when H-MEM finds relevant records; the chat bubble and the
+saved history keep only the user text.
 
 ## Build & packaging
 
