@@ -13,8 +13,10 @@ environment and Docker setup, see [Build & run](#/build-and-run).
 | pnpm | ≥ 10 | `pnpm --version` |
 | uv | latest | `uv --version` |
 
-You also need at least one LLM provider API key (see [Environment](#environment)) and a Doppler
-service token if you want config pulled from Doppler (`doppler setup` after installing the CLI).
+You also need a model key on the backend — `NVIDIA_API_KEY` for the Nemotron
+models 2–4, or `PROVIDED_MODEL_KEY` for the demo model 6 (see
+[Environment](#environment)) — and a Doppler service token if you want config
+pulled from Doppler (`doppler setup` after installing the CLI).
 
 ## 1. Clone and enter the repo
 
@@ -52,8 +54,8 @@ leopardcode start
   your project updates in real time.
 - Try `/sample` to load a predefined task graph.
 
-On a first run, `leopardcode start` walks you through a setup checklist (provider, model, Doppler,
-backend URL, hooks).
+On a first run, `leopardcode start` walks you through a setup checklist (model, Doppler, backend
+URL, hooks).
 
 ## 5. Your first session
 
@@ -72,7 +74,7 @@ Required:
 | `LEOPARDCODE_SESSION_SECRET` | 32+ byte hex — FastAPI session-token HMAC secret |
 | `LEOPARDCODE_WEBHOOK_SECRET` | HMAC secret for Anthropic webhook verification |
 | `LEOPARDCODE_GITHUB_TOKEN` | GitHub PAT for issue/PR/project imports |
-| `OPENAI_API_KEY` / `ANTHROPIC_API_KEY` / `DEEPSEEK_API_KEY` | LLM provider keys |
+| `NVIDIA_API_KEY` / `PROVIDED_MODEL_KEY` | Server-side model keys: Nemotron 2–4 / demo model 6 |
 
 Docker secrets are used under the hood for `LEOPARDCODE_SESSION_SECRET` and
 `LEOPARDCODE_WEBHOOK_SECRET`; the `scripts/generate_session_secret.sh` helper generates one with

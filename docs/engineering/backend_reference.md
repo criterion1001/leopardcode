@@ -30,16 +30,17 @@ Root: `backend/`. Python `>=3.13`, managed with **uv**. For behavior see
 
 | File | Responsibility | Key symbols |
 |---|---|---|
-| `model/model_client.py` | Build a cached chat model and a LangChain agent; provided-model key; tool-error middleware | `initModel`, `buildAgent`, `toolErrorMiddleware`, `model_cache`, `PROVIDER_MAP`, `providedModelKey`, `PROVIDED_AGENT_ID` |
-| `model/main_agent.py` | Main agent factory (agent ids 2–7) | `createMainAgent` |
+| `model/model_client.py` | Build a cached chat model and a LangChain agent; funded-model keys; tool-error middleware | `initModel`, `buildAgent`, `toolErrorMiddleware`, `model_cache`, `NEMOTRON_MODELS`, `fundedModelKey`, `validModelId`, `PROVIDED_AGENT_ID` |
+| `model/main_agent.py` | Main agent factory (agent ids 2–4 and 6) | `createMainAgent` |
 | `model/sub_agent.py` | Sub-agent factory (same ids) | `createSubAgent` |
 | `model/agent_session.py` | Thin wrapper around a compiled agent + `thread_id` | `AgentSession` |
 
-`initModel` provider map (`agent_id → provider/model`): 2 Groq
-`openai/gpt-oss-120b`, 3 Anthropic `claude-fable-5`, 4 Baseten
-`moonshotai/Kimi-K2.6`, 5 DeepSeek `deepseek-chat`, 6 DeepSeek `deepseek-flash`
-(provided, web-only), 7 OpenRouter `auto`. Models are cached by
-`(agent_id, api_key)`.
+`initModel` model map (`agent_id → model`): 2
+`nvidia/nemotron-3.5-super-vl-120b-a12b`, 3 `nvidia/nemotron-3.5-lightning-30b-a3b`,
+and 4 `nvidia/nemotron-3-ultra-550b-a55b`, all through the NIM endpoint; 6 DeepSeek
+`deepseek-flash` (provided, web-only). The connect handler validates the id and
+resolves the funded key from the environment, so clients never send a key. Models
+are cached by `(agent_id, api_key)`.
 
 ## Task graph & scheduling (`ai_tool/task/`)
 

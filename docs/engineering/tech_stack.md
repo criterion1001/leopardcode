@@ -11,7 +11,7 @@ Exact stack used by **leopardcode**.
 | Server | python-socketio ASGI app served by Uvicorn |
 | Transport | Socket.IO (WebSocket with HTTP long-polling fallback) |
 | Agent framework | LangChain `create_agent` + LangGraph `InMemorySaver` checkpointer |
-| Model providers | OpenRouter, Groq, Anthropic, Baseten, DeepSeek (`init_chat_model`) |
+| Model providers | NVIDIA NIM (Nemotron 3.5/3 via `langchain-openai`) + DeepSeek (`init_chat_model`) |
 | Web search | Exa (`exa-py`) |
 | HTTP | httpx + stdlib `HTMLParser` |
 | Validation | Pydantic |
