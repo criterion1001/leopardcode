@@ -7,31 +7,10 @@ import httpx
 
 from sponsor import config
 from sponsor.meterless_client import MeterlessClient
-from sponsor.nim_client import NemotronClient
 from sponsor.zetaris_client import ZetarisClient
 
 READY_PROMPT = "Reply with the single word: ready"
 VERIFICATION_SQL_PATH = Path(__file__).with_name("sql") / "zetaris_verification_select.sql"
-
-
-def smokeNemotron() -> int:
-    api_key = config.nemotronApiKey()
-    if not api_key:
-        print("nemotron: NVIDIA_API_KEY is not set")
-        return 1
-    client = NemotronClient(api_key, config.nemotronBaseUrl())
-    try:
-        model_ids = client.models()
-        model = client.pickNemotronModel(model_ids)
-        reply = client.chatCompletion(model, [{"role": "user", "content": READY_PROMPT}])
-    except httpx.HTTPError as error:
-        print(f"nemotron: request failed: {error}")
-        return 1
-    if not reply:
-        print(f"nemotron: {model} returned an empty reply")
-        return 1
-    print(f"nemotron: ok - {model} replied {reply[:80]!r} ({len(model_ids)} models listed)")
-    return 0
 
 
 def smokeMeterless() -> int:
@@ -81,7 +60,6 @@ def smokeZetaris() -> int:
 
 
 SMOKE_TARGETS = {
-    "nemotron": smokeNemotron,
     "meterless": smokeMeterless,
     "zetaris": smokeZetaris,
 }

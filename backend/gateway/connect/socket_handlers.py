@@ -29,7 +29,7 @@ from gateway.state.prompt_queue import (
 )
 from gateway.state.runtime_state import exec_locks, sid_locks
 from model.main_agent import createMainAgent
-from model.model_client import PROVIDED_AGENT_ID, fundedModelKey, validModelId
+from model.model_client import PROVIDED_AGENT_ID, providedModelKey, validModelId
 from storage.oci.session_folder import makeSessionFolder
 from storage.service import storage_service
 
@@ -57,6 +57,7 @@ async def connect(sid: str, environ: dict, auth: dict | None) -> None:
         return
 
     try:
+        api_key: str = str(auth.get("api_key") or "").strip()
         main_agent_id: int = int(auth.get("main_agent_id", 2))
     except (TypeError, ValueError):
         logger.warning("[connect] rejected sid=%s (malformed auth)", sid)
@@ -73,19 +74,20 @@ async def connect(sid: str, environ: dict, auth: dict | None) -> None:
         await sio.emit("connection_status", False, to=sid)
         return
 
-    if not validModelId(main_agent_id):
+    if (not api_key and not is_provided) or not validModelId(main_agent_id):
         logger.warning("[connect] rejected sid=%s (bad auth)", sid)
         await sio.emit("connection_status", False, to=sid)
         return
 
-    # Every selectable model is funded by the operator, so its key comes from
-    # the environment; clients never send one.
-    try:
-        api_key = fundedModelKey(main_agent_id)
-    except ValueError as error:
-        logger.warning("[connect] rejected sid=%s (%s)", sid, error)
-        await sio.emit("connection_status", False, to=sid)
-        return
+    # The provided demo model is funded by the operator, so its key comes from
+    # the environment; every other model uses the key the client sent.
+    if is_provided:
+        try:
+            api_key = providedModelKey()
+        except ValueError as error:
+            logger.warning("[connect] rejected sid=%s (%s)", sid, error)
+            await sio.emit("connection_status", False, to=sid)
+            return
 
     try:
         # Restore task graph — prefer new categories shape, fall back to legacy flat lists

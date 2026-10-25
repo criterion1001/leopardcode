@@ -8,14 +8,6 @@ def envValue(name: str, default: str = "") -> str:
     return value if value else default
 
 
-def nemotronApiKey() -> str:
-    return envValue("NVIDIA_API_KEY")
-
-
-def nemotronBaseUrl() -> str:
-    return envValue("NIM_BASE_URL", "https://integrate.api.nvidia.com/v1").rstrip("/")
-
-
 def meterlessBaseUrl() -> str:
     return envValue("METERLESS_BASE_URL", "http://127.0.0.1:8088/v1")
 

@@ -20,28 +20,6 @@ on:
   workflow_dispatch:
 
 jobs:
-  nemotron_smoke:
-    name: Nemotron NIM Smoke
-    runs-on: ubuntu-latest
-    env:
-      NVIDIA_API_KEY: ${{ secrets.NVIDIA_API_KEY }}
-      NIM_BASE_URL: ${{ vars.NIM_BASE_URL }}
-    defaults:
-      run:
-        working-directory: backend
-    steps:
-      - uses: actions/checkout@v4
-      - uses: astral-sh/setup-uv@v5
-        with:
-          python-version: "3.13"
-      - run: uv sync --all-extras
-      - name: Run Nemotron smoke
-        if: ${{ env.NVIDIA_API_KEY != '' }}
-        run: uv run python -m sponsor.smoke nemotron
-      - name: Skip notice
-        if: ${{ env.NVIDIA_API_KEY == '' }}
-        run: echo "NVIDIA_API_KEY is not configured - nemotron smoke skipped."
-
   meterless_smoke:
     name: Meterless Hotspot Smoke
     runs-on: ubuntu-latest

@@ -122,19 +122,19 @@ Full detail: [architecture](docs/engineering/architecture.md) ·
 
 ## Sponsor technology
 
-leopardcode targets the hackathon sponsor stack; each integration ships as a
-backend client with a guarded CI smoke job:
+leopardcode targets the hackathon sponsor stack; the integrations ship in the
+product and, for the hosted services, in guarded CI smoke jobs:
 
 | Sponsor | Where it lives | Proof |
 |---|---|---|
-| **NVIDIA Nemotron** | Models 2–4 (`model/model_client.py`) run on Nemotron through NIM; `backend/sponsor/nim_client.py` covers the same endpoint with authenticated model listing plus chat completions | `Nemotron NIM Smoke` picks a Nemotron model and completes a live prompt through NIM |
+| **NVIDIA Nemotron** | Models 2–4 (`model/model_client.py`) run on Nemotron through NIM, keyed by the user's own NVIDIA API key | Every planning and execution turn runs on the selected Nemotron model |
 | **Meterless** | `terminal/src/memory/` — our H-MEM engine, wired as per-project CLI memory; `backend/sponsor/meterless_client.py` — the runtime contract: status from `GET /v1/models`, `meterless-app`/`meterless-scope` headers, `meterless/*` routing modes | `H-MEM Conformance` runs our engine against the pinned suite (13/13), and `Meterless Hotspot Smoke` runs a chat through a local runtime |
 | **Zetaris** | `backend/sponsor/zetaris_client.py` — documented REST queries (`/sql-editor/sqls/run` with Bearer key, `X-Org-ID`, and `X-Request-ID`) | `Zetaris REST Smoke` runs the committed verification query (`backend/sponsor/sql/zetaris_verification_select.sql`) through the REST API |
 
-Configuration is environment-only: variable names are documented in
-`.env.example`, values live in the local environment or GitHub Actions
-secrets, and each smoke job reports a skip until its secret exists. The same
-checks run locally with `python -m sponsor.smoke <nemotron|meterless|zetaris>`.
+Sponsor values that need a server-side secret stay environment-only: Meterless
+and Zetaris names are documented in `.env.example`, and each smoke job reports a
+skip until its secret exists. The same checks run locally with
+`python -m sponsor.smoke <meterless|zetaris>`.
 
 ## Try it
 
@@ -171,12 +171,15 @@ just web       # browser workspace
 
 Models are selected by id and served through the NVIDIA NIM endpoint: 2 is
 Nemotron 3.5 Super 120B, 3 is Nemotron 3.5 Lightning 30B, and 4 is Nemotron 3
-Ultra 550B. The web workspace also offers model 6 (DeepSeek Flash), funded by the
-operator via `PROVIDED_MODEL_KEY` and refused for non-web clients. Every model
-reads its credential from the server environment (`NVIDIA_API_KEY` for Nemotron),
-so clients never handle a provider key. In the CLI, `/memory` shows the project
-memories H-MEM has stored, `↑`/`↓` and `PageUp`/`PageDown` scroll the chat,
-`Ctrl+↑`/`Ctrl+↓` scroll the Tasks pane, and `Esc` clears the prompt.
+Ultra 550B. Pick a model and paste your own NVIDIA API key (`nvapi-…` from
+build.nvidia.com) — the CLI asks on `/model` or `/key`, the web workspace asks on
+selection. Your key stays in the client's local config and is sent to your
+backend for the session; the backend holds no NVIDIA credential of its own. The
+web workspace also offers model 6 (DeepSeek Flash), funded by the operator via
+`PROVIDED_MODEL_KEY` and refused for non-web clients, so the demo runs without a
+key. In the CLI, `/memory` shows the project memories H-MEM has stored,
+`↑`/`↓` and `PageUp`/`PageDown` scroll the chat, `Ctrl+↑`/`Ctrl+↓` scroll the
+Tasks pane, and `Esc` clears the prompt.
 
 Setup details — environment variables, OCI storage, rate limits, and checks —
 live in [build_and_run](docs/engineering/build_and_run.md).

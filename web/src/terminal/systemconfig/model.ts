@@ -14,5 +14,5 @@ export function isProvidedModel(model_id: number): boolean {
 }
 
 export function isFundedModel(model_id: number): boolean {
-  return MODEL_OPTIONS.some((option) => option.id === model_id);
+  return model_id === PROVIDED_MODEL_ID;
 }
