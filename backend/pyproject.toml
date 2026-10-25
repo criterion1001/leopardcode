@@ -34,7 +34,7 @@ line-length = 100
 ignore = ["N802"]
 
 [tool.ruff.lint.isort]
-known-first-party = ["ai_tool", "gateway", "model", "storage", "systemconfig"]
+known-first-party = ["ai_tool", "gateway", "model", "sponsor", "storage", "systemconfig"]
 
 [tool.black]
 line-length = 100
