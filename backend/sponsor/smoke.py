@@ -6,37 +6,9 @@ from pathlib import Path
 import httpx
 
 from sponsor import config
-from sponsor.meterless_client import MeterlessClient
 from sponsor.zetaris_client import ZetarisClient
 
-READY_PROMPT = "Reply with the single word: ready"
 VERIFICATION_SQL_PATH = Path(__file__).with_name("sql") / "zetaris_verification_select.sql"
-
-
-def smokeMeterless() -> int:
-    token = config.meterlessToken()
-    if not token:
-        print("meterless: METERLESS_TOKEN is not set")
-        return 1
-    client = MeterlessClient(
-        config.meterlessBaseUrl(),
-        token,
-        config.meterlessAppId(),
-    )
-    state = client.status()
-    print(f"meterless: status {state} at {client.base_url}")
-    if state != "online":
-        return 1
-    try:
-        reply = client.chat(READY_PROMPT)
-    except httpx.HTTPError as error:
-        print(f"meterless: chat failed: {error}")
-        return 1
-    if not reply:
-        print("meterless: chat returned an empty reply")
-        return 1
-    print(f"meterless: ok - replied {reply[:80]!r}")
-    return 0
 
 
 def smokeZetaris() -> int:
@@ -60,7 +32,6 @@ def smokeZetaris() -> int:
 
 
 SMOKE_TARGETS = {
-    "meterless": smokeMeterless,
     "zetaris": smokeZetaris,
 }
 

@@ -20,29 +20,6 @@ on:
   workflow_dispatch:
 
 jobs:
-  meterless_smoke:
-    name: Meterless Hotspot Smoke
-    runs-on: ubuntu-latest
-    env:
-      METERLESS_BASE_URL: ${{ vars.METERLESS_BASE_URL }}
-      METERLESS_TOKEN: ${{ secrets.METERLESS_TOKEN }}
-      METERLESS_APP_ID: ${{ vars.METERLESS_APP_ID }}
-    defaults:
-      run:
-        working-directory: backend
-    steps:
-      - uses: actions/checkout@v4
-      - uses: astral-sh/setup-uv@v5
-        with:
-          python-version: "3.13"
-      - run: uv sync --all-extras
-      - name: Run Meterless smoke
-        if: ${{ env.METERLESS_TOKEN != '' }}
-        run: uv run python -m sponsor.smoke meterless
-      - name: Skip notice
-        if: ${{ env.METERLESS_TOKEN == '' }}
-        run: echo "METERLESS_TOKEN is not configured - meterless smoke skipped."
-
   zetaris_smoke:
     name: Zetaris REST Smoke
     runs-on: ubuntu-latest

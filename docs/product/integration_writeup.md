@@ -40,24 +40,7 @@ same task graph without any code change.
 
 ## Meterless
 
-Meterless contributes on two levels.
-
-**Runtime client.** `backend/sponsor/meterless_client.py` implements the
-Meterless provider contract for the backend:
-
-- the base URL is normalized to `<host>/v1`, so a pasted URL never produces
-  `/v1/v1`;
-- `Authorization: Bearer` comes from `METERLESS_TOKEN` (the runtime's
-  `proxy-token` value), with `meterless-app` on every request and
-  `meterless-scope: user` on chat;
-- model ids are routing modes, `meterless/<disposition>`, kept opaque by the
-  client;
-- status comes from `GET /v1/models` instead of `/healthz`, so a reachable
-  process that refuses the token reports `unauthorized`, not `offline`;
-- the timeout is 180 s so a cold model load does not read as an outage.
-
-The `Meterless Hotspot Smoke` CI job runs the status check and one chat round
-trip against a configured runtime, and skips cleanly when no runtime is set.
+Meterless contributes through its H-MEM engine, implemented in the product.
 
 **H-MEM in the product.** `terminal/src/memory/` is our implementation of the
 H-MEM engine: canonical records with mandatory source and provenance, the
@@ -90,9 +73,8 @@ Last run: 13/13 checks, exit 0. The `H-MEM Conformance` job in
 engine and on `main`.
 
 Unique here: the engine spec is implemented in the product and verified by the
-published conformance suite on every engine change, and the runtime client
-encodes the contract's edge cases (status semantics, header scope, URL
-normalization, timeout) so the product fails honestly.
+published conformance suite on every engine change, and the same records feed
+the planner's next turn without leaving the developer's machine.
 
 ## Zetaris
 
@@ -138,14 +120,14 @@ opencode configured with NVIDIA Nemotron, GitHub Actions, and the scripts in
 
 | Check | Where | What it proves |
 |---|---|---|
-| `Meterless Hotspot Smoke` | `.github/workflows/sponsor-smoke.yml` | runtime status and one chat round trip with the required headers |
 | `H-MEM Conformance` | `.github/workflows/meterless-conformance.yml` | our H-MEM engine against the pinned conformance suite (13/13) |
 | `Zetaris REST Smoke` | `.github/workflows/sponsor-smoke.yml` | datasource listing plus the committed verification query |
 
-Meterless and Zetaris variable names live in `.env.example`; values come from the
-environment locally and GitHub Actions secrets in CI, and every job guards its
-live step on its secret and reports a skip otherwise. Nemotron runs in the
-product with the user's own key, so it has no server-side secret and no CI job.
+Zetaris variable names live in `.env.example`; values come from the environment
+locally and GitHub Actions secrets in CI, and the job guards its live step on its
+secret and reports a skip otherwise. Nemotron runs in the product with the user's
+own key, and Meterless runs as the H-MEM engine with its conformance suite, so
+neither needs a server-side secret.
 
 See [sponsor_verification](../engineering/sponsor_verification.md) for the
 commands and [submission](submission.md) for the deliverable checklist.
