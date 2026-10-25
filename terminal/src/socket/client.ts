@@ -1,0 +1,29 @@
+import { io, type Socket } from "socket.io-client";
+import { user_data } from "../session/user_data";
+
+export const BACKEND_URL =
+  process.env.LEOPARDCODE_BACKEND_URL ??
+  (typeof LEOPARDCODE_DEFAULT_BACKEND_URL !== "undefined"
+    ? LEOPARDCODE_DEFAULT_BACKEND_URL
+    : "http://localhost:8000");
+
+export const socket: Socket = io(BACKEND_URL, {
+  autoConnect: false,
+  auth: (cb) =>
+    cb(
+      user_data
+        ? {
+            client_kind: "cli",
+            api_keys: user_data.api_keys,
+            main_agent_id: user_data.main_agent_id,
+            categories: user_data.categories,
+            history: user_data.history,
+            api_key: user_data.api_keys[user_data.main_agent_id] ?? "",
+          }
+        : {},
+    ),
+});
+
+export function connectSocket() {
+  socket.connect();
+}

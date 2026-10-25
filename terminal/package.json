@@ -1,0 +1,43 @@
+{
+  "name": "nervous-cli",
+  "version": "1.0.1",
+  "description": "leopardcode — terminal-native multi-agent coding orchestrator",
+  "type": "module",
+  "packageManager": "pnpm@12.5.1",
+  "files": [
+    "dist"
+  ],
+  "bin": {
+    "leopardcode": "./dist/app.js"
+  },
+  "scripts": {
+    "dev": "tsx src/app.tsx",
+    "build": "tsup",
+    "prepublishOnly": "pnpm build",
+    "start": "node dist/app.js",
+    "typecheck": "tsc --noEmit",
+    "lint": "biome lint src",
+    "format": "biome format --write src",
+    "format:check": "biome format src"
+  },
+  "dependencies": {
+    "@inkjs/ui": "^2.0.0",
+    "fullscreen-ink": "^0.1.0",
+    "ink": "^6.0.0",
+    "ink-big-text": "^2.0.0",
+    "react": "^19.0.0",
+    "socket.io-client": "^4.8.0",
+    "wrap-ansi": "^9.0.0"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.9.0",
+    "@types/node": "^22.0.0",
+    "@types/react": "^19.0.0",
+    "tsup": "^8.0.0",
+    "tsx": "^4.0.0",
+    "typescript": "^5.7.0"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}
