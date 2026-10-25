@@ -31,8 +31,7 @@ def getConfig() -> dict:
     """Build the OCI API-key config from environment variables.
 
     Resolved lazily so imports (and CI) never need credentials. The private key
-    can be a mounted file (OCI_KEY_FILE) or supplied inline with escaped
-    newlines (OCI_KEY_CONTENT).
+    is supplied inline with escaped newlines (OCI_KEY_CONTENT).
     """
     values = {
         "tenancy": os.getenv("OCI_TENANCY", "").strip(),
@@ -40,9 +39,7 @@ def getConfig() -> dict:
         "fingerprint": os.getenv("OCI_FINGERPRINT", "").strip(),
         "region": os.getenv("OCI_REGION", "").strip(),
     }
-    key_file = os.getenv("OCI_KEY_FILE", "").strip()
     key_content = os.getenv("OCI_KEY_CONTENT", "").strip()
-    pass_phrase = os.getenv("OCI_PRIVATE_KEY_PASSPHRASE", "").strip()
 
     missing = [
         name
@@ -54,18 +51,13 @@ def getConfig() -> dict:
         )
         if not value
     ]
-    if not key_file and not key_content:
-        missing.append("OCI_KEY_FILE or OCI_KEY_CONTENT")
+    if not key_content:
+        missing.append("OCI_KEY_CONTENT")
     if missing:
         raise OciConfigError("missing OCI settings: " + ", ".join(missing))
 
     config = dict(values)
-    if key_content:
-        config["key_content"] = key_content.replace("\\n", "\n")
-    else:
-        config["key_file"] = key_file
-    if pass_phrase:
-        config["pass_phrase"] = pass_phrase
+    config["key_content"] = key_content.replace("\\n", "\n")
     return config
 
 

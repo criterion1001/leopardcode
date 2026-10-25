@@ -26,6 +26,5 @@ jobs:
           OCI_FINGERPRINT: ${{ secrets.OCI_FINGERPRINT }}
           OCI_REGION: ${{ secrets.OCI_REGION }}
           OCI_KEY_CONTENT: ${{ secrets.OCI_KEY_CONTENT }}
-          OCI_PRIVATE_KEY_PASSPHRASE: ${{ secrets.OCI_PRIVATE_KEY_PASSPHRASE }}
           OCI_NAMESPACE: ${{ secrets.OCI_NAMESPACE }}
           OCI_BUCKET: ${{ secrets.OCI_BUCKET }}

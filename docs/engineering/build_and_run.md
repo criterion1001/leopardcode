@@ -24,8 +24,7 @@ Exact commands and files for running, checking, and deploying the project.
 | `NVIDIA_API_KEY` | backend (`model/model_client.py`, `sponsor/config.py`) | NVIDIA NIM key for the Nemotron models 2–4 and the sponsor smoke check |
 | `NIM_BASE_URL` | backend (`sponsor/config.py`) | optional NIM endpoint override; defaults to `https://integrate.api.nvidia.com/v1` |
 | `OCI_TENANCY` / `OCI_USER` / `OCI_FINGERPRINT` / `OCI_REGION` | backend (`storage/oci/oci_client.py`) | OCI API-key identity and region |
-| `OCI_KEY_FILE` / `OCI_KEY_CONTENT` | backend (`storage/oci/oci_client.py`) | private key: a mounted PEM path, or inline PEM with `\n` escapes |
-| `OCI_PRIVATE_KEY_PASSPHRASE` | backend (`storage/oci/oci_client.py`) | passphrase for an encrypted private key (optional) |
+| `OCI_KEY_CONTENT` | backend (`storage/oci/oci_client.py`) | inline PEM private key with `\n` escapes |
 | `OCI_NAMESPACE` | backend (`storage/oci/oci_client.py`) | Object Storage namespace |
 | `OCI_BUCKET` | backend (`storage/oci/oci_client.py`) | bucket that holds the web session folders |
 
