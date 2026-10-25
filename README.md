@@ -124,7 +124,7 @@ backend client with a guarded CI smoke job:
 
 | Sponsor | Where it lives | Proof |
 |---|---|---|
-| **NVIDIA Nemotron** | `backend/sponsor/nim_client.py` — an OpenAI-compatible client for the NIM endpoint (`https://integrate.api.nvidia.com/v1`): authenticated model listing plus chat completions against Nemotron model ids | `Nemotron NIM Smoke` picks a Nemotron model and completes a live prompt through NIM |
+| **NVIDIA Nemotron** | Models 2–4 (`model/model_client.py`) run on Nemotron through NIM; `backend/sponsor/nim_client.py` covers the same endpoint with authenticated model listing plus chat completions | `Nemotron NIM Smoke` picks a Nemotron model and completes a live prompt through NIM |
 | **Meterless** | `backend/sponsor/meterless_client.py` — the Meterless provider contract: status from `GET /v1/models`, `meterless-app`/`meterless-scope` headers, `meterless/*` routing models | `Meterless Hotspot Smoke` runs a chat through a local runtime |
 | **Zetaris** | `backend/sponsor/zetaris_client.py` — documented REST queries (`/sql-editor/sqls/run` with Bearer key, `X-Org-ID`, and `X-Request-ID`) | `Zetaris REST Smoke` runs `SELECT 1` through the REST API |
 
@@ -166,12 +166,14 @@ just terminal  # CLI
 just web       # browser workspace
 ```
 
-Models are selected by id: models 2–5 are third-party providers, and model 7 is
-OpenRouter Auto. The web workspace also offers model 6 (DeepSeek Flash), funded by
-the operator via `PROVIDED_MODEL_KEY` and refused for non-web clients. Model 6
-reads its credential from the server environment, so clients never handle that
-key. In the CLI, `↑`/`↓` and `PageUp`/`PageDown` scroll the chat, `Ctrl+↑`/`Ctrl+↓`
-scroll the Tasks pane, and `Esc` clears the prompt.
+Models are selected by id and served through the NVIDIA NIM endpoint: 2 is
+Nemotron 3.5 Super 120B, 3 is Nemotron 3.5 Lightning 30B, and 4 is Nemotron 3
+Ultra 550B. The web workspace also offers model 6 (DeepSeek Flash), funded by the
+operator via `PROVIDED_MODEL_KEY` and refused for non-web clients. Every model
+reads its credential from the server environment (`NVIDIA_API_KEY` for Nemotron),
+so clients never handle a provider key. In the CLI, `↑`/`↓` and
+`PageUp`/`PageDown` scroll the chat, `Ctrl+↑`/`Ctrl+↓` scroll the Tasks pane, and
+`Esc` clears the prompt.
 
 Setup details — environment variables, OCI storage, rate limits, and checks —
 live in [build_and_run](docs/engineering/build_and_run.md).

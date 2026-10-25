@@ -96,9 +96,10 @@ Set `LEOPARDCODE_BACKEND_URL` explicitly to target a gateway, e.g.
 `https://leopardcode.onrender.com` (reference deployment) or
 `http://localhost:8000` (local backend).
 
-Authentication sends `api_key`, `main_agent_id`, `client_kind: "cli"`,
-`categories`, and `history` (`socket/client.ts`). The CLI offers models 2–5 and 7
-(client-funded); the provided model 6 is web-only.
+Authentication sends `main_agent_id`, `client_kind: "cli"`, `api_key` (the server
+now funds every model and ignores it), `categories`, and `history`
+(`socket/client.ts`). The CLI offers models 2–4 (Nemotron, funded by the server);
+the provided model 6 is web-only.
 
 ## Build & packaging
 

@@ -72,8 +72,8 @@ Reference deployment: `https://leopardcode.onrender.com`
 `buildAgent` (`backend/model/model_client.py`) wraps
 `langchain.agents.create_agent` with:
 
-- a model from `initModel(agent_id, api_key)` (6 providers; see
-  [tech_stack](tech_stack.md)),
+- a model from `initModel(agent_id, api_key)` (Nemotron models 2–4 through NIM,
+  plus the funded demo model 6; see [tech_stack](tech_stack.md)),
 - `InMemorySaver` checkpointer + a `thread_id`,
 - a `ToolErrorMiddleware` that returns a recoverable string to the model on tool
   failure,
