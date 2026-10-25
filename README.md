@@ -10,8 +10,8 @@ Most agents run a task list. leopardcode runs a graph that remembers.
 
 [![CI](https://github.com/includecctype/leopardcode-open-agent-hackathon-2026/actions/workflows/ci.yml/badge.svg)](https://github.com/includecctype/leopardcode-open-agent-hackathon-2026/actions/workflows/ci.yml)
 [![Sponsor Smoke](https://github.com/includecctype/leopardcode-open-agent-hackathon-2026/actions/workflows/sponsor-smoke.yml/badge.svg)](https://github.com/includecctype/leopardcode-open-agent-hackathon-2026/actions/workflows/sponsor-smoke.yml)
-· [Website](https://includecctype.github.io/leopardcode-open-agent-hackathon-2026/) *(TODO: deploy)*
-· [Live web demo](https://includecctype.github.io/leopardcode-open-agent-hackathon-2026/demo/) *(TODO: deploy)*
+· [Website](https://includecctype.github.io/leopardcode-open-agent-hackathon-2026/)
+· [Live web demo](https://includecctype.github.io/leopardcode-open-agent-hackathon-2026/demo/)
 · [Documentation](docs/README.md)
 
 ![leopardcode — one living plan for your coding agents](docs/media/banner.svg)
@@ -136,7 +136,7 @@ checks run locally with `python -m sponsor.smoke <nemotron|meterless|zetaris>`.
 ## Try it
 
 **Web workspace (live demo):**
-<https://includecctype.github.io/leopardcode-open-agent-hackathon-2026/demo/> *(TODO: deploy)* — the same Ink
+<https://includecctype.github.io/leopardcode-open-agent-hackathon-2026/demo/> — the same Ink
 terminal plus an OCI-backed file explorer and viewer. Type **`/sample`** to run one of
 ten scripted scenarios that build a task graph and incrementally re-plan it.
 
