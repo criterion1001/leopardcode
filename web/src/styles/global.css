@@ -1,0 +1,31 @@
+:root {
+  color-scheme: dark;
+  --bg: #000000;
+  --panel: #0a140a;
+  --border: #123f1a;
+  --fg: #c8ffd4;
+  --fg-dim: #3f8f4f;
+  --accent: #00ff41;
+  --accent-dim: #00b32d;
+  --warn: #ffcc00;
+  --error: #ff3b3b;
+  --hover: #061206;
+  --selected: #003b00;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  height: 100%;
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
