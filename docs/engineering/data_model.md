@@ -116,6 +116,18 @@ Durable preference statements in a prompt are mined into this store, relevant
 records are recalled on later prompts, and completed categories are recorded as
 plan completions. The backend never reads it.
 
+## Task runs (CLI)
+
+Path: `<cwd>/user_config/task_runs.csv` (`terminal/src/session/task_runs.ts`).
+
+Columns: `recorded_at,session_id,model_id,category,status,task_count`.
+
+- One row per category, appended when the CLI observes the category move to a
+  terminal status (`done`, `failed`, `blocked`); categories that are already
+  terminal in the first snapshot (restored sessions) are not re-recorded.
+- The app creates the file and header on startup and reads it back for `/runs`.
+- Metadata only: no prompts, results, file paths, or API keys.
+
 ## Wire DTOs (client side, `terminal/src/dto/wire.ts`)
 
 ```ts

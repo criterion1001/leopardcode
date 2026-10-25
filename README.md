@@ -176,9 +176,10 @@ selection. Your key stays in the client's local config and is sent to your
 backend for the session; the backend holds no NVIDIA credential of its own. The
 web workspace also offers model 6 (DeepSeek Flash), funded by the operator via
 `PROVIDED_MODEL_KEY` and refused for non-web clients, so the demo runs without a
-key. In the CLI, `/memory` shows the project memories H-MEM has stored,
-`↑`/`↓` and `PageUp`/`PageDown` scroll the chat, `Ctrl+↑`/`Ctrl+↓` scroll the
-Tasks pane, and `Esc` clears the prompt.
+key. In the CLI, `/memory` shows the project memories H-MEM has stored, `/runs`
+lists the task-run rows recorded in `user_config/task_runs.csv`, `↑`/`↓` and
+`PageUp`/`PageDown` scroll the chat, `Ctrl+↑`/`Ctrl+↓` scroll the Tasks pane, and
+`Esc` clears the prompt.
 
 Setup details — environment variables, OCI storage, rate limits, and checks —
 live in [build_and_run](docs/engineering/build_and_run.md).
