@@ -9,6 +9,7 @@ ahead, while work already running keeps running — no restarts, no lost progres
 Most agents run a task list. leopardcode runs a graph that remembers.
 
 [![CI](https://github.com/includecctype/leopardcode-open-agent-hackathon-2026/actions/workflows/ci.yml/badge.svg)](https://github.com/includecctype/leopardcode-open-agent-hackathon-2026/actions/workflows/ci.yml)
+[![Sponsor Smoke](https://github.com/includecctype/leopardcode-open-agent-hackathon-2026/actions/workflows/sponsor-smoke.yml/badge.svg)](https://github.com/includecctype/leopardcode-open-agent-hackathon-2026/actions/workflows/sponsor-smoke.yml)
 · [Website](https://includecctype.github.io/leopardcode-open-agent-hackathon-2026/) *(TODO: deploy)*
 · [Live web demo](https://includecctype.github.io/leopardcode-open-agent-hackathon-2026/demo/) *(TODO: deploy)*
 · [Documentation](docs/README.md)
@@ -115,6 +116,22 @@ prompt ─▶ main agent (LangChain)
 
 Full detail: [architecture](docs/engineering/architecture.md) ·
 [pipelines](docs/engineering/pipelines.md).
+
+## Sponsor technology
+
+leopardcode targets the hackathon sponsor stack; each integration ships as a
+backend client with a guarded CI smoke job:
+
+| Sponsor | Where it lives | Proof |
+|---|---|---|
+| **NVIDIA Nemotron** | `backend/sponsor/nim_client.py` — an OpenAI-compatible client for the NIM endpoint (`https://integrate.api.nvidia.com/v1`): authenticated model listing plus chat completions against Nemotron model ids | `Nemotron NIM Smoke` picks a Nemotron model and completes a live prompt through NIM |
+| **Meterless** | `backend/sponsor/meterless_client.py` — the Meterless provider contract: status from `GET /v1/models`, `meterless-app`/`meterless-scope` headers, `meterless/*` routing models | `Meterless Hotspot Smoke` runs a chat through a local runtime |
+| **Zetaris** | `backend/sponsor/zetaris_client.py` — documented REST queries (`/sql-editor/sqls/run` with Bearer key, `X-Org-ID`, and `X-Request-ID`) | `Zetaris REST Smoke` runs `SELECT 1` through the REST API |
+
+Configuration is environment-only: variable names are documented in
+`.env.example`, values live in the local environment or GitHub Actions
+secrets, and each smoke job reports a skip until its secret exists. The same
+checks run locally with `python -m sponsor.smoke <nemotron|meterless|zetaris>`.
 
 ## Try it
 
