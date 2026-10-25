@@ -23,34 +23,20 @@ planning and execution turn runs on the selected model.
 
 ## Meterless
 
-Two checks cover the hotspot:
+The H-MEM engine conformance suite runs against the engine implemented in this
+repository (`terminal/src/memory/index.ts`):
 
-1. The hotspot contract — status from `GET /v1/models`, then one chat round trip
-   with the `meterless-app` and `meterless-scope: user` headers:
+```bash
+npx -y degit meterless/meterless/engines/hmem#1742dec56a66e58eef9dda2d2b865823758ca8cd hmem-engine
+cd hmem-engine/reference
+npm install --no-audit --no-fund
+HMEM_IMPL=/abs/path/to/leopardcode/terminal/src/memory/index.ts npx tsx ../conformance/runner.ts
+```
 
-   ```bash
-   cd backend
-   METERLESS_TOKEN=... uv run python -m sponsor.smoke meterless
-   ```
-
-   The `Meterless Hotspot Smoke` job in
-   [`sponsor-smoke.yml`](../../.github/workflows/sponsor-smoke.yml) runs it
-   against a configured runtime.
-
-2. The H-MEM engine conformance suite, run against the engine implemented in
-   this repository (`terminal/src/memory/index.ts`):
-
-   ```bash
-   npx -y degit meterless/meterless/engines/hmem#1742dec56a66e58eef9dda2d2b865823758ca8cd hmem-engine
-   cd hmem-engine/reference
-   npm install --no-audit --no-fund
-   HMEM_IMPL=/abs/path/to/leopardcode/terminal/src/memory/index.ts npx tsx ../conformance/runner.ts
-   ```
-
-   Last local run against the pinned spec (`1742dec`): 13/13 checks, exit 0. The
-   `H-MEM Conformance` job in
-   [`meterless-conformance.yml`](../../.github/workflows/meterless-conformance.yml)
-   runs the same command on pull requests that touch the engine and on `main`.
+Last local run against the pinned spec (`1742dec`): 13/13 checks, exit 0. The
+`H-MEM Conformance` job in
+[`meterless-conformance.yml`](../../.github/workflows/meterless-conformance.yml)
+runs the same command on pull requests that touch the engine and on `main`.
 
 The engine's first product feature is project memory in the CLI: durable
 preferences are mined into `user_config/memory`, recalled into later prompts,
@@ -73,6 +59,5 @@ datasources and runs the committed query.
 
 ## Configuration
 
-Variable names are documented in `.env.example`: `METERLESS_BASE_URL`,
-`METERLESS_TOKEN`, `METERLESS_APP_ID`, `ZETARIS_REST_URL`, `ZETARIS_API_KEY`, and
-`ZETARIS_ORG_ID`. Secrets stay out of the repository.
+Variable names are documented in `.env.example`: `ZETARIS_REST_URL`,
+`ZETARIS_API_KEY`, and `ZETARIS_ORG_ID`. Secrets stay out of the repository.

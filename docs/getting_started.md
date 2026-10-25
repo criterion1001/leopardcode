@@ -81,7 +81,6 @@ Optional:
 | `WEB_SEARCH_API` | Exa key for `webSearch` / `webFetch` |
 | `WEB_ALLOWED_ORIGINS` | Comma-separated browser origins allowed to connect |
 | `OCI_*` | Object Storage identity, key, namespace, and bucket for the web file explorer |
-| `METERLESS_BASE_URL` / `METERLESS_TOKEN` / `METERLESS_APP_ID` | Meterless hotspot used by the sponsor smoke checks |
 | `ZETARIS_REST_URL` / `ZETARIS_API_KEY` / `ZETARIS_ORG_ID` | Zetaris REST API used by the sponsor smoke checks |
 
 `.env.example` (and `web/.env.example`) list every variable with blank values;

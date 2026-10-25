@@ -128,13 +128,12 @@ product and, for the hosted services, in guarded CI smoke jobs:
 | Sponsor | Where it lives | Proof |
 |---|---|---|
 | **NVIDIA Nemotron** | Models 2–4 (`model/model_client.py`) run on Nemotron through NIM, keyed by the user's own NVIDIA API key | Every planning and execution turn runs on the selected Nemotron model |
-| **Meterless** | `terminal/src/memory/` — our H-MEM engine, wired as per-project CLI memory; `backend/sponsor/meterless_client.py` — the runtime contract: status from `GET /v1/models`, `meterless-app`/`meterless-scope` headers, `meterless/*` routing modes | `H-MEM Conformance` runs our engine against the pinned suite (13/13), and `Meterless Hotspot Smoke` runs a chat through a local runtime |
+| **Meterless** | `terminal/src/memory/` — our H-MEM engine, wired as per-project CLI memory (durable preferences, plan completions, `/memory`) | `H-MEM Conformance` runs our engine against the pinned suite (13/13) |
 | **Zetaris** | `backend/sponsor/zetaris_client.py` — documented REST queries (`/sql-editor/sqls/run` with Bearer key, `X-Org-ID`, and `X-Request-ID`) | `Zetaris REST Smoke` runs the committed verification query (`backend/sponsor/sql/zetaris_verification_select.sql`) through the REST API |
 
-Sponsor values that need a server-side secret stay environment-only: Meterless
-and Zetaris names are documented in `.env.example`, and each smoke job reports a
-skip until its secret exists. The same checks run locally with
-`python -m sponsor.smoke <meterless|zetaris>`.
+Zetaris values stay environment-only: names are documented in `.env.example`,
+the smoke job reports a skip until its secret exists, and the same check runs
+locally with `python -m sponsor.smoke zetaris`.
 
 ## Try it
 
