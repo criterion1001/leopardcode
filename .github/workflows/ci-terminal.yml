@@ -8,7 +8,6 @@ on:
       - "**github-workflow**"
     paths:
       - "terminal/**"
-      - ".github/workflows/ci-terminal.yml"
   pull_request:
     branches:
       - main
@@ -16,7 +15,6 @@ on:
       - "**github-workflow**"
     paths:
       - "terminal/**"
-      - ".github/workflows/ci-terminal.yml"
 
 jobs:
   terminal_lint:
