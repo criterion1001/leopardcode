@@ -71,15 +71,24 @@ Required:
 | Variable | Purpose |
 | --- | --- |
 | `LEOPARDCODE_BACKEND_URL` | Backend base URL (CLI and web both honor it) |
-| `LEOPARDCODE_SESSION_SECRET` | 32+ byte hex — FastAPI session-token HMAC secret |
-| `LEOPARDCODE_WEBHOOK_SECRET` | HMAC secret for Anthropic webhook verification |
-| `LEOPARDCODE_GITHUB_TOKEN` | GitHub PAT for issue/PR/project imports |
-| `NVIDIA_API_KEY` / `PROVIDED_MODEL_KEY` | Server-side model keys: Nemotron 2–4 / demo model 6 |
+| `NVIDIA_API_KEY` / `PROVIDED_MODEL_KEY` | Server-side model keys: Nemotron models 2–4 / demo model 6 |
 
-Docker secrets are used under the hood for `LEOPARDCODE_SESSION_SECRET` and
-`LEOPARDCODE_WEBHOOK_SECRET`; the `scripts/generate_session_secret.sh` helper generates one with
-`openssl rand -hex 32`. Doppler is the delivery mechanism — nothing stores config outside it. See
-[Build & run](#/build-and-run) for the complete variable table and Doppler/Docker workflows.
+Optional:
+
+| Variable | Purpose |
+| --- | --- |
+| `NIM_BASE_URL` | NIM endpoint override (defaults to `https://integrate.api.nvidia.com/v1`) |
+| `WEB_SEARCH_API` | Exa key for `webSearch` / `webFetch` |
+| `WEB_ALLOWED_ORIGINS` | Comma-separated browser origins allowed to connect |
+| `OCI_*` | Object Storage identity, key, namespace, and bucket for the web file explorer |
+| `METERLESS_BASE_URL` / `METERLESS_TOKEN` / `METERLESS_APP_ID` | Meterless hotspot used by the sponsor smoke checks |
+| `ZETARIS_REST_URL` / `ZETARIS_API_KEY` / `ZETARIS_ORG_ID` | Zetaris REST API used by the sponsor smoke checks |
+
+`.env.example` (and `web/.env.example`) list every variable with blank values;
+the real `.env` files are git-ignored, `docker compose` reads the backend one,
+and the `justfile` can inject secrets through Doppler (`doppler run`). See
+[Build & run](#/build-and-run) for the complete variable table and the Docker
+workflows.
 
 ## Where to go next
 
