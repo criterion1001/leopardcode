@@ -37,6 +37,7 @@ folder is the reference documentation for leopardcode, built for the
 | [competition_analysis](product/competition_analysis.md) | leopardcode vs. other agentic coding tools |
 | [business_value](product/business_value.md) | The value case, derived from the product's capabilities |
 | [submission](product/submission.md) | Open Agent Hackathon 2026 submission checklist |
+| [integration_writeup](product/integration_writeup.md) | How the sponsor technologies are integrated, and the proof that ships with each |
 
 ## Hackathon (Open Agent Hackathon 2026)
 
