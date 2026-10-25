@@ -8,6 +8,7 @@ export const COMMANDS: CommandEntry[] = [
   { name: "/key", description: "change a model API key" },
   { name: "/session", description: "continue a saved session" },
   { name: "/memory", description: "inspect project memory" },
+  { name: "/runs", description: "show recorded task runs" },
   { name: "/exit", description: "save and quit" },
   { name: "/restart", description: "restart UI and connection" },
 ];
