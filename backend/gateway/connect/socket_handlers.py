@@ -29,7 +29,7 @@ from gateway.state.prompt_queue import (
 )
 from gateway.state.runtime_state import exec_locks, sid_locks
 from model.main_agent import createMainAgent
-from model.model_client import PROVIDED_AGENT_ID, providedModelKey
+from model.model_client import PROVIDED_AGENT_ID, fundedModelKey, validModelId
 from storage.oci.session_folder import makeSessionFolder
 from storage.service import storage_service
 
@@ -57,7 +57,6 @@ async def connect(sid: str, environ: dict, auth: dict | None) -> None:
         return
 
     try:
-        api_key: str = auth.get("api_key", "")
         main_agent_id: int = int(auth.get("main_agent_id", 2))
     except (TypeError, ValueError):
         logger.warning("[connect] rejected sid=%s (malformed auth)", sid)
@@ -67,24 +66,28 @@ async def connect(sid: str, environ: dict, auth: dict | None) -> None:
     client_kind = str(auth.get("client_kind", "cli"))
     is_provided = main_agent_id == PROVIDED_AGENT_ID
 
-    # The provided model is funded for the web demo only; the CLI must use its
-    # own key, so refuse it for any non-web client.
+    # The DeepSeek demo model is funded for the web demo only, so refuse it for
+    # any non-web client.
     if is_provided and client_kind != "web":
         logger.warning("[connect] rejected sid=%s (provided model is web-only)", sid)
         await sio.emit("connection_status", False, to=sid)
         return
 
-    if (not api_key and not is_provided) or main_agent_id not in range(2, 8):
+    if not validModelId(main_agent_id):
         logger.warning("[connect] rejected sid=%s (bad auth)", sid)
         await sio.emit("connection_status", False, to=sid)
         return
 
+    # Every selectable model is funded by the operator, so its key comes from
+    # the environment; clients never send one.
     try:
-        # The provided model is funded by the operator, so its key comes from the
-        # environment; clients that select it may send an empty key.
-        if is_provided:
-            api_key = providedModelKey()
+        api_key = fundedModelKey(main_agent_id)
+    except ValueError as error:
+        logger.warning("[connect] rejected sid=%s (%s)", sid, error)
+        await sio.emit("connection_status", False, to=sid)
+        return
 
+    try:
         # Restore task graph — prefer new categories shape, fall back to legacy flat lists
         all_categories = normalizeCategories(auth.get("categories"))
         if not all_categories:

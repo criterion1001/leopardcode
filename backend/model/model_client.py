@@ -10,18 +10,18 @@ from langchain_core.language_models import BaseChatModel
 from langgraph.checkpoint.memory import InMemorySaver
 
 from model.agent_session import AgentSession
+from sponsor.config import nemotronApiKey, nemotronBaseUrl
 
 # Cache models by (agent_id, api_key) to avoid rebuilding on every sub-agent creation
 model_cache: dict[tuple[int, str], BaseChatModel] = {}
 
-PROVIDER_MAP = {
-    2: ("groq", "openai/gpt-oss-120b"),
-    3: ("anthropic", "claude-fable-5"),
-    4: ("baseten", "moonshotai/Kimi-K2.6"),
-    5: ("deepseek", "deepseek-chat"),
-    6: ("deepseek", "deepseek-flash"),
-    7: ("openrouter", "auto"),
+NEMOTRON_MODELS = {
+    2: "nvidia/nemotron-3.5-super-vl-120b-a12b",
+    3: "nvidia/nemotron-3.5-lightning-30b-a3b",
+    4: "nvidia/nemotron-3-ultra-550b-a55b",
 }
+
+DEEPSEEK_MODEL = "deepseek-flash"
 
 # Model 6 is "provided" and web-only: the operator funds it, so its key comes
 # from the environment instead of the client, and the funded key is never sent
@@ -37,21 +37,42 @@ def providedModelKey() -> str:
     return key
 
 
-def initModel(agent_id: int, api_key: str) -> BaseChatModel:
+def validModelId(agent_id: int) -> bool:
+    return agent_id in NEMOTRON_MODELS or agent_id == PROVIDED_AGENT_ID
+
+
+def fundedModelKey(agent_id: int) -> str:
+    """Resolve the operator-funded key for a model that needs no client key."""
     if agent_id == PROVIDED_AGENT_ID:
-        api_key = providedModelKey()
+        return providedModelKey()
+    if agent_id in NEMOTRON_MODELS:
+        key = nemotronApiKey()
+        if not key:
+            raise ValueError("NVIDIA_API_KEY is not set")
+        return key
+    raise ValueError(f"Invalid agent_id: {agent_id}")
+
+
+def initModel(agent_id: int, api_key: str) -> BaseChatModel:
+    if not validModelId(agent_id):
+        raise ValueError(f"Invalid agent_id: {agent_id}")
+    api_key = fundedModelKey(agent_id)
 
     cache_key = (agent_id, api_key)
     if cache_key in model_cache:
         return model_cache[cache_key]
 
-    if agent_id not in PROVIDER_MAP:
-        raise ValueError(f"Invalid agent_id: {agent_id}")
-    provider, model_name = PROVIDER_MAP[agent_id]
-
     from langchain.chat_models import init_chat_model
 
-    model = init_chat_model(model=model_name, model_provider=provider, api_key=api_key)
+    if agent_id in NEMOTRON_MODELS:
+        model = init_chat_model(
+            model=NEMOTRON_MODELS[agent_id],
+            model_provider="openai",
+            api_key=api_key,
+            base_url=nemotronBaseUrl(),
+        )
+    else:
+        model = init_chat_model(model=DEEPSEEK_MODEL, model_provider="deepseek", api_key=api_key)
 
     model_cache[cache_key] = model
     return model
