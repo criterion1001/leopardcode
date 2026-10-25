@@ -99,7 +99,8 @@ Notes:
   random `session_id`** (not committed) unless `/session` is used.
 - `commitSession()` marks a session to be saved on the next write; writes are
   serialized and debounced by 50 ms (`config_writer.ts`).
-- `main_agent_id` is validated against `MODEL_OPTIONS`; invalid → fallback `1`.
+- `main_agent_id` is validated against `MODEL_OPTIONS`; invalid → fallback to the
+  first option (Nemotron 3.5 Super, id 2).
 - The web workspace stores the same shape in `localStorage`; its default model is
   the provided model 6.
 

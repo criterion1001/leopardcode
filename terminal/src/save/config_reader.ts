@@ -11,7 +11,7 @@ export async function readConfig(): Promise<UserData> {
   const config: ConfigFile = JSON.parse(raw);
 
   const valid_model = MODEL_OPTIONS.some((m) => m.id === config.main_agent_id);
-  const main_agent_id = valid_model ? config.main_agent_id : 1;
+  const main_agent_id = valid_model ? config.main_agent_id : MODEL_OPTIONS[0].id;
 
   return {
     api_keys: { ...config.api_key },
