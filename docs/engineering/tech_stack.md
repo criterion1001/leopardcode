@@ -49,7 +49,7 @@ Exact stack used by **leopardcode**.
 | Containers | Docker + Docker Compose (backend only) |
 | Backend host | Render (reference deployment) |
 | Web host | static host (GitHub Pages via Actions) |
-| CLI distribution | npm package `leopardcode-cli`, bin `leopardcode` |
+| CLI distribution | npm package `leopardcode`, bin `leopardcode` |
 | Secrets | Doppler (dev) / host environment (prod) |
 | CI | GitHub Actions (`ruff`, `black`, `bandit`, Biome, `tsc`, `gitleaks`) |
 
