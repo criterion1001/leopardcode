@@ -1,1 +1,1 @@
-"""Sponsor integrations: Nemotron NIM, Meterless, and Zetaris."""
+"""Sponsor integrations: the Zetaris REST client and its smoke check."""

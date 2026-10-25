@@ -8,18 +8,6 @@ def envValue(name: str, default: str = "") -> str:
     return value if value else default
 
 
-def meterlessBaseUrl() -> str:
-    return envValue("METERLESS_BASE_URL", "http://127.0.0.1:8088/v1")
-
-
-def meterlessToken() -> str:
-    return envValue("METERLESS_TOKEN")
-
-
-def meterlessAppId() -> str:
-    return envValue("METERLESS_APP_ID", "leopardcode")
-
-
 def zetarisRestUrl() -> str:
     return envValue("ZETARIS_REST_URL", "http://localhost:8888/api/v1.0").rstrip("/")
 
