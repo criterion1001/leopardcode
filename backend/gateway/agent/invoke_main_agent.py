@@ -1,0 +1,65 @@
+from __future__ import annotations
+
+import logging
+import time
+
+from ai_tool.task.emit.task import updateTaskDisplay
+from gateway.agent.with_task_context import withTaskContext
+from gateway.config import connected_users, sio
+from gateway.observability.timing import elapsedMsSince, logStep, timedStep
+from gateway.retry.agent_error import emitAgentError, resetErrorBounce
+from gateway.retry.rate_limit import callWithRateLimitRetry
+from gateway.state.session_locks import (
+    acquirePromptLock,
+    finishPromptLock,
+)
+from model.agent_session import lastTextFromResult
+from systemconfig.limits import AGENT_TURN_TIMEOUT_SECONDS
+
+logger = logging.getLogger(__name__)
+
+
+async def invokeMainAgent(sid: str, system_prompt: str, user_message: str) -> None:
+    """
+    Run one main-agent turn under the prompt lock, with retry/timeout.
+    Emits main_agent_response on success, or triggers the give-up loop on failure.
+    """
+    mem = connected_users.get(sid)
+    if mem is None:
+        return
+
+    session = mem.main_agent.session
+    if session is None:
+        logger.error("[agent] no session for sid=%s", sid)
+        return
+
+    await acquirePromptLock(sid)
+    total_started_at = time.perf_counter()
+    try:
+
+        async def _call():
+            return await session.runTurn(
+                withTaskContext(sid, system_prompt),
+                user_message,
+                mem.history,
+            )
+
+        async with timedStep(f"invokeMainAgent_run sid={sid}"):
+            result = await callWithRateLimitRetry(_call, timeout=AGENT_TURN_TIMEOUT_SECONDS)
+
+        response_text = lastTextFromResult(result)
+        resetErrorBounce(sid)
+        await updateTaskDisplay(sid, connected_users)
+        if response_text.strip():
+            await sio.emit("main_agent_response", response_text, to=sid)
+        logStep(f"invokeMainAgent_total sid={sid}", elapsedMsSince(total_started_at))
+
+    except Exception as exc:
+        logger.exception("[agent] turn failed for sid=%s", sid)
+        # The CLI owns the bounce counter: emit the error and let its
+        # agent_error_response drive the give-up loop.
+        await emitAgentError(sid, f"Model failed after retries: {exc}")
+        await updateTaskDisplay(sid, connected_users)
+
+    finally:
+        await finishPromptLock(sid)
