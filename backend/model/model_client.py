@@ -10,7 +10,6 @@ from langchain_core.language_models import BaseChatModel
 from langgraph.checkpoint.memory import InMemorySaver
 
 from model.agent_session import AgentSession
-from sponsor.config import nemotronApiKey, nemotronBaseUrl
 
 # Cache models by (agent_id, api_key) to avoid rebuilding on every sub-agent creation
 model_cache: dict[tuple[int, str], BaseChatModel] = {}
@@ -20,6 +19,8 @@ NEMOTRON_MODELS = {
     3: "nvidia/nemotron-3.5-lightning-30b-a3b",
     4: "nvidia/nemotron-3-ultra-550b-a55b",
 }
+
+NIM_ENDPOINT = "https://integrate.api.nvidia.com/v1"
 
 DEEPSEEK_MODEL = "deepseek-flash"
 
@@ -41,22 +42,16 @@ def validModelId(agent_id: int) -> bool:
     return agent_id in NEMOTRON_MODELS or agent_id == PROVIDED_AGENT_ID
 
 
-def fundedModelKey(agent_id: int) -> str:
-    """Resolve the operator-funded key for a model that needs no client key."""
-    if agent_id == PROVIDED_AGENT_ID:
-        return providedModelKey()
-    if agent_id in NEMOTRON_MODELS:
-        key = nemotronApiKey()
-        if not key:
-            raise ValueError("NVIDIA_API_KEY is not set")
-        return key
-    raise ValueError(f"Invalid agent_id: {agent_id}")
-
-
 def initModel(agent_id: int, api_key: str) -> BaseChatModel:
     if not validModelId(agent_id):
         raise ValueError(f"Invalid agent_id: {agent_id}")
-    api_key = fundedModelKey(agent_id)
+
+    if agent_id == PROVIDED_AGENT_ID:
+        api_key = providedModelKey()
+    else:
+        api_key = api_key.strip()
+        if not api_key:
+            raise ValueError(f"Model {agent_id} needs an NVIDIA NIM API key")
 
     cache_key = (agent_id, api_key)
     if cache_key in model_cache:
@@ -64,15 +59,15 @@ def initModel(agent_id: int, api_key: str) -> BaseChatModel:
 
     from langchain.chat_models import init_chat_model
 
-    if agent_id in NEMOTRON_MODELS:
+    if agent_id == PROVIDED_AGENT_ID:
+        model = init_chat_model(model=DEEPSEEK_MODEL, model_provider="deepseek", api_key=api_key)
+    else:
         model = init_chat_model(
             model=NEMOTRON_MODELS[agent_id],
             model_provider="openai",
             api_key=api_key,
-            base_url=nemotronBaseUrl(),
+            base_url=NIM_ENDPOINT,
         )
-    else:
-        model = init_chat_model(model=DEEPSEEK_MODEL, model_provider="deepseek", api_key=api_key)
 
     model_cache[cache_key] = model
     return model
