@@ -126,7 +126,7 @@ backend client with a guarded CI smoke job:
 |---|---|---|
 | **NVIDIA Nemotron** | Models 2–4 (`model/model_client.py`) run on Nemotron through NIM; `backend/sponsor/nim_client.py` covers the same endpoint with authenticated model listing plus chat completions | `Nemotron NIM Smoke` picks a Nemotron model and completes a live prompt through NIM |
 | **Meterless** | `backend/sponsor/meterless_client.py` — the Meterless provider contract: status from `GET /v1/models`, `meterless-app`/`meterless-scope` headers, `meterless/*` routing models | `Meterless Hotspot Smoke` runs a chat through a local runtime |
-| **Zetaris** | `backend/sponsor/zetaris_client.py` — documented REST queries (`/sql-editor/sqls/run` with Bearer key, `X-Org-ID`, and `X-Request-ID`) | `Zetaris REST Smoke` runs `SELECT 1` through the REST API |
+| **Zetaris** | `backend/sponsor/zetaris_client.py` — documented REST queries (`/sql-editor/sqls/run` with Bearer key, `X-Org-ID`, and `X-Request-ID`) | `Zetaris REST Smoke` runs the committed verification query (`backend/sponsor/sql/zetaris_verification_select.sql`) through the REST API |
 
 Configuration is environment-only: variable names are documented in
 `.env.example`, values live in the local environment or GitHub Actions
