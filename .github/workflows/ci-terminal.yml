@@ -1,0 +1,77 @@
+name: Terminal CI
+
+on:
+  push:
+    branches:
+      - main
+      - master
+      - "**github-workflow**"
+    paths:
+      - "terminal/**"
+      - ".github/workflows/ci-terminal.yml"
+  pull_request:
+    branches:
+      - main
+      - master
+      - "**github-workflow**"
+    paths:
+      - "terminal/**"
+      - ".github/workflows/ci-terminal.yml"
+
+jobs:
+  terminal_lint:
+    name: Terminal Lint
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: terminal
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v6
+        with:
+          package_json_file: terminal/package.json
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+          cache-dependency-path: terminal/pnpm-lock.yaml
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm lint
+
+  terminal_format:
+    name: Terminal Format
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: terminal
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v6
+        with:
+          package_json_file: terminal/package.json
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+          cache-dependency-path: terminal/pnpm-lock.yaml
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm format:check
+
+  terminal_typecheck:
+    name: Terminal Typecheck
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: terminal
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v6
+        with:
+          package_json_file: terminal/package.json
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+          cache-dependency-path: terminal/pnpm-lock.yaml
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm typecheck
