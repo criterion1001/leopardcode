@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import sys
+from pathlib import Path
 
 import httpx
 
@@ -10,6 +11,7 @@ from sponsor.nim_client import NemotronClient
 from sponsor.zetaris_client import ZetarisClient
 
 READY_PROMPT = "Reply with the single word: ready"
+VERIFICATION_SQL_PATH = Path(__file__).with_name("sql") / "zetaris_verification_select.sql"
 
 
 def smokeNemotron() -> int:
@@ -64,16 +66,17 @@ def smokeZetaris() -> int:
         print("zetaris: ZETARIS_API_KEY is not set")
         return 1
     client = ZetarisClient(config.zetarisRestUrl(), api_key, config.zetarisOrgId())
+    verification_sql = VERIFICATION_SQL_PATH.read_text(encoding="utf-8").strip()
     try:
         client.datasources()
-        rows = client.runQuery("SELECT 1", limit=1)
+        rows = client.runQuery(verification_sql, limit=1)
     except httpx.HTTPError as error:
         print(f"zetaris: request failed: {error}")
         return 1
     if not rows:
-        print("zetaris: SELECT 1 returned no rows")
+        print("zetaris: verification query returned no rows")
         return 1
-    print(f"zetaris: ok - SELECT 1 returned {len(rows)} row(s) at {client.rest_url}")
+    print(f"zetaris: ok - verification query returned {len(rows)} row(s) at {client.rest_url}")
     return 0
 
 
