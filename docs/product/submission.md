@@ -39,7 +39,7 @@
 4. **Integration write-up** — a clear explanation of how Zetaris and Meterless
    were integrated, how Cursor was used during development, where NVIDIA
    technology contributes, and what was unique about the use of the sponsor
-   technologies.
+   technologies. Drafted in [integration_writeup](integration_writeup.md).
 
 ## How it is judged
 
