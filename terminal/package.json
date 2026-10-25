@@ -1,6 +1,6 @@
 {
-  "name": "nervous-cli",
-  "version": "1.0.1",
+  "name": "leopardcode",
+  "version": "1.0.0",
   "description": "leopardcode — terminal-native multi-agent coding orchestrator",
   "type": "module",
   "packageManager": "pnpm@12.5.1",

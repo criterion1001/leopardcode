@@ -60,7 +60,7 @@ agent writes appear in the explorer.
 | Piece | Runtime | Deploy |
 |---|---|---|
 | Backend | Python `>=3.13`, `uv`, Uvicorn | `backend/Dockerfile` (`python:3.13-slim` + uv); reference host Render |
-| CLI | Node 22, pnpm, `tsup` → `dist/app.js` | npm package `leopardcode-cli`, bin `leopardcode` |
+| CLI | Node 22, pnpm, `tsup` → `dist/app.js` | npm package `leopardcode`, bin `leopardcode` |
 | Web | Vite + React 19, static build | any static host; `.github/workflows/web-pages.yml` publishes GitHub Pages |
 | Dev orchestration | `justfile` | `just backend`, `just terminal`, `just web`, `just run` |
 

@@ -126,7 +126,7 @@ cd backend  && uv sync --all-extras && uv run ruff check . && uv run black --che
 - **Backend:** any Docker host. Reference deployment:
   `https://leopardcode.onrender.com`. Secrets (`WEB_SEARCH_API`,
   `PROVIDED_MODEL_KEY`, OCI credentials) are injected by the host or Doppler.
-- **CLI:** publish the built `dist/app.js` as `nervous-cli`; `tsup` bakes the
+- **CLI:** publish the built `dist/app.js` as `leopardcode`; `tsup` bakes the
   gateway URL from `LEOPARDCODE_BACKEND_URL` at build time (default:
   `https://leopardcode.onrender.com`). Users install it and run
   `leopardcode`, overriding the baked URL with `LEOPARDCODE_BACKEND_URL` at runtime.
