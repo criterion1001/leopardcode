@@ -5,6 +5,7 @@ import { filterCommands, isSlashCommand } from "./command/command_list";
 import type { CommandMode } from "./command/command_mode";
 import { exitApp, isExitCommand } from "./command/exit_command";
 import { applyApiKeyChange, isKeyCommand } from "./command/key_command";
+import { isMemoryCommand, runMemoryCommand } from "./command/memory_command";
 import {
   getModelLabel,
   hasApiKeyForModel,
@@ -33,6 +34,7 @@ import { useMouseWheel } from "./hooks/use_mouse_wheel";
 import { readConfig } from "./save/config_reader";
 import { saveDisplayHistory, writeUserDataToFile } from "./save/config_writer";
 import { ensureConfigFile } from "./save/create_config_file";
+import { trackPlanProgress } from "./session/project_memory";
 import { setUserData, user_data } from "./session/user_data";
 import { connectSocket } from "./socket/client";
 import { emitQuestionnaireAnswers, emitUserPrompt } from "./socket/emitters";
@@ -281,6 +283,7 @@ function App() {
     });
     onTaskUpdate(() => {
       setTasks(user_data?.categories ?? []);
+      trackPlanProgress(user_data?.categories ?? []);
     });
     // Display-only progress line — sub-agent reports never reach the main agent.
     onSubagentResponse((data) => {
@@ -479,6 +482,12 @@ function App() {
       return;
     }
 
+    if (command_mode.type === "none" && isMemoryCommand(trimmed)) {
+      for (const line of runMemoryCommand(trimmed)) appendSystemNote(line);
+      setLogoShow(false);
+      return;
+    }
+
     if (command_mode.type === "none" && isExitCommand(trimmed)) {
       void exitApp();
       return;
@@ -507,15 +516,20 @@ function App() {
 
     if (command_mode.type === "none" && isSlashCommand(trimmed)) {
       appendSystemNote(
-        `Unknown command: ${trimmed}. Try /model, /key, /session, /exit, or /restart`,
+        `Unknown command: ${trimmed}. Try /model, /key, /session, /memory, /exit, or /restart`,
       );
       setLogoShow(false);
       return;
     }
 
     if (trimmed) {
-      emitUserPrompt(trimmed);
+      const recalled_count = emitUserPrompt(trimmed);
       setDisplays((prev) => [...prev, { role: "user", content: trimmed }]);
+      if (recalled_count > 0) {
+        appendSystemNote(
+          `Recalled ${recalled_count} project ${recalled_count === 1 ? "memory" : "memories"}`,
+        );
+      }
     }
     setLogoShow(false);
   };
