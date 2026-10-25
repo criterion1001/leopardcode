@@ -15,6 +15,7 @@ import {
 import { buildModelSelectOptions } from "./command/model_options";
 import { QuestionnaireBox } from "./command/questionnaire_box";
 import { isRestartCommand, restartConnection } from "./command/restart_command";
+import { isRunsCommand, runRunsCommand } from "./command/runs_command";
 import {
   applySessionChoice,
   isSessionCommand,
@@ -35,6 +36,7 @@ import { readConfig } from "./save/config_reader";
 import { saveDisplayHistory, writeUserDataToFile } from "./save/config_writer";
 import { ensureConfigFile } from "./save/create_config_file";
 import { trackPlanProgress } from "./session/project_memory";
+import { initTaskRuns, recordTaskRuns } from "./session/task_runs";
 import { setUserData, user_data } from "./session/user_data";
 import { connectSocket } from "./socket/client";
 import { emitQuestionnaireAnswers, emitUserPrompt } from "./socket/emitters";
@@ -264,6 +266,7 @@ function App() {
       await ensureConfigFile();
       const data = await readConfig();
       setUserData(data);
+      initTaskRuns();
       setTasks(user_data?.categories ?? []);
       setDisplayScroll(0);
       setTaskScroll(0);
@@ -284,6 +287,11 @@ function App() {
     onTaskUpdate(() => {
       setTasks(user_data?.categories ?? []);
       trackPlanProgress(user_data?.categories ?? []);
+      recordTaskRuns(
+        user_data?.categories ?? [],
+        user_data?.session_id ?? "",
+        user_data?.main_agent_id ?? 0,
+      );
     });
     // Display-only progress line — sub-agent reports never reach the main agent.
     onSubagentResponse((data) => {
@@ -482,6 +490,12 @@ function App() {
       return;
     }
 
+    if (command_mode.type === "none" && isRunsCommand(trimmed)) {
+      for (const line of runRunsCommand()) appendSystemNote(line);
+      setLogoShow(false);
+      return;
+    }
+
     if (command_mode.type === "none" && isMemoryCommand(trimmed)) {
       for (const line of runMemoryCommand(trimmed)) appendSystemNote(line);
       setLogoShow(false);
@@ -516,7 +530,7 @@ function App() {
 
     if (command_mode.type === "none" && isSlashCommand(trimmed)) {
       appendSystemNote(
-        `Unknown command: ${trimmed}. Try /model, /key, /session, /memory, /exit, or /restart`,
+        `Unknown command: ${trimmed}. Try /model, /key, /session, /memory, /runs, /exit, or /restart`,
       );
       setLogoShow(false);
       return;

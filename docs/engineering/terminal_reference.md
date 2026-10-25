@@ -21,6 +21,7 @@ two-pane workspace.
 | Persistence | `save/*`, `session/user_data.ts` | JSON config read/write |
 | Config | `systemconfig/limits.ts`, `systemconfig/model.ts`, `systemconfig/file.ts` | Local limits, model list, config path/name |
 | Memory | `memory/*` (H-MEM engine), `session/project_memory.ts` (mining + recall) | Project memory persists in `user_config/memory/` and is recalled into prompts |
+| Task runs | `session/task_runs.ts` | Appends `user_config/task_runs.csv` on terminal category transitions; read at startup for `/runs` |
 
 ## Slash commands
 
@@ -30,6 +31,7 @@ two-pane workspace.
 | `/key` | Pick a model and (re)enter its API key; reconnects if it is the active model |
 | `/session` | Choose a saved session or start a new one; reloads graph + history and reconnects |
 | `/memory` | List recent project memories; `/memory find <text>` searches them, `/memory forget <id>` lowers confidence and records the feedback |
+| `/runs` | List the most recent task-run rows from `user_config/task_runs.csv` |
 | `/restart` | Flush config, reconnect socket, clear the UI back to the logo |
 | `/exit` | Flush config and quit |
 
