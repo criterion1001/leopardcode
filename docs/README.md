@@ -26,6 +26,7 @@ folder is the reference documentation for leopardcode, built for the
 | [terminal_reference](engineering/terminal_reference.md) | Module-by-module CLI map, commands, keybindings |
 | [web_reference](engineering/web_reference.md) | Browser workspace, storage panes, build and deploy |
 | [build_and_run](engineering/build_and_run.md) | Setup, environment, Docker, CI, deploy |
+| [sponsor_verification](engineering/sponsor_verification.md) | Repeatable proof for the Nemotron, Meterless, and Zetaris integrations |
 
 ## Product (why)
 
