@@ -9,13 +9,13 @@ ahead, while work already running keeps running — no restarts, no lost progres
 Most agents run a task list. leopardcode runs a graph that remembers.
 
 [![CI](https://github.com/includecctype/leopardcode-open-agent-hackathon-2026/actions/workflows/ci.yml/badge.svg)](https://github.com/includecctype/leopardcode-open-agent-hackathon-2026/actions/workflows/ci.yml)
-· [Website](https://includecctype.github.io/leopardcode/) *(TODO: deploy)*
-· [Live web demo](https://includecctype.github.io/leopardcode/demo/) *(TODO: deploy)*
+· [Website](https://includecctype.github.io/leopardcode-open-agent-hackathon-2026/) *(TODO: deploy)*
+· [Live web demo](https://includecctype.github.io/leopardcode-open-agent-hackathon-2026/demo/) *(TODO: deploy)*
 · [Documentation](docs/README.md)
 
 ![leopardcode — one living plan for your coding agents](docs/media/banner.svg)
 
-> **Try it in 30 seconds.** Open the [live web demo](https://includecctype.github.io/leopardcode/demo/),
+> **Try it in 30 seconds.** Open the [live web demo](https://includecctype.github.io/leopardcode-open-agent-hackathon-2026/demo/),
 > pick the provided model (6), and type **`/sample`**. Each scenario seeds a task graph, then
 > sends five follow-up prompts that **incrementally re-plan** it — work already running is never
 > interrupted.
@@ -119,7 +119,7 @@ Full detail: [architecture](docs/engineering/architecture.md) ·
 ## Try it
 
 **Web workspace (live demo):**
-<https://includecctype.github.io/leopardcode/demo/> *(TODO: deploy)* — the same Ink
+<https://includecctype.github.io/leopardcode-open-agent-hackathon-2026/demo/> *(TODO: deploy)* — the same Ink
 terminal plus an OCI-backed file explorer and viewer. Type **`/sample`** to run one of
 ten scripted scenarios that build a task graph and incrementally re-plan it.
 
