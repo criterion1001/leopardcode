@@ -1,12 +1,8 @@
 name: Web Deploy (GitHub Pages)
 
+# GitHub Pages is unavailable on this repository's current plan, so the deploy
+# runs manually; restore the push trigger once Pages can be enabled.
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - "web/**"
-      - ".github/workflows/web-pages.yml"
   workflow_dispatch:
 
 permissions:
