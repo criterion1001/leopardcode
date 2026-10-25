@@ -5,6 +5,7 @@ from typing import Any
 from ai_tool.delegation.tool import makeFileTool
 from ai_tool.network.tool import webFetch, webSearch
 from ai_tool.question.tool import makeQuestionTool
+from ai_tool.zetaris.tool import zetarisQuery
 
 
 def createSubAgentWithTools(agent_id: int, api_key: str, sid: str) -> Any:
@@ -52,4 +53,5 @@ def getSubAgentTools(sid: str) -> list[Any]:
         *file_tools,
         webSearch,
         webFetch,
+        zetarisQuery,
     ]

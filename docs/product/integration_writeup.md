@@ -88,6 +88,11 @@ matching the official getting-started scripts:
 - `GET {ZETARIS_REST_URL}/datasource/datasources` lists the datasources the
   instance exposes.
 
+Sub-agents get a `zetarisQuery` tool on top of that client: it accepts a single
+read-only statement, returns rows as JSON with row and size caps, and reports
+`Zetaris is not configured` when the environment is absent, so data work joins
+the same task graph as file and web work.
+
 The verification query is committed at
 `backend/sponsor/sql/zetaris_verification_select.sql` and the `Zetaris REST
 Smoke` job runs it through the REST API after listing datasources. Locally the
