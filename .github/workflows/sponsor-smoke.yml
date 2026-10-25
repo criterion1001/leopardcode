@@ -1,0 +1,89 @@
+name: Sponsor Smoke
+
+on:
+  push:
+    branches:
+      - main
+      - master
+      - "**github-workflow**"
+    paths:
+      - "backend/sponsor/**"
+      - ".github/workflows/sponsor-smoke.yml"
+  pull_request:
+    branches:
+      - main
+      - master
+      - "**github-workflow**"
+    paths:
+      - "backend/sponsor/**"
+      - ".github/workflows/sponsor-smoke.yml"
+  workflow_dispatch:
+
+jobs:
+  nemotron_smoke:
+    name: Nemotron NIM Smoke
+    runs-on: ubuntu-latest
+    env:
+      NVIDIA_API_KEY: ${{ secrets.NVIDIA_API_KEY }}
+      NIM_BASE_URL: ${{ vars.NIM_BASE_URL }}
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+        with:
+          python-version: "3.13"
+      - run: uv sync --all-extras
+      - name: Run Nemotron smoke
+        if: ${{ env.NVIDIA_API_KEY != '' }}
+        run: uv run python -m sponsor.smoke nemotron
+      - name: Skip notice
+        if: ${{ env.NVIDIA_API_KEY == '' }}
+        run: echo "NVIDIA_API_KEY is not configured - nemotron smoke skipped."
+
+  meterless_smoke:
+    name: Meterless Hotspot Smoke
+    runs-on: ubuntu-latest
+    env:
+      METERLESS_BASE_URL: ${{ vars.METERLESS_BASE_URL }}
+      METERLESS_TOKEN: ${{ secrets.METERLESS_TOKEN }}
+      METERLESS_APP_ID: ${{ vars.METERLESS_APP_ID }}
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+        with:
+          python-version: "3.13"
+      - run: uv sync --all-extras
+      - name: Run Meterless smoke
+        if: ${{ env.METERLESS_TOKEN != '' }}
+        run: uv run python -m sponsor.smoke meterless
+      - name: Skip notice
+        if: ${{ env.METERLESS_TOKEN == '' }}
+        run: echo "METERLESS_TOKEN is not configured - meterless smoke skipped."
+
+  zetaris_smoke:
+    name: Zetaris REST Smoke
+    runs-on: ubuntu-latest
+    env:
+      ZETARIS_REST_URL: ${{ vars.ZETARIS_REST_URL }}
+      ZETARIS_API_KEY: ${{ secrets.ZETARIS_API_KEY }}
+      ZETARIS_ORG_ID: ${{ vars.ZETARIS_ORG_ID }}
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+        with:
+          python-version: "3.13"
+      - run: uv sync --all-extras
+      - name: Run Zetaris smoke
+        if: ${{ env.ZETARIS_API_KEY != '' }}
+        run: uv run python -m sponsor.smoke zetaris
+      - name: Skip notice
+        if: ${{ env.ZETARIS_API_KEY == '' }}
+        run: echo "ZETARIS_API_KEY is not configured - zetaris smoke skipped."
