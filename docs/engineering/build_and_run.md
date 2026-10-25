@@ -21,8 +21,6 @@ Exact commands and files for running, checking, and deploying the project.
 | `LEOPARDCODE_BACKEND_URL` | CLI (`terminal/src/socket/client.ts`), web (`web/src/terminal/socket/client.ts`) | gateway URL |
 | `WEB_ALLOWED_ORIGINS` | backend (`gateway/config.py`) | comma-separated browser origins allowed to connect; defaults to any (`*`) |
 | `PROVIDED_MODEL_KEY` | backend (`model/model_client.py`) | operator-funded key for model 6 (DeepSeek Flash, web-only); used server-side and never sent to clients |
-| `NVIDIA_API_KEY` | backend (`model/model_client.py`, `sponsor/config.py`) | NVIDIA NIM key for the Nemotron models 2–4 and the sponsor smoke check |
-| `NIM_BASE_URL` | backend (`sponsor/config.py`) | optional NIM endpoint override; defaults to `https://integrate.api.nvidia.com/v1` |
 | `OCI_TENANCY` / `OCI_USER` / `OCI_FINGERPRINT` / `OCI_REGION` | backend (`storage/oci/oci_client.py`) | OCI API-key identity and region |
 | `OCI_KEY_CONTENT` | backend (`storage/oci/oci_client.py`) | inline PEM private key with `\n` escapes |
 | `OCI_NAMESPACE` | backend (`storage/oci/oci_client.py`) | Object Storage namespace |

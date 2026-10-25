@@ -13,10 +13,11 @@ environment and Docker setup, see [Build & run](#/build-and-run).
 | pnpm | ≥ 10 | `pnpm --version` |
 | uv | latest | `uv --version` |
 
-You also need a model key on the backend — `NVIDIA_API_KEY` for the Nemotron
-models 2–4, or `PROVIDED_MODEL_KEY` for the demo model 6 (see
-[Environment](#environment)) — and a Doppler service token if you want config
-pulled from Doppler (`doppler setup` after installing the CLI).
+You also need a model key: pick a Nemotron model in the CLI or web workspace and
+paste your own NVIDIA API key (`nvapi-…` from build.nvidia.com) when prompted.
+The web-only demo model 6 needs `PROVIDED_MODEL_KEY` on the backend instead (see
+[Environment](#environment)). A Doppler service token is optional if you want
+config pulled from Doppler (`doppler setup` after installing the CLI).
 
 ## 1. Clone and enter the repo
 
@@ -71,13 +72,12 @@ Required:
 | Variable | Purpose |
 | --- | --- |
 | `LEOPARDCODE_BACKEND_URL` | Backend base URL (CLI and web both honor it) |
-| `NVIDIA_API_KEY` / `PROVIDED_MODEL_KEY` | Server-side model keys: Nemotron models 2–4 / demo model 6 |
+| `PROVIDED_MODEL_KEY` | Operator-funded key for web demo model 6 (optional when every client brings its own Nemotron key) |
 
 Optional:
 
 | Variable | Purpose |
 | --- | --- |
-| `NIM_BASE_URL` | NIM endpoint override (defaults to `https://integrate.api.nvidia.com/v1`) |
 | `WEB_SEARCH_API` | Exa key for `webSearch` / `webFetch` |
 | `WEB_ALLOWED_ORIGINS` | Comma-separated browser origins allowed to connect |
 | `OCI_*` | Object Storage identity, key, namespace, and bucket for the web file explorer |

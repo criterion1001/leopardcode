@@ -26,15 +26,13 @@ OpenAI-compatible client, and the three selectable ids are all Nemotron:
   against NIM, and every agent call goes through it: the planning turns that
   rebuild the graph, the sub-agents that execute each category, and the results
   turn that reports back.
-- Keys are operator-funded and server-side (`NVIDIA_API_KEY`). Clients never
-  send a provider key; the connect handler validates the model id and resolves
-  the key from the environment, and a missing key is an explicit rejection
-  rather than a silent fallback.
+- Users bring their own NVIDIA API key, entered in the CLI (`/model`, then
+  `/key`) or the web key prompt. The connect handler rejects a Nemotron model
+  without a key, and the backend holds no NVIDIA credential of its own.
 - Sub-agents inherit the main agent's model id, so the whole plan and its
   execution share one Nemotron model and one context budget.
-- `backend/sponsor/nim_client.py` exposes the same endpoint directly (model
-  listing plus chat completions) and backs the `Nemotron NIM Smoke` CI job: it
-  lists NIM's models, picks a Nemotron id, and completes a prompt.
+- Model 6 (DeepSeek Flash) stays operator-funded via `PROVIDED_MODEL_KEY` for the
+  web demo, so the workspace can be tried without a key.
 
 Unique here: Nemotron is not a bolt-on chatbot. The product's only models are
 Nemotron, and switching ids 2/3/4 changes planning quality and latency for the
@@ -140,14 +138,14 @@ opencode configured with NVIDIA Nemotron, GitHub Actions, and the scripts in
 
 | Check | Where | What it proves |
 |---|---|---|
-| `Nemotron NIM Smoke` | `.github/workflows/sponsor-smoke.yml` | NIM auth, model listing, and a live Nemotron completion |
 | `Meterless Hotspot Smoke` | `.github/workflows/sponsor-smoke.yml` | runtime status and one chat round trip with the required headers |
 | `H-MEM Conformance` | `.github/workflows/meterless-conformance.yml` | our H-MEM engine against the pinned conformance suite (13/13) |
 | `Zetaris REST Smoke` | `.github/workflows/sponsor-smoke.yml` | datasource listing plus the committed verification query |
 
-Variable names live in `.env.example`; values come from the environment locally
-and GitHub Actions secrets in CI. Every job guards its live step on its secret
-and reports a skip otherwise.
+Meterless and Zetaris variable names live in `.env.example`; values come from the
+environment locally and GitHub Actions secrets in CI, and every job guards its
+live step on its secret and reports a skip otherwise. Nemotron runs in the
+product with the user's own key, so it has no server-side secret and no CI job.
 
 See [sponsor_verification](../engineering/sponsor_verification.md) for the
 commands and [submission](submission.md) for the deliverable checklist.

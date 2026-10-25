@@ -1,24 +1,25 @@
 # Sponsor verification
 
-Every sponsor integration ships with a repeatable check. None of them reads a
-committed credential: values come from the environment locally and from GitHub
-Actions secrets in CI, and a job whose secret is missing reports a skip instead
-of failing.
+Meterless and Zetaris ship with repeatable automated checks; Nemotron is
+exercised by the product path with the user's own key. No committed credential
+is read: values come from the environment locally and from GitHub Actions
+secrets in CI, and a job whose secret is missing reports a skip instead of
+failing.
 
 ## NVIDIA Nemotron
 
 The product models 2-4 run on Nemotron through the NIM endpoint
-(`backend/model/model_client.py`), and `backend/sponsor/nim_client.py` exposes
-the same endpoint directly.
+(`backend/model/model_client.py`) using the NVIDIA API key the user enters in the
+CLI or web workspace. There is no server-side NVIDIA key.
 
 ```bash
 cd backend
-NVIDIA_API_KEY=... uv run python -m sponsor.smoke nemotron
+uv run main.py
 ```
 
-The `Nemotron NIM Smoke` job in
-[`sponsor-smoke.yml`](../../.github/workflows/sponsor-smoke.yml) runs the same
-check: list the models NIM serves, pick a Nemotron id, and complete a prompt.
+Then pick a Nemotron model in the client and paste your `nvapi-...` key when
+prompted. The connect handler rejects a Nemotron model without a key, and every
+planning and execution turn runs on the selected model.
 
 ## Meterless
 
@@ -72,7 +73,6 @@ datasources and runs the committed query.
 
 ## Configuration
 
-Variable names are documented in `.env.example`: `NVIDIA_API_KEY`,
-`NIM_BASE_URL`, `METERLESS_BASE_URL`, `METERLESS_TOKEN`, `METERLESS_APP_ID`,
-`ZETARIS_REST_URL`, `ZETARIS_API_KEY`, and `ZETARIS_ORG_ID`. Secrets stay out of
-the repository.
+Variable names are documented in `.env.example`: `METERLESS_BASE_URL`,
+`METERLESS_TOKEN`, `METERLESS_APP_ID`, `ZETARIS_REST_URL`, `ZETARIS_API_KEY`, and
+`ZETARIS_ORG_ID`. Secrets stay out of the repository.
