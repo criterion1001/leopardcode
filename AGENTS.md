@@ -21,3 +21,4 @@ Key points:
 5) PR flow is always: `git commit` → `gh pr create` → `gh pr checks --watch` → `gh pr merge` — merge only when every check is green.
 6) NEVER delete branches after creation or merge: no `--delete-branch`, no `git branch -d`, no yes to any "delete branch?" prompt.
 7) Remove the worktree with `git worktree remove ../leopardcode-open-agent-hackathon-2026-<PURPOSE>` once the concern is merged.
+8) Commit messages use Conventional Commits (`type(scope): description`) for non-merge commits; merge commits keep their generated message.
