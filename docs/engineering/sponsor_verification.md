@@ -57,6 +57,10 @@ The `Zetaris REST Smoke` job in
 [`sponsor-smoke.yml`](../../.github/workflows/sponsor-smoke.yml) lists the
 datasources and runs the committed query.
 
+In the product, sub-agents call the `zetarisQuery` tool for read-only SQL; it
+uses the same environment and returns `Zetaris is not configured` when the
+credentials are absent.
+
 ## Configuration
 
 Variable names are documented in `.env.example`: `ZETARIS_REST_URL`,

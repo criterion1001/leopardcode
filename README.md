@@ -129,7 +129,7 @@ product and, for the hosted services, in guarded CI smoke jobs:
 |---|---|---|
 | **NVIDIA Nemotron** | Models 2–4 (`model/model_client.py`) run on Nemotron through NIM, keyed by the user's own NVIDIA API key | Every planning and execution turn runs on the selected Nemotron model |
 | **Meterless** | `terminal/src/memory/` — our H-MEM engine, wired as per-project CLI memory (durable preferences, plan completions, `/memory`) | `H-MEM Conformance` runs our engine against the pinned suite (13/13) |
-| **Zetaris** | `backend/sponsor/zetaris_client.py` — documented REST queries (`/sql-editor/sqls/run` with Bearer key, `X-Org-ID`, and `X-Request-ID`) | `Zetaris REST Smoke` runs the committed verification query (`backend/sponsor/sql/zetaris_verification_select.sql`) through the REST API |
+| **Zetaris** | `backend/sponsor/zetaris_client.py` — documented REST queries (`/sql-editor/sqls/run` with Bearer key, `X-Org-ID`, and `X-Request-ID`); `zetarisQuery` gives sub-agents read-only SQL during tasks | `Zetaris REST Smoke` runs the committed verification query (`backend/sponsor/sql/zetaris_verification_select.sql`) through the REST API |
 
 Zetaris values stay environment-only: names are documented in `.env.example`,
 the smoke job reports a skip until its secret exists, and the same check runs
