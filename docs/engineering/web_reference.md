@@ -6,11 +6,9 @@ terminal in the DOM — alongside an OCI-backed file explorer and file viewer.
 
 ## Layout
 
-```
-┌───────────┬───────────────┬──────────────┐
-│ terminal  │ file explorer │ file viewer  │
-└───────────┴───────────────┴──────────────┘
-```
+![leopardcode web workspace layout: terminal, file explorer and file viewer panes](../media/figures/web-layout.svg)
+
+*Three panes: the Ink terminal, the session's file explorer, and the file viewer.*
 
 - `src/web_app.tsx` → `src/ide_shell.tsx` — the three-pane shell. `IdeShell` owns
   the selected file path and renders `InkXterm` + `FileExplorer` + `FileViewer`.

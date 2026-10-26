@@ -4,26 +4,9 @@ Components, runtime topology, and the paths work takes through the system.
 
 ## Components
 
-```
-┌─────────────────────────────┐        Socket.IO         ┌──────────────────────────────────┐
-│  terminal/  (leopardcode CLI)     │  ⇄  (events + ack)   ⇄   │  backend/  (Python 3.13 / uv)    │
-│  Node 22 · Ink/React TUI    │                          │  python-socketio ASGI app        │
-│                             │                          │                                  │
-│  ┌───────────────────────┐  │  tool_request ─────────► │  main agent  (LangChain)         │
-│  │ user_config/config.json│ │  ◄───────── tool_result  │   ├─ processNewTask              │
-│  │  api_key, main_agent_id│ │                          │   ├─ executeCurrentTask          │
-│  │  session{}             │ │                          │   ├─ checkRunningTasks           │
-│  └───────────────────────┘  │                          │   └─ makeQuestion                │
-│  ┌───────────────────────┐  │                          │                                  │
-│  │ tool executor         │  │                          │  task graph per session:         │
-│  │  (LOCAL file/shell)    │  │                          │   pending / running / completed  │
-│  └───────────────────────┘  │                          │                                  │
-│                             │                          │  sub agents (one per task)       │
-└─────────────────────────────┘                          │   → web tools run here           │
-                                                          │   → file/shell forwarded to CLI  │
-                                                          │   → or run on the OCI folder     │
-                                                          └──────────────────────────────────┘
-```
+![leopardcode runtime topology: the CLI and backend over Socket.IO, with local tools and server-side agents](../media/figures/runtime-topology.svg)
+
+*The CLI owns config, project memory, and tool execution; the backend owns the main agent, the task graph, and sub-agents.*
 
 - **Backend** — coordination, model calls, and web tools. Holds one
   `ConnectedUserMemory` per connected socket (`backend/gateway/config.py`).
