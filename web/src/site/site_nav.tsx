@@ -1,16 +1,19 @@
+import { RosetteMark } from "./rosette_mark.js";
+
 type SiteNavProps = {
   /** "" on the landing page, "../" on nested pages (docs). */
   root: string;
   active: "main" | "docs";
 };
 
-const GITHUB_URL = "https://github.com/includecctype/leopardcode";
+const GITHUB_URL = "https://github.com/includecctype/leopardcode-open-agent-hackathon-2026";
 
 export function SiteNav({ root, active }: SiteNavProps) {
   return (
     <nav className="site-nav">
       <a className="site-nav-brand" href={`${root}./`}>
-        leopardcode
+        <RosetteMark size={18} />
+        <span>leopardcode</span>
       </a>
       <div className="site-nav-links">
         <a href={`${root}./`} className={active === "main" ? "active" : undefined}>
