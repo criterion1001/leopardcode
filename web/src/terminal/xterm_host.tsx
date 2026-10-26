@@ -142,6 +142,7 @@ function mountInk(
         term.write(CLEAR_TERMINAL);
       }
       updateStreamsSize();
+      instance?.rerender(element);
     } catch {
       // fit() can throw before the renderer is ready; the ResizeObserver retries
     }
@@ -155,6 +156,8 @@ function mountInk(
     resize();
     options.onReady?.();
   }, 200);
+  const settle_timer = setTimeout(() => resize(), 800);
+  const settle_timer_late = setTimeout(() => resize(), 1600);
 
   return {
     rerender: (next: React.ReactElement) => {
@@ -163,6 +166,8 @@ function mountInk(
     unmount: () => {
       disposed = true;
       clearTimeout(ready_timer);
+      clearTimeout(settle_timer);
+      clearTimeout(settle_timer_late);
       resize_observer.disconnect();
       window.removeEventListener("resize", on_window_resize);
       instance?.unmount();

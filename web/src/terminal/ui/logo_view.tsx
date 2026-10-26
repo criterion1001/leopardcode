@@ -67,6 +67,7 @@ export function LogoView({
   commandOverlay,
 }: LogoViewProps) {
   const { width: screen_width, height: screen_height } = useScreenSize();
+  const compact = screen_width < 80;
 
   return (
     <Box
@@ -84,18 +85,27 @@ export function LogoView({
         height="100%"
         display="flex"
         flexDirection="column"
-        justifyContent="center"
+        justifyContent={compact ? "space-between" : "center"}
         alignItems="center"
+        paddingY={compact ? 1 : 0}
       >
-        <Text color="#E3A32F">{BANNER}</Text>
-        <Box flexDirection="column" alignItems="center" marginTop={1} marginBottom={1}>
-          <Text bold color="#F0E6D4">
-            Use /sample command to see an example
+        {compact ? (
+          <Text bold color="#E3A32F">
+            leopardcode
           </Text>
-          <Text bold color="#F0E6D4">
-            Try spamming more /sample while a sample is running
-          </Text>
-        </Box>
+        ) : (
+          <>
+            <Text color="#E3A32F">{BANNER}</Text>
+            <Box flexDirection="column" alignItems="center" marginTop={1} marginBottom={1}>
+              <Text bold color="#F0E6D4">
+                Use /sample command to see an example
+              </Text>
+              <Text bold color="#F0E6D4">
+                Try spamming more /sample while a sample is running
+              </Text>
+            </Box>
+          </>
+        )}
         {questionnaireActive ? (
           <Box width="100%" display="flex" flexDirection="column" alignItems="center">
             <QuestionnaireBox
