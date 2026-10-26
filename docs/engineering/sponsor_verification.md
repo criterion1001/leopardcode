@@ -61,6 +61,47 @@ In the product, sub-agents call the `zetarisQuery` tool for read-only SQL; it
 uses the same environment and returns `Zetaris is not configured` when the
 credentials are absent.
 
+### Task-run table (local instance)
+
+The CLI writes terminal task runs to `<project>/user_config/task_runs.csv`. A
+local Zetaris bundle exposes that file through its restricted local file root
+(`ZETARIS_LOCAL_FILE_SYTEM_ROOT_PATH`, for example
+`/home/zetaris/customer-data/shared`):
+
+1. Mount only the CSV into the API and driver containers; never mount the whole
+   project folder, because `config.json` holds model keys:
+
+   ```yaml
+   services:
+     api:
+       volumes:
+         - /path/to/project/user_config/task_runs.csv:/home/zetaris/customer-data/shared/task_runs.csv:ro
+     driver:
+       volumes:
+         - /path/to/project/user_config/task_runs.csv:/home/zetaris/customer-data/shared/task_runs.csv:ro
+   ```
+
+2. Register and query the table (the qualified name is required):
+
+   ```sql
+   CREATE LIGHTNING DATABASE LEOPARDCODE_RUNS DESCRIBE BY "leopardcode task runs";
+   CREATE LIGHTNING FILESTORE TABLE task_runs FROM LEOPARDCODE_RUNS FORMAT CSV
+   OPTIONS (PATH "/home/zetaris/customer-data/shared/task_runs.csv",
+            header "true", inferSchema "true");
+   ```
+
+   The create and analytics statements are committed at
+   `backend/sponsor/sql/zetaris_task_runs_create.sql` and
+   `backend/sponsor/sql/zetaris_task_runs_select.sql`.
+
+3. Paths outside that root, relative paths, and `file://` URIs are rejected
+   with `Invalid file path to access`.
+
+Verified locally on 2026-10-26 against the Docker bundle: the smoke returned one
+row, the FILESTORE table served the seeded rows, and a row appended by the CLI
+appeared on the next query without re-registration. The `Zetaris REST Smoke` CI
+job stays skipped because a local instance is not reachable from GitHub Actions.
+
 ## Configuration
 
 Variable names are documented in `.env.example`: `ZETARIS_REST_URL`,
