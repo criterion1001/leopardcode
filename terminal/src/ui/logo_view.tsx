@@ -76,7 +76,7 @@ export function LogoView({
         justifyContent="center"
         alignItems="center"
       >
-        <BigText text="Leopardcode" />
+        <BigText text="Leopardcode" colors={["#E3A32F"]} />
         {questionnaireActive ? (
           <Box width="100%" display="flex" flexDirection="column" alignItems="center">
             <QuestionnaireBox
