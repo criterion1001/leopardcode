@@ -7,7 +7,7 @@
   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 }
 
-.site-page a {
+.site-page :where(a) {
   color: var(--accent);
 }
 
@@ -115,8 +115,16 @@
   border-color: var(--accent-dim);
 }
 
+.site-page a.site-btn {
+  color: #0f0d0a;
+}
+
 .site-btn-ghost {
   background: transparent;
+  color: var(--accent);
+}
+
+.site-page a.site-btn-ghost {
   color: var(--accent);
 }
 
