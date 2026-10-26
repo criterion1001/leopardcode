@@ -67,7 +67,7 @@ export function LogoView({
   commandOverlay,
 }: LogoViewProps) {
   const { width: screen_width, height: screen_height } = useScreenSize();
-  const compact = screen_width < 60;
+  const compact = screen_width < 80;
 
   return (
     <Box
@@ -85,8 +85,9 @@ export function LogoView({
         height="100%"
         display="flex"
         flexDirection="column"
-        justifyContent="center"
+        justifyContent={compact ? "space-between" : "center"}
         alignItems="center"
+        paddingY={compact ? 1 : 0}
       >
         {compact ? (
           <Text bold color="#E3A32F">
