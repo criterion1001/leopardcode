@@ -93,6 +93,13 @@ read-only statement, returns rows as JSON with row and size caps, and reports
 `Zetaris is not configured` when the environment is absent, so data work joins
 the same task graph as file and web work.
 
+The CLI also feeds that data layer. Terminal task runs are appended to
+`user_config/task_runs.csv`; a local Zetaris bundle exposes that file as a
+FILESTORE table (mounted read-only into its local file root), so the agent can
+answer run-analytics questions such as failures by category through the same
+tool. The loop was verified locally: seeded rows were queryable, and a row the
+CLI appended mid-session appeared on the next query without re-registration.
+
 The verification query is committed at
 `backend/sponsor/sql/zetaris_verification_select.sql` and the `Zetaris REST
 Smoke` job runs it through the REST API after listing datasources. Locally the
