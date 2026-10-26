@@ -54,28 +54,7 @@ Today's coding agents treat every prompt as a fresh start:
 
 ## See it: one plan, three prompts
 
-```
-prompt 1 · "fix the login bug"
-        │
-        ▼
-   ┌──────────────────────┐
-   │ login-fix       ▶ running │
-   └──────────────────────┘
-        │
-prompt 2 · "also harden session handling"      (sent while login-fix is running)
-        │
-        ▼
-   ┌──────────────────────┐   ┌──────────────────────┐
-   │ login-fix       ▶ running │   │ session-hardening  pending │   ← added to the plan
-   └──────────────────────┘   └──────────────────────┘
-        │
-prompt 3 · "actually, drop the session work"   (sent while login-fix is running)
-        │
-        ▼
-   ┌──────────────────────┐        session-hardening removed from pending work;
-   │ login-fix       ▶ running │   login-fix was never interrupted
-   └──────────────────────┘
-```
+![Three prompts folded into one running plan: login-fix keeps running while session-hardening is added, then dropped](docs/media/figures/plan-timeline.svg)
 
 Each prompt is planned immediately and folded into the same running plan. When the
 plan drains, leopardcode reports what finished — as its own message.
@@ -95,20 +74,9 @@ Watch it live: the web workspace ships ten scripted scenarios behind the **`/sam
 
 ## How it works
 
-```
-prompt ─▶ main agent (LangChain)
-            ├─ processNewTask(categories)     categories = {name, tasks, depends_on}
-            └─ executeCurrentTask()           starts or joins the background pass
-                     │
-        ┌────────────┴────────────┐
-        ▼                         ▼
-  ready category            ready category          ← run in parallel
-  (a fresh sub-agent per task) (a fresh sub-agent per task)
-        │                         │
-        └───────── results ───────┘
-                     ▼
-              results turn ─▶ main agent reports back
-```
+![A prompt goes to the main agent, which plans categories and starts a detached background pass; ready categories run in parallel and results return as a new message](docs/media/figures/execution-model.svg)
+
+*One main agent plans; each ready category runs a fresh sub-agent in parallel; results come back as a new message.*
 
 - One prompt worker per session turns prompts into planning turns, so turns never
   overlap.
