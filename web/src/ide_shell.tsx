@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FileExplorer } from "./file_explorer/file_explorer.js";
 import { FileViewer } from "./file_viewer/file_viewer.js";
 import { useSessionFolder } from "./storage/storage_store.js";
@@ -39,6 +39,16 @@ const TERMINAL_OPTIONS: ITerminalOptions = {
 export function IdeShell() {
   const folder = useSessionFolder();
   const [selected_path, setSelectedPath] = useState<string | null>(null);
+  const [viewer_open, setViewerOpen] = useState(false);
+
+  useEffect(() => {
+    if (!viewer_open) return;
+    const on_key = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setViewerOpen(false);
+    };
+    window.addEventListener("keydown", on_key);
+    return () => window.removeEventListener("keydown", on_key);
+  }, [viewer_open]);
 
   return (
     <div className="ide-shell">
@@ -47,6 +57,14 @@ export function IdeShell() {
         <span className="ide-session" title={folder ?? undefined}>
           {folder ?? "connecting…"}
         </span>
+        <button
+          type="button"
+          className="ide-viewer-button"
+          aria-expanded={viewer_open}
+          onClick={() => setViewerOpen(true)}
+        >
+          <span aria-hidden="true">▤</span> viewer
+        </button>
       </header>
       <main className="ide-body">
         <section className="ide-pane ide-explorer" aria-label="File explorer">
@@ -64,6 +82,24 @@ export function IdeShell() {
           <TaskGraphView />
         </section>
       </main>
+      {viewer_open ? (
+        <dialog open className="ide-viewer-sheet" aria-label="File viewer">
+          <header className="ide-viewer-sheet-header">
+            <span>file viewer</span>
+            <button
+              type="button"
+              className="ide-viewer-sheet-close"
+              aria-label="Close file viewer"
+              onClick={() => setViewerOpen(false)}
+            >
+              ×
+            </button>
+          </header>
+          <div className="ide-viewer-sheet-body">
+            <FileViewer path={selected_path} />
+          </div>
+        </dialog>
+      ) : null}
     </div>
   );
 }
