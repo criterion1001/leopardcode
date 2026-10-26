@@ -51,7 +51,9 @@ export function DocsPage() {
             <span className="site-footer-links">
               <a href="../">main</a>
               <a href="../demo/">demo</a>
-              <a href="https://github.com/includecctype/leopardcode">github</a>
+              <a href="https://github.com/includecctype/leopardcode-open-agent-hackathon-2026">
+                github
+              </a>
             </span>
           </footer>
         </main>
