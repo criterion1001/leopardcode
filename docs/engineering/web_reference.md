@@ -2,7 +2,9 @@
 
 Root: `web/`. Vite + React 19 + TypeScript. The Ink terminal UI runs through
 [ink-web](https://ink-web.dev) — real Ink components rendered into an xterm.js
-terminal in the DOM — alongside an OCI-backed file explorer and file viewer.
+terminal in the DOM — alongside an OCI-backed file explorer and file viewer. The
+Task graph pane renders the live morph from `task_update`; see
+[real-time task morphing](task_morphing.md).
 
 ## Layout
 

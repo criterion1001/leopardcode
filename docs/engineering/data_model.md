@@ -38,6 +38,15 @@ Rules:
 - `normalizeName` = strip + lowercase + collapse whitespace, used for all name
   matching.
 
+### Morph rules
+
+A **morph** replaces `pending_categories` with the complete list returned by the
+main agent. Running categories are immutable and never appear in that list.
+`repairGraph` renames a name that collides with a running/completed category or a
+duplicate in the same call; exact task descriptions are deduped inside a
+category; cycles are rejected. See
+[real-time task morphing](task_morphing.md).
+
 ### Status meanings
 
 | Category status | Meaning |

@@ -1,7 +1,8 @@
 # Pipelines
 
 Code-accurate flows. Terms: a **category** is an independent workstream with
-`depends_on`; **tasks** inside a category run sequentially. See
+`depends_on`; **tasks** inside a category run sequentially. The morph path is
+documented in [real-time task morphing](task_morphing.md); see
 [data_model](data_model.md) and [socket_protocol](socket_protocol.md).
 
 ## 1) Startup / connect pipeline
@@ -34,7 +35,7 @@ first prompt calls `commitSession()`. Resuming a session via `/session` calls
 > The backend's `connected_users[sid]` is in-process and rebuilt from the
 > client's `categories` on each connect.
 
-## 2) Prompt handling pipeline (queue → morph, never mutate running)
+## 2) Prompt handling pipeline (queue → live morph, never mutate running)
 
 Prompts are handled by **one worker per session** so planning turns never
 overlap:
