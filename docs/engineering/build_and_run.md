@@ -120,15 +120,18 @@ cd backend  && uv sync --all-extras && uv run ruff check . && uv run black --che
 
 ## Deploy
 
-- **Backend:** any Docker host. Reference deployment:
-  `https://leopardcode.onrender.com`. Secrets (`WEB_SEARCH_API`,
-  `PROVIDED_MODEL_KEY`, OCI credentials) are injected by the host or Doppler.
-- **CLI:** publish the built `dist/app.js` as `leopardcode`; `tsup` bakes the
-  gateway URL from `LEOPARDCODE_BACKEND_URL` at build time (default:
-  `https://leopardcode.onrender.com`). Users install it and run
-  `leopardcode`, overriding the baked URL with `LEOPARDCODE_BACKEND_URL` at runtime.
-- **Web:** `pnpm build` then upload `web/dist`; `.github/workflows/web-pages.yml`
-  deploys to GitHub Pages on pushes that touch `web/`.
+- **Backend:** any Docker host (`backend/Dockerfile`, port 8000, WebSocket
+  support). Set `PROVIDED_MODEL_KEY` for the keyless demo model 6 and
+  `WEB_ALLOWED_ORIGINS` to the web origin (or `*`); `WEB_SEARCH_API` and the
+  `OCI_*` variables are optional. Health: `/health/`.
+- **Web:** `.github/workflows/web-pages.yml` builds `web/` with the gateway URL
+  from the repository variable `LEOPARDCODE_BACKEND_URL` (exposed to Vite as
+  `VITE_LEOPARDCODE_BACKEND_URL`) and deploys to GitHub Pages on pushes that
+  touch `web/` or the workflow. Set the variable, then re-run the workflow.
+- **CLI:** build with `pnpm build` and run `node dist/app.js`; the gateway URL
+  comes from `LEOPARDCODE_BACKEND_URL` at runtime (the build-time default is only
+  a fallback), so `LEOPARDCODE_BACKEND_URL=https://<host> node dist/app.js`
+  targets any deployment.
 
 ## Session cleanup
 

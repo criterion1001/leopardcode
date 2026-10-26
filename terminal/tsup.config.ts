@@ -1,7 +1,6 @@
 import { defineConfig } from "tsup";
 
-const DEFAULT_BACKEND_URL =
-  process.env.LEOPARDCODE_BACKEND_URL || "https://leopardcode.onrender.com";
+const DEFAULT_BACKEND_URL = process.env.LEOPARDCODE_BACKEND_URL || "http://localhost:8000";
 
 export default defineConfig({
   entry: ["src/app.tsx"],

@@ -94,11 +94,10 @@ of 10 MB, killing the child at the timeout.
 
 | Var | Purpose | Default |
 |---|---|---|
-| `LEOPARDCODE_BACKEND_URL` | Backend Socket.IO URL | the gateway URL baked in at build time (reference deployment by default) |
+| `LEOPARDCODE_BACKEND_URL` | Backend Socket.IO URL | the build-time default, `http://localhost:8000` |
 
-Set `LEOPARDCODE_BACKEND_URL` explicitly to target a gateway, e.g.
-`https://leopardcode.onrender.com` (reference deployment) or
-`http://localhost:8000` (local backend).
+Set `LEOPARDCODE_BACKEND_URL` explicitly to target a gateway, e.g. your deployed
+`https://<host>` or `http://localhost:8000` for a local backend.
 
 Authentication sends `main_agent_id`, `client_kind: "cli"`, `api_key` (the server
 now funds every model and ignores it), `categories`, and `history`

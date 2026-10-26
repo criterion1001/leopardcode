@@ -64,8 +64,8 @@ agent writes appear in the explorer.
 | Web | Vite + React 19, static build | any static host; `.github/workflows/web-pages.yml` publishes GitHub Pages |
 | Dev orchestration | `justfile` | `just backend`, `just terminal`, `just web`, `just run` |
 
-Reference deployment: `https://leopardcode.onrender.com`
-(override with `LEOPARDCODE_BACKEND_URL`).
+The deployed gateway URL comes from `LEOPARDCODE_BACKEND_URL` — a repository
+variable for the Pages build and a runtime environment variable for the CLI.
 
 ## Agent construction
 
