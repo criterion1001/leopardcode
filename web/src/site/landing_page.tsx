@@ -5,12 +5,12 @@ import { SiteNav } from "./site_nav.js";
 
 const FEATURES = [
   {
-    title: "One living plan",
-    body: "A persistent task graph that survives across prompts and sessions — your coding work never resets.",
+    title: "Real-time task morphing",
+    body: "A new prompt reshapes pending work in place — add, remove, rename, dedupe, rewire — while running work continues.",
   },
   {
-    title: "Incremental re-planning",
-    body: "A new prompt reshapes the work that's still ahead. Work already running is never disturbed.",
+    title: "One living plan",
+    body: "A persistent graph per session: the substrate every morph edits.",
   },
   {
     title: "Work as a graph",
@@ -30,16 +30,34 @@ const FEATURES = [
   },
 ];
 
+const USER_WORKFLOWS = [
+  {
+    title: "Change the spec mid-run",
+    body: "Send the change; pending categories are rewritten in place. Running work keeps going.",
+  },
+  {
+    title: "Add work you just discovered",
+    body: "A migration, tests, docs, or rate limiting enters pending work and runs when its dependencies finish.",
+  },
+  {
+    title: "Drop or rename pending work",
+    body: "Stop spend before a task starts, or rescope it as your understanding improves.",
+  },
+  {
+    title: "Repeat a request without duplicate work",
+    body: "Overlapping task lines fold into the existing category; you do not pay for the same pending task twice.",
+  },
+];
+
 const COMPARISON_ROWS: Array<[string, string, string]> = [
-  ["Unit of work", "one prompt / one spawned agent", "an entry in a persistent work graph"],
-  ["Across prompts", "re-plans from scratch", "incremental re-planning on one living plan"],
+  ["Live morph while running", "no — restart the prompt", "yes — pending work only"],
+  ["Across prompts", "re-plans from scratch", "morphs pending work live"],
   [
     "Work relationships",
     "implicit in the model's prose",
     "first-class: depends_on, dedupe, result flow",
   ],
   ["Parallelism", "decided ad hoc", "dispatched from explicit dependency readiness"],
-  ["Changing course", "start the prompt over", "keep going; only pending work changes"],
   ["Where code runs (CLI)", "a vendor server", "on your machine"],
 ];
 
@@ -55,11 +73,10 @@ export function LandingPage() {
         <pre className="site-hero-banner" aria-label="leopardcode">
           {"leopardcode"}
         </pre>
-        <p className="site-hero-tagline">One living plan for your coding agents.</p>
+        <p className="site-hero-tagline">Real-time task morphing for your coding agents.</p>
         <p className="site-hero-sub">
-          A terminal-native, multi-agent coding orchestrator built around a persistent task graph.
-          Keep sending prompts — each one incrementally re-plans the work that's still ahead, while
-          work already running keeps running.
+          Morph the plan while it runs. Keep prompting; only pending work changes, and running work
+          keeps going. One persistent plan, edited in place — not a pile of forgotten prompts.
         </p>
         <div className="site-cta">
           <a className="site-btn" href="./demo/">
@@ -100,6 +117,24 @@ export function LandingPage() {
 
       <section className="site-section">
         <h2>
+          <span className="site-prompt">$</span> because it morphs, you can
+        </h2>
+        <div className="site-grid">
+          {USER_WORKFLOWS.map((workflow) => (
+            <article className="site-card" key={workflow.title}>
+              <h3>{workflow.title}</h3>
+              <p>{workflow.body}</p>
+            </article>
+          ))}
+        </div>
+        <p>
+          Work already running stays untouched. You can drop or rename pending work; you cannot
+          cancel a running category.
+        </p>
+      </section>
+
+      <section className="site-section">
+        <h2>
           <span className="site-prompt">$</span> what leopardcode does
         </h2>
         <div className="site-grid">
@@ -130,16 +165,18 @@ export function LandingPage() {
 
       <section className="site-section">
         <h2>
-          <span className="site-prompt">$</span> see it: one plan, three prompts
+          <span className="site-prompt">$</span> see it: five live morphs
         </h2>
         <figure className="site-figure">
           <img
             src={planTimelineUrl}
-            alt="Three prompts folded into one running plan: login-fix keeps running while session-hardening is added, then dropped"
+            alt="Five live morphs on one running CLI todo plan: add color output, add undo, rename persistence, dedupe tests, drop color output while commands keep running"
           />
           <figcaption>
-            Each prompt is planned immediately and folded into the same running plan. Work already
-            running is never interrupted; when the plan drains, leopardcode reports what finished.
+            A seed prompt starts the CLI todo plan. Five follow-ups add independent work, add a
+            dependency, rename a pending category, dedupe a repeated test request, and drop a
+            pending task. The running card keeps going; when the plan drains, leopardcode reports
+            what finished.
           </figcaption>
         </figure>
         <p>
@@ -191,7 +228,7 @@ export function LandingPage() {
       </section>
 
       <footer className="site-footer">
-        <span>leopardcode — one living plan for your coding agents.</span>
+        <span>leopardcode — real-time task morphing for coding agents.</span>
         <span className="site-footer-links">
           <a href="./">main</a>
           <a href="./docs/">docs</a>
