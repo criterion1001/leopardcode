@@ -1,3 +1,4 @@
+import { RosetteMark } from "./rosette_mark.js";
 import { SiteNav } from "./site_nav.js";
 
 const FEATURES = [
@@ -46,6 +47,9 @@ export function LandingPage() {
       <SiteNav root="" active="main" />
 
       <header className="site-hero">
+        <div className="site-hero-mark">
+          <RosetteMark size={44} />
+        </div>
         <pre className="site-hero-banner" aria-label="leopardcode">
           {"leopardcode"}
         </pre>

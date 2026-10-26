@@ -27,6 +27,9 @@
 }
 
 .site-nav-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   font-weight: 700;
   color: var(--accent);
   text-decoration: none;
@@ -55,6 +58,13 @@
   padding: 72px 24px 56px;
   border-bottom: 1px solid var(--border);
   background: radial-gradient(ellipse at 50% -20%, #241904 0%, var(--bg) 65%);
+}
+
+.site-hero-mark {
+  color: var(--accent);
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
 }
 
 .site-hero-banner {
