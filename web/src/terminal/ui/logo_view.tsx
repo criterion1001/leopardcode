@@ -87,12 +87,12 @@ export function LogoView({
         justifyContent="center"
         alignItems="center"
       >
-        <Text color="#00ff41">{BANNER}</Text>
+        <Text color="#E3A32F">{BANNER}</Text>
         <Box flexDirection="column" alignItems="center" marginTop={1} marginBottom={1}>
-          <Text bold color="#ffffff">
+          <Text bold color="#F0E6D4">
             Use /sample command to see an example
           </Text>
-          <Text bold color="#ffffff">
+          <Text bold color="#F0E6D4">
             Try spamming more /sample while a sample is running
           </Text>
         </Box>

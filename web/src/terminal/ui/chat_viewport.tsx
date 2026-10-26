@@ -27,7 +27,7 @@ export function ChatViewport({ chatBlocks, displayScroll, viewportRows }: ChatVi
         </Text>
       )}
       {chatBlocks.length === 0 ? (
-        <Text bold color="#ffffff">
+        <Text bold color="#F0E6D4">
           Use /sample command to see an example
         </Text>
       ) : (
