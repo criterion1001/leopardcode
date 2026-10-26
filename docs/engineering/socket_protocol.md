@@ -59,35 +59,15 @@ exception) it emits `connection_status: false`.
 
 ### New user prompt
 
-```
-client --user_prompt─────────────────────────►  backend
-backend: promptRateLimited (per-IP) → resetErrorBounce → emitPlanningPlaceholder → task_update
-backend: enqueuePrompt(USER_PROMPT_SYSTEM, prompt)        # one worker per session
-worker:  beginPlanning → invokeMainAgent(USER_PROMPT_SYSTEM, prompt)
-  main agent issues parallel tool_calls: [processNewTask(categories), executeCurrentTask()]
-    processNewTask → validate/repair/merge → task_update
-    executeCurrentTask → startExecution(sid)              # background pass, returns immediately
-        per ready category → sub-agent per task
-            file/shell tool → tool_request ──► CLI
-            CLI executes → tool_result ──► backend (future resolves)
-        sub-agent result → subagent_response + task_update
-  main agent final text → main_agent_response
-  worker:  endPlanning
-pass drains → buildExecutionResults → enqueuePrompt(EXECUTION_RESULTS_SYSTEM, kind=results)
-  main agent reports results → main_agent_response
-```
+![Socket.IO new-prompt flow: client, backend worker and sub-agents](../media/figures/socket-prompt.svg)
+
+*A prompt is planned immediately, the plan is published, execution runs in a background pass, and results arrive as a follow-up message.*
 
 ### Questionnaire round-trip
 
-```
-main agent calls makeQuestion(question_json)
-  → backend validates 2..5 options per question
-  → emit questionnaire
-client renders questions one at a time; appends "other" write-in option
-  → user answers
-  → emit questionnaire_answers
-backend: enqueuePrompt(QUESTIONNAIRE_SYSTEM, formatted answers) → processNewTask → executeCurrentTask
-```
+![Questionnaire round-trip between client and backend](../media/figures/questionnaire.svg)
+
+*The main agent asks structured questions; the answers come back as a normal planning turn.*
 
 ### Forwarded tool round-trip
 
