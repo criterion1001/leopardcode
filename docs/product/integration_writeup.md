@@ -4,11 +4,11 @@ Submission deliverable for the **Open Agent Hackathon 2026**: how Zetaris and
 Meterless are integrated, where NVIDIA technology contributes, how development
 used AI tooling, and what is unique about the sponsor technology use.
 
-leopardcode is a multi-agent coding orchestrator built around one persistent
-task graph. A main agent turns each prompt into categories of work, categories
-launch in parallel as their dependencies finish, and a later prompt morphs the
-pending work instead of restarting the plan. Everything below is wired into that
-loop or proves a sponsor contract end to end.
+leopardcode is **real-time task morphing for coding agents**. A main agent keeps
+one persistent task graph per session. A later prompt reshapes the pending work —
+add, remove, rename/rescope, dedupe, rewire — while running categories continue.
+Everything below is wired into that morph loop or proves a sponsor contract end
+to end.
 
 ## NVIDIA Nemotron
 
@@ -34,9 +34,10 @@ OpenAI-compatible client, and the three selectable ids are all Nemotron:
 - Model 6 (DeepSeek Flash) stays operator-funded via `PROVIDED_MODEL_KEY` for the
   web demo, so the workspace can be tried without a key.
 
-Unique here: Nemotron is not a bolt-on chatbot. The product's only models are
-Nemotron, and switching ids 2/3/4 changes planning quality and latency for the
-same task graph without any code change.
+Unique here: Nemotron is not a bolt-on chatbot. Models 2–4 are the models that
+**plan each live morph**, and switching ids changes the morph's planning quality
+and latency without any code change. Model 6 remains the operator-funded web
+demo.
 
 ## Meterless
 
@@ -53,8 +54,9 @@ approval boundary.
 
 It powers project memory in the CLI. Durable preference statements in a prompt
 are mined into `user_config/memory/`, relevant records are recalled on each
-prompt and appended to the wire payload as a memory context block, completed
-categories are recorded as plan completions, and `/memory` lists or searches
+prompt and appended to the wire payload as a memory context block, so the **next
+morph starts informed**. Completed categories are recorded as plan completions,
+and `/memory` lists or searches
 what is stored while `/memory forget <id>` lowers confidence through the trust
 ledger. Memory stays on the developer's machine, matching the product's
 local-first stance.
@@ -73,8 +75,8 @@ Last run: 13/13 checks, exit 0. The `H-MEM Conformance` job in
 engine and on `main`.
 
 Unique here: the engine spec is implemented in the product and verified by the
-published conformance suite on every engine change, and the same records feed
-the planner's next turn without leaving the developer's machine.
+published conformance suite on every engine change, and the same records shape
+the next morph without leaving the developer's machine.
 
 ## Zetaris
 
@@ -97,7 +99,8 @@ The CLI also feeds that data layer. Terminal task runs are appended to
 `user_config/task_runs.csv`; a local Zetaris bundle exposes that file as a
 FILESTORE table (mounted read-only into its local file root), so the agent can
 answer run-analytics questions such as failures by category through the same
-tool. The loop was verified locally: seeded rows were queryable, and a row the
+tool. In other words, Zetaris records the task runs behind each morph and lets the
+user ask what ran. The loop was verified locally: seeded rows were queryable, and a row the
 CLI appended mid-session appeared on the next query without re-registration.
 
 The verification query is committed at

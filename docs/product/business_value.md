@@ -10,8 +10,9 @@ three costs that the developer pays in tokens and attention:
 1. **Re-planning from scratch.** Each prompt is decomposed as if nothing came
    before. Overlapping and duplicate work gets redone; intent from earlier
    prompts is discarded.
-2. **No steering.** Once agents spawn, changing course means restarting the
-   prompt and losing in-flight work.
+2. **No live morph.** Once agents spawn, the plan is fixed. Changing course,
+   adding discovered work, or dropping a pending task means restarting the prompt
+   and losing in-flight work.
 3. **Coordination overhead.** Parallel work is improvised by the model; dependent
    work can block or diverge, and multiple agents surface questions
    independently. The developer becomes the merge layer.
@@ -20,9 +21,9 @@ three costs that the developer pays in tokens and attention:
 
 | Value lever | Mechanism in leopardcode | Buyer's metric |
 |---|---|---|
-| **Stop redoing work** | Persistent task graph per session; `processNewTask` morphs pending work instead of re-planning (`mergeCategoryLists`, exact-dedupe) | tokens, wall-clock |
+| **Morph without restarting** | Real-time task morphing: a new prompt reshapes pending work while running categories keep going (`processNewTask`, `mergeCategoryLists`, `validateGraph`) | time-to-course-change, in-flight work preserved |
+| **Stop redoing work** | Persistent task graph per session; exact task dedupe; pending work can be dropped before it starts | tokens, wall-clock |
 | **Safe parallelism** | Explicit `depends_on` DAG; categories run in parallel the moment dependencies are `done`; failure cascades to `blocked` (`validateGraph`, `readyCategories`, `cascadeBlocked`) | throughput, fewer broken builds |
-| **Steer without restarting** | Running categories are immutable; a new prompt is planned immediately and its categories join the running pass (prompt queue + detached execution) | responsiveness |
 | **Keep code private** | CLI file/shell tools execute **on the user's machine**; the server never reads the workspace (`delegation/`, `terminal/src/tool/`). Only model calls + optional web search leave the laptop | security review, procurement |
 | **Cheap to run** | Server is a thin Socket.IO + model orchestrator; no database, queue, or filesystem state. Sessions persist as a local JSON file | infra cost |
 | **Fewer context switches** | Main-agent-only structured questionnaire with a forced write-in option; one place to answer, not N sub-agent threads | attention |
@@ -32,10 +33,11 @@ scheduling + interaction shell around agents that already exist.
 
 ## Where the value compounds
 
-- **Cost avoidance:** if a team spends on agent tokens and review time, even a
-  small reduction in duplicate work and re-planning pays for the layer.
-- **Onboarding:** a persistent graph is a readable record of "what was asked and
-  why", which shortens handoffs.
+- **Cost avoidance:** every avoided restart preserves in-flight tokens and time;
+  every dropped pending task avoids spend; duplicate task lines do not run twice.
+- **Onboarding:** the morph history is a readable record of "what was asked, what
+  changed, and why", which shortens handoffs.
+- **Flow:** the user keeps prompting instead of stopping, waiting, and re-planning.
 
 ## Who buys
 
@@ -47,8 +49,8 @@ scheduling + interaction shell around agents that already exist.
 
 ## Defensibility
 
-- **The graph is data.** Merges, blocking, and reordering are inspectable state,
-  not model prose.
+- **The morph is data.** Pending changes, blocking, dedupe, and reordering are
+  inspectable state, not model prose—so the user can see what changed.
 - **Client-side execution as a trust story.** "Your code never reaches our
   servers" is a concrete, checkable property of the architecture.
 - The moat is execution quality and distribution, not a patent.

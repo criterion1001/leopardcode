@@ -1,12 +1,12 @@
 # leopardcode
 
-**One living plan for your coding agents.**
+**Real-time task morphing for your coding agents.**
 
-leopardcode keeps multi-agent coding work in a **single, persistent task graph**.
-Keep sending prompts: each one **incrementally re-plans** the work that's still
-ahead, while work already running keeps running — no restarts, no lost progress.
+Morph the plan while it runs. leopardcode keeps one persistent plan and edits it
+in place as you prompt: add, remove, rename/rescope, dedupe, and rewire pending
+work while running categories keep going. No restarts. No lost progress.
 
-Most agents run a task list. leopardcode runs a graph that remembers.
+Most agents run a task list. leopardcode morphs a graph that is still running.
 
 [![CI](https://github.com/includecctype/leopardcode-open-agent-hackathon-2026/actions/workflows/ci.yml/badge.svg)](https://github.com/includecctype/leopardcode-open-agent-hackathon-2026/actions/workflows/ci.yml)
 [![Sponsor Smoke](https://github.com/includecctype/leopardcode-open-agent-hackathon-2026/actions/workflows/sponsor-smoke.yml/badge.svg)](https://github.com/includecctype/leopardcode-open-agent-hackathon-2026/actions/workflows/sponsor-smoke.yml)
@@ -14,31 +14,54 @@ Most agents run a task list. leopardcode runs a graph that remembers.
 · [Live web demo](https://includecctype.github.io/leopardcode-open-agent-hackathon-2026/demo/)
 · [Documentation](docs/README.md)
 
-![leopardcode — one living plan for your coding agents](docs/media/banner.svg)
+![leopardcode — real-time task morphing for coding agents](docs/media/banner.svg)
 
 > **Try it in 30 seconds.** Open the [live web demo](https://includecctype.github.io/leopardcode-open-agent-hackathon-2026/demo/),
 > pick the provided model (6), and type **`/sample`**. Each scenario seeds a task graph, then
-> sends five follow-up prompts that **incrementally re-plan** it — work already running is never
+> sends five follow-up prompts that **morph the plan live** — work already running is never
 > interrupted.
 
-## The problem: agents forget, and restarts waste work
+## The problem: plans freeze when work starts
 
 Today's coding agents treat every prompt as a fresh start:
 
-- **Restarts lose work.** Change your mind mid-run and you're told to restart the
+- **Plans freeze.** Once work is running, changing course means restarting the
   prompt — throwing away everything already in flight.
+- **No live morph.** A new requirement cannot reshape pending work while agents
+  are executing; the user has to stop, re-plan, and re-explain.
 - **Every prompt re-plans from scratch.** Overlapping work gets redone and intent
   from earlier prompts is forgotten.
 - **Parallel work has no structure.** Whether tasks depend on each other, overlap,
   or could run together lives only in the model's prose, and vanishes the moment
   the request ends.
 
+The missing capability is **real-time task morphing**: reshaping the pending plan
+while execution continues, with running work untouched.
+
+## Because the plan morphs, you can…
+
+- **Change the spec mid-run.** Send the change; pending categories are rewritten
+  in place. Running work keeps going.
+- **Add work you just discovered.** A migration, tests, docs, or rate limiting
+  enters pending work and runs when its dependencies finish.
+- **Drop or rename pending work.** Stop spend before a task starts, or rescope it
+  as your understanding improves.
+- **Repeat a request without duplicate work.** Overlapping task lines fold into the
+  existing category; you do not pay for the same pending task twice.
+- **Rewire dependencies and reprioritize.** Add a `depends_on` edge and the next
+  ready category dispatches — no restart.
+
+> Work already running stays untouched. You can drop pending work; you cannot
+> cancel a running category.
+
+The full user workflows are in [what you can do](docs/product/user_workflows.md).
+
 ## What leopardcode does
 
-- **One living plan.** A persistent task graph that survives across prompts and
-  sessions.
-- **Incremental re-planning.** A new prompt reshapes the work that's still ahead;
-  work already running is never disturbed.
+- **Real-time task morphing.** A new prompt reshapes pending work in place — add,
+  remove, rename/rescope, dedupe, rewire — while running work continues.
+- **One living plan.** A persistent task graph per session: the substrate every
+  morph edits.
 - **Work as a graph, not a list.** First-class relationships: `depends_on`
   ordering, duplicate removal, and each category's results flowing into its
   dependents.
@@ -52,12 +75,14 @@ Today's coding agents treat every prompt as a fresh start:
 - **Your code stays yours.** In the CLI, file and shell tools run on your machine;
   the server only makes model calls and optional web searches.
 
-## See it: one plan, three prompts
+## See it: five live morphs
 
-![Three prompts folded into one running plan: login-fix keeps running while session-hardening is added, then dropped](docs/media/figures/plan-timeline.svg)
+![Five live morphs on one running CLI todo plan: add color output, add undo, rename persistence, dedupe tests, drop color output while commands keep running](docs/media/figures/plan-timeline.svg)
 
-Each prompt is planned immediately and folded into the same running plan. When the
-plan drains, leopardcode reports what finished — as its own message.
+A seed prompt starts the CLI todo plan. Five follow-ups add independent work, add a
+dependency, rename a pending category, dedupe a repeated test request, and drop a
+pending task. The running command card never changes; when the plan drains,
+leopardcode reports what finished as its own message.
 
 Watch it live: the web workspace ships ten scripted scenarios behind the **`/sample`** command.
 
@@ -65,27 +90,30 @@ Watch it live: the web workspace ships ten scripted scenarios behind the **`/sam
 
 | | Typical coding agents | leopardcode |
 |---|---|---|
-| **Unit of work** | one prompt / one spawned agent | an entry in a persistent work graph |
-| **Across prompts** | re-plans from scratch | **incremental re-planning** on one living plan |
+| **Live morph while running** | no — restart the prompt | **yes — pending work only** |
+| **Across prompts** | re-plans from scratch | **morphs pending work live** |
 | **Work relationships** | implicit in the model's prose | **first-class**: `depends_on`, dedupe, result flow |
 | **Parallelism** | decided ad hoc | dispatched from explicit dependency readiness |
-| **Changing course** | start the prompt over | keep going; only pending work changes |
 | **Where code runs** (CLI) | a vendor server | on your machine |
 
 ## How it works
 
-![A prompt goes to the main agent, which plans categories and starts a detached background pass; ready categories run in parallel and results return as a new message](docs/media/figures/execution-model.svg)
+![A prompt goes to the main agent, which morphs the pending categories and starts a detached background pass; ready categories run in parallel and results return as a new message](docs/media/figures/execution-model.svg)
 
-*One main agent plans; each ready category runs a fresh sub-agent in parallel; results come back as a new message.*
+*The main agent morphs the pending graph; each ready category runs a fresh sub-agent in parallel; results come back as a new message.*
 
 - One prompt worker per session turns prompts into planning turns, so turns never
   overlap.
-- Execution runs in a **detached background pass**; a planning gate keeps it from
-  exiting while a later prompt is still re-planning.
+- `processNewTask` morphs the pending graph: validate, repair, DAG-check, merge,
+  cascade, commit.
 - Only `pending_categories` is ever replaced — `running_categories` is untouched by
   design.
+- Execution runs in a **detached background pass**; a planning gate keeps it from
+  exiting while a later prompt is still morphing, and morphs that are ready join
+  the pass.
 
-Full detail: [architecture](docs/engineering/architecture.md) ·
+Full detail: [real-time task morphing](docs/engineering/task_morphing.md) ·
+[architecture](docs/engineering/architecture.md) ·
 [pipelines](docs/engineering/pipelines.md).
 
 ## Sponsor technology
@@ -95,9 +123,9 @@ product and, for the hosted services, in guarded CI smoke jobs:
 
 | Sponsor | Where it lives | Proof |
 |---|---|---|
-| **NVIDIA Nemotron** | Models 2–4 (`model/model_client.py`) run on Nemotron through NIM, keyed by the user's own NVIDIA API key | Every planning and execution turn runs on the selected Nemotron model |
-| **Meterless** | `terminal/src/memory/` — our H-MEM engine, wired as per-project CLI memory (durable preferences, plan completions, `/memory`) | `H-MEM Conformance` runs our engine against the pinned suite (13/13) |
-| **Zetaris** | `backend/sponsor/zetaris_client.py` — documented REST queries (`/sql-editor/sqls/run` with Bearer key, `X-Org-ID`, and `X-Request-ID`); `zetarisQuery` gives sub-agents read-only SQL during tasks; the CLI's `user_config/task_runs.csv` is exposed as a Zetaris FILESTORE table | `Zetaris REST Smoke` runs the committed verification query (`backend/sponsor/sql/zetaris_verification_select.sql`) through the REST API; the task-run table and analytics query were verified against a local instance |
+| **NVIDIA Nemotron** | Models 2–4 (`model/model_client.py`) run on Nemotron through NIM, keyed by the user's own NVIDIA API key | The model that plans each live morph; every planning and execution turn on models 2–4 runs on the selected Nemotron model |
+| **Meterless** | `terminal/src/memory/` — our H-MEM engine, wired as per-project CLI memory (durable preferences, plan completions, `/memory`) | H-MEM recalls durable preferences into the next morph; `H-MEM Conformance` passes the pinned suite (13/13) |
+| **Zetaris** | `backend/sponsor/zetaris_client.py` — documented REST queries (`/sql-editor/sqls/run` with Bearer key, `X-Org-ID`, and `X-Request-ID`); `zetarisQuery` gives sub-agents read-only SQL during tasks; the CLI's `user_config/task_runs.csv` is exposed as a Zetaris FILESTORE table | Records the task runs behind each morph; `Zetaris REST Smoke` runs the committed verification query (`backend/sponsor/sql/zetaris_verification_select.sql`) through the REST API; the task-run table and analytics query were verified against a local instance |
 
 Zetaris values stay environment-only: names are documented in `.env.example`,
 the smoke job reports a skip until its secret exists, and the same check runs
@@ -108,7 +136,7 @@ locally with `python -m sponsor.smoke zetaris`.
 **Web workspace (live demo):**
 <https://includecctype.github.io/leopardcode-open-agent-hackathon-2026/demo/> — the same Ink
 terminal plus an OCI-backed file explorer and viewer. Type **`/sample`** to run one of
-ten scripted scenarios that build a task graph and incrementally re-plan it.
+ten scripted scenarios that build a task graph and morph it live.
 
 **Backend** (Python 3.13 + [uv](https://docs.astral.sh/uv/)):
 
@@ -184,12 +212,12 @@ Three MCP servers cover planning, documentation, design, and the presentation:
 leopardcode is a **coordination layer**, not another executor — the memory,
 scheduling, and interaction shell around agents you already run.
 
-- **Cost avoidance.** One living plan stops duplicate and re-planned work from
-  burning tokens and wall-clock.
+- **Cost avoidance.** Morphing stops duplicate and re-planned work from burning
+  tokens and wall-clock; pending work can be dropped before it starts.
 - **Security.** In the CLI, code and secrets never leave the developer's machine;
   the server is a thin Socket.IO + model orchestrator with no database.
-- **Responsiveness.** Teams keep re-steering instead of restarting, which shortens
-  the gap between intent and working code.
+- **Responsiveness.** Teams morph a running plan instead of restarting, which
+  shortens the gap between intent and working code.
 
 ### How it compares
 
@@ -198,8 +226,8 @@ strong executors, but every prompt starts a fresh plan. leopardcode keeps the pl
 
 | Buyer question | Request-scoped agents | leopardcode |
 |---|---|---|
-| Re-planning / re-explaining | every prompt re-plans | one living plan; work is deduped |
-| Cost of changing your mind | restart, lose in-flight work | pending work re-planned; running work untouched |
+| Live morph while running | no — restart the prompt | yes — pending work only |
+| Cost of changing your mind | restart, lose in-flight work | pending work morphs; running work untouched |
 | Parallelism risk | dependencies improvised by the model | dispatched from explicit dependency readiness |
 | Where code lives (CLI) | per-tool (vendor or local) | on your machine; the server is a thin orchestrator |
 
@@ -219,8 +247,10 @@ The full cases are in [business_value](docs/product/business_value.md) and
 ## Learn more
 
 - [Problem](docs/product/problem.md) · [Solution](docs/product/solution.md) ·
+  [What you can do](docs/product/user_workflows.md) ·
   [Competition analysis](docs/product/competition_analysis.md)
-- [Architecture](docs/engineering/architecture.md) ·
+- [Real-time task morphing](docs/engineering/task_morphing.md) ·
+  [Architecture](docs/engineering/architecture.md) ·
   [Pipelines](docs/engineering/pipelines.md) ·
   [Socket protocol](docs/engineering/socket_protocol.md) ·
   [AI tools](docs/engineering/ai_tools.md)
