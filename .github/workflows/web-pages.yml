@@ -38,7 +38,7 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm build
         env:
-          LEOPARDCODE_BACKEND_URL: ${{ vars.LEOPARDCODE_BACKEND_URL }}
+          VITE_LEOPARDCODE_BACKEND_URL: ${{ vars.LEOPARDCODE_BACKEND_URL }}
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
