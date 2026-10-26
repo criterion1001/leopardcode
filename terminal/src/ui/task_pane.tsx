@@ -112,12 +112,14 @@ export function TaskPane({
                       : "▶ ";
               const color =
                 line.status === "done"
-                  ? "green"
+                  ? "#9DBF6B"
                   : line.status === "failed"
-                    ? "red"
+                    ? "#FF6B4A"
                     : line.status === "blocked"
-                      ? "yellow"
-                      : undefined;
+                      ? "#F2C14E"
+                      : line.status === "running"
+                        ? "#E3A32F"
+                        : undefined;
               return (
                 <Text key={line.key} bold color={color}>
                   {marker}
@@ -133,7 +135,7 @@ export function TaskPane({
                   <Box width={taskGutterWidth} flexShrink={0}>
                     {line.showGutter ? <Spinner /> : null}
                   </Box>
-                  <Text color="green">{line.text}</Text>
+                  <Text color="#E3A32F">{line.text}</Text>
                 </Box>
               );
             }
@@ -142,11 +144,11 @@ export function TaskPane({
               return (
                 <Box key={line.key} flexDirection="row">
                   <Box width={taskGutterWidth} flexShrink={0}>
-                    <Text color={failed ? "red" : "green"}>
+                    <Text color={failed ? "#FF6B4A" : "#9DBF6B"}>
                       {line.showGutter ? (failed ? "✗" : "✓") : " "}
                     </Text>
                   </Box>
-                  <Text dimColor={failed ? undefined : true} color={failed ? "red" : undefined}>
+                  <Text dimColor={failed ? undefined : true} color={failed ? "#FF6B4A" : undefined}>
                     {line.text}
                   </Text>
                 </Box>
