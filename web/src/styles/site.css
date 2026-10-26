@@ -308,6 +308,14 @@
   min-height: 0;
 }
 
+.docs-mobile-bar {
+  display: none;
+}
+
+.docs-sidebar-head {
+  display: none;
+}
+
 .docs-sidebar {
   width: 250px;
   flex-shrink: 0;
@@ -514,11 +522,100 @@
     flex-direction: column;
   }
 
-  .docs-sidebar {
+  .site-nav {
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 10px 16px;
+  }
+
+  .site-nav-links {
     width: 100%;
-    border-right: none;
+    justify-content: space-between;
+    gap: 12px;
+    font-size: 13px;
+  }
+
+  .docs-mobile-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 16px;
     border-bottom: 1px solid var(--border);
-    max-height: 40vh;
+    background: var(--panel);
+  }
+
+  .docs-menu-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid var(--accent-dim);
+    border-radius: 6px;
+    background: transparent;
+    color: var(--accent);
+    font: inherit;
+    font-size: 13px;
+    padding: 6px 12px;
+    cursor: pointer;
+  }
+
+  .docs-mobile-title {
+    min-width: 0;
+    color: var(--fg-dim);
+    font-size: 13px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .docs-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: min(320px, 86vw);
+    max-height: none;
+    z-index: 40;
+    border-right: 1px solid var(--border);
+    border-bottom: none;
+    transform: translateX(-105%);
+    transition: transform 160ms ease;
+    padding-top: 14px;
+  }
+
+  .docs-sidebar.open {
+    transform: translateX(0);
+  }
+
+  .docs-sidebar-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 8px 10px;
+    color: var(--accent);
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .docs-close-button {
+    border: none;
+    background: transparent;
+    color: var(--fg-dim);
+    font: inherit;
+    font-size: 22px;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0 4px;
+  }
+
+  .docs-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 30;
+    border: none;
+    padding: 0;
+    background: rgb(0 0 0 / 55%);
+    cursor: pointer;
   }
 
   .md-body {
