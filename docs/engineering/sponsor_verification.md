@@ -1,10 +1,11 @@
 # Sponsor verification
 
 Meterless and Zetaris ship with repeatable automated checks; Nemotron is
-exercised by the product path with the user's own key. No committed credential
-is read: values come from the environment locally and from GitHub Actions
-secrets in CI, and a job whose secret is missing reports a skip instead of
-failing.
+exercised by the product path with the user's own key. Every check is tied to the
+real-time task morph loop: Nemotron plans the morph, H-MEM informs the next morph,
+and Zetaris records the task runs behind it. No committed credential is read:
+values come from the environment locally and from GitHub Actions secrets in CI,
+and a job whose secret is missing reports a skip instead of failing.
 
 ## NVIDIA Nemotron
 

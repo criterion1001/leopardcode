@@ -13,7 +13,7 @@ two-pane workspace.
 
 | Area | Files | Notes |
 |---|---|---|
-| UI panes | `ui/task_pane.tsx`, `ui/chat_viewport.tsx`, `ui/prompt_box.tsx`, `ui/logo_view.tsx`, `ui/command_overlay.tsx`, `ui/status_footer.tsx`, `ui/text_window.ts`, `ui/theme.ts` | Tasks pane shows category markers (✓ ✗ ⊘ ▶), per-category `(waits: …)`, and a spinner on running tasks. Footer shows `LEOPARDCODE`, cwd (uppercased), model label. |
+| UI panes | `ui/task_pane.tsx`, `ui/chat_viewport.tsx`, `ui/prompt_box.tsx`, `ui/logo_view.tsx`, `ui/command_overlay.tsx`, `ui/status_footer.tsx`, `ui/text_window.ts`, `ui/theme.ts` | Tasks pane shows the live morph: category markers (✓ ✗ ⊘ ▶), per-category `(waits: …)`, and a spinner on running tasks. Footer shows `LEOPARDCODE`, cwd (uppercased), model label. |
 | Commands | `command/*` | Slash commands + selection overlays |
 | Hooks | `hooks/use_layout.ts`, `hooks/use_bracketed_paste.ts`, `hooks/use_mouse_wheel.ts` | Layout math, safe multi-line paste, wheel scrolling |
 | Socket | `socket/*` | Client, listeners, handler registry, emitters |

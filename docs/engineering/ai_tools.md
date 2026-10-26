@@ -38,14 +38,14 @@ client-side by `terminal/src/tool/workspace.ts::resolveSafePath` (workspace =
 ## Main-agent tools
 
 ### `processNewTask(categories: list[dict]) -> str`
-Replace the pending graph with the complete morphed graph for the turn.
+Replace the pending graph with the complete live morph for the turn. Running categories are never included.
 - Each item: `{"name": str, "tasks": [str], "depends_on": [str]}`.
 - Validated structurally (`validateCategoryInput`), auto-repaired (`repairGraph`:
   rename colliding names, drop unknown/self deps), then cycle-checked
   (`validateGraph`, Kahn). Only cycles error out.
 - Merges via `mergeCategoryLists` (the incoming list wins; exact-dedupe inside
   it), cascades blocked categories, emits `task_update`.
-- **Never includes running or finished categories.**
+- **Never includes running or finished categories.** See [real-time task morphing](task_morphing.md).
 
 ### `executeCurrentTask() -> str`
 Start or join the background execution pass (`startExecution`). Non-blocking:

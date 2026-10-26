@@ -1,12 +1,11 @@
 # leopardcode documentation
 
-**leopardcode** is a terminal-native, multi-agent coding orchestrator built around a
-**persistent task graph**. A main orchestrator agent decomposes each prompt into
-**categories** (independent workstreams). Categories run in parallel as soon as
-their `depends_on` dependencies finish; tasks inside a category run
-sequentially. The graph survives across prompts, so a new prompt **morphs**
-pending work instead of re-planning from scratch, and running work is never
-mutated.
+**leopardcode is real-time task morphing for coding agents.** A main orchestrator
+agent keeps one **persistent task graph** per session. A new prompt reshapes the
+pending graph in place — add, remove, rename/rescope, dedupe, rewire — while
+running categories continue untouched. Categories run in parallel as soon as
+their `depends_on` dependencies finish; tasks inside a category run sequentially.
+The morph is the differentiator; the persistent graph is its substrate.
 
 The top-level [`AGENTS.md`](../AGENTS.md) holds the working agreement; this
 folder is the reference documentation for leopardcode, built for the
@@ -16,6 +15,7 @@ folder is the reference documentation for leopardcode, built for the
 
 | Note | Covers |
 |---|---|
+| [task_morphing](engineering/task_morphing.md) | Real-time task morphing: operations, invariants, call path, verification |
 | [architecture](engineering/architecture.md) | Components, runtime topology, delegation, deployment |
 | [tech_stack](engineering/tech_stack.md) | Exact languages, frameworks, and tooling |
 | [data_model](engineering/data_model.md) | Categories/tasks/statuses, session memory, wire DTOs, on-disk config |
@@ -32,8 +32,9 @@ folder is the reference documentation for leopardcode, built for the
 
 | Note | Covers |
 |---|---|
-| [problem](product/problem.md) | The continuity gap in agentic coding |
-| [solution](product/solution.md) | The persistent task graph and how it is dispatched |
+| [problem](product/problem.md) | Why plans freeze: the missing capability is live morphing |
+| [solution](product/solution.md) | Real-time task morphing, its invariants, and how it is dispatched |
+| [user_workflows](product/user_workflows.md) | What you can do because the plan morphs |
 | [competition_analysis](product/competition_analysis.md) | leopardcode vs. other agentic coding tools |
 | [business_value](product/business_value.md) | The value case, derived from the product's capabilities |
 | [submission](product/submission.md) | Open Agent Hackathon 2026 submission checklist |
@@ -54,8 +55,9 @@ The backend (`backend/`) is a Python 3.13 `python-socketio` ASGI app. Per
 connected client it holds a `ConnectedUserMemory` with the main agent
 (LangChain `create_agent`), the pending/running/completed category graph, and
 history. One prompt worker per session turns incoming prompts into planning
-turns; task-graph execution runs in a detached background pass, so a new prompt
-is planned immediately and its categories join the running pass. The CLI
+turns; each turn morphs the pending graph and task-graph execution runs in a
+detached background pass, so a new prompt is planned immediately and its
+categories join the running pass. The CLI
 (`terminal/`) and web workspace (`web/`) render the same Ink UI; file/shell
 tools are forwarded to the CLI and executed on the user's machine, while web
 sessions run those tools server-side against the session's OCI Object Storage

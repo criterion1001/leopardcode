@@ -2,6 +2,9 @@
 
 Components, runtime topology, and the paths work takes through the system.
 
+The differentiator is [real-time task morphing](task_morphing.md): a prompt
+reshapes the pending graph while execution runs.
+
 ## Components
 
 ![leopardcode runtime topology: the CLI and backend over Socket.IO, with local tools and server-side agents](../media/figures/runtime-topology.svg)
@@ -71,6 +74,24 @@ Model 6 is **provided** and **web-only**: it is funded by the operator through
 `PROVIDED_MODEL_KEY`, the key is read server-side and never sent to clients, and
 `connect` refuses it for non-web clients.
 
+## Live morph path
+
+The morph step is `processNewTask(categories)`:
+
+```
+main agent returns the COMPLETE pending list
+  validateCategoryInput   shape + task dedupe
+  repairGraph             rename collisions, drop unknown/self deps
+  validateGraph           Kahn over incoming + running + completed
+  mergeCategoryLists      replace pending only
+  cascadeBlocked          mark dependents of failed/blocked work
+  updateTaskDisplay       task_update snapshot
+```
+
+The incoming list is the user's new intent. Running categories are never part of
+it and are never rewritten. Full detail:
+[real-time task morphing](task_morphing.md).
+
 ## Prompt handling and background execution
 
 - `connect` starts one prompt worker per session (`gateway/state/prompt_queue.py`).
@@ -92,7 +113,7 @@ Model 6 is **provided** and **web-only**: it is funded by the operator through
   (`ai_tool/task/execution_results.py`) and enqueues an **execution-results
   turn**, which the main agent reports to the user as a separate message.
 
-## In-flight work immutability
+## The morph invariant: running work is immutable
 
 The invariant that makes "keep typing prompts" safe:
 

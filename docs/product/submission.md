@@ -25,6 +25,18 @@
 - Pre-existing product code must be declared in the submission form. Generated
   code is allowed and expected — you own the result and are accountable for it.
 
+## Positioning
+
+**Tagline:** Real-time task morphing for coding agents.
+
+**One-liner:** leopardcode lets a new prompt reshape the pending task graph while
+agents are already working — add, remove, rename/rescope, dedupe, rewire — without
+restarting running work.
+
+**User story:** a CLI todo plan is running; the user adds color output, adds an
+undo dependency, renames persistence, repeats a test request (one `tests` node),
+and drops color output. The running command card never changes.
+
 ## The four deliverables
 
 1. **Demo video (1–4 minutes)** — the main workflow, how the agent solves the
@@ -97,27 +109,35 @@ first commits land.
 
 ## Deck outline
 
-- Start with the problem ([problem](problem.md)).
-- Slide deck link (fill in).
-- Competition analysis ([competition_analysis](competition_analysis.md)).
-- Target users ([business_value](business_value.md)).
-- Conceptual diagrams (see [architecture](../engineering/architecture.md)).
-- How the product is used: the `/model → prompt → Tasks pane → questionnaire`
-  loop, and the follow-up message that reports finished execution.
-- A strong, real problem example: three prompts that change intent
-  ("fix login" → "rethink auth" → "revert that") and how the persistent graph
-  handles each.
-- What request-scoped agents do not have: they re-plan per request and keep no
-  cross-prompt task graph.
-- How Zetaris and Meterless are integrated, how Cursor was used, where NVIDIA
-  technology contributes.
+- Start with the problem: **plans freeze when work starts** ([problem](problem.md)).
+- Define **real-time task morphing** and what the user can do because of it
+  ([user_workflows](user_workflows.md)).
+- Show the five live morphs on the CLI todo plan: add, dependency, rename,
+  dedupe, drop. The running card never changes.
+- Explain the invariant: only pending work morphs; running work is immutable.
+- Show execution: the morph joins the running pass; dependencies dispatch.
+- Target users and value ([business_value](business_value.md)).
+- Competition: request-scoped vs. real-time task morphing
+  ([competition_analysis](competition_analysis.md)).
+- Product surfaces: CLI Task pane, web Task graph, one questionnaire.
+- Sponsors: Nemotron plans the morph, H-MEM informs the next morph, Zetaris
+  records the task runs behind it.
+- What request-scoped agents do not have: they re-plan per request, keep no
+  cross-prompt graph, and cannot reshape a running plan.
+- Close with the user promise: keep prompting; the plan morphs; the work keeps
+  running.
 
 ## Video
 
-- Start with the problem.
-- AI voice for clarity; video link (fill in).
-- Same beats as the slides, demo-driven.
-- **1–4 minutes.**
+- Start with the problem: plans freeze when work starts.
+- Show a running CLI todo plan; send a second prompt and let the pending graph
+  morph on screen.
+- Add color output, add the `undo` dependency, rename persistence, repeat the
+  test request (one `tests` node), drop color output.
+- Point at the running command card and say it never restarted.
+- Close with the user promise: keep prompting; the plan morphs; the work keeps
+  running.
+- AI voice for clarity; video link (fill in); **1–4 minutes**.
 
 ## Repo
 
@@ -129,8 +149,11 @@ first commits land.
 ## Demo
 
 - Everything working end-to-end.
-- Show the two-pane TUI and parallel categories in the Tasks pane; send a second
-  prompt while work runs to show morphing into the running pass.
+- Open the two-pane TUI, run the CLI todo `/sample`, and send a second prompt
+  while the commands run.
+- Show the pending cards morphing: add, rename, dedupe, drop; the running card
+  keeps its status and progress.
+- Show a dependency added mid-run and the next ready category dispatching.
 
 ## Website
 

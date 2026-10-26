@@ -30,7 +30,7 @@ exception) it emits `connection_status: false`.
 | `connection_status` | `boolean` | Connected / rejected |
 | `main_agent_response` | `string` | Main agent's final text for the turn |
 | `subagent_response` | `{ category, status: "done"\|"failed", report }` | Progress line for a category |
-| `task_update` | `{ categories: TaskCategory[] }` | Full graph snapshot; client replaces its stored categories and re-renders the Tasks pane |
+| `task_update` | `{ categories: TaskCategory[] }` | Full graph snapshot after a live morph; client replaces its stored categories and re-renders the Tasks pane |
 | `questionnaire` | `StructuredQuestion[]` → `{ question, options[] }` | Structured questions from the main agent |
 | `agent_error` | `string` | Provider/model error after retries; client shows it and auto-bounces |
 | `rate_limited` | `{ retry_after: number }` | Prompt rejected by the per-IP limit; seconds until a retry is allowed |

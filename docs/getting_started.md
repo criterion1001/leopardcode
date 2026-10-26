@@ -51,9 +51,10 @@ open the task graph, and `Escape` to leave a pane.
 leopardcode start
 ```
 
-- Prompt naturally and workstreams as tasks arrive — the workspace reshapes its task graph while
+- Prompt naturally and workstreams as tasks arrive — the workspace morphs its task graph while
   your project updates in real time.
-- Try `/sample` to load a predefined task graph.
+- Try `/sample` to load a live morph scenario: add work, add a dependency, rename,
+  dedupe, and drop pending work while a category keeps running.
 
 On a first run, `leopardcode start` walks you through a setup checklist (model, Doppler, backend
 URL, hooks).
@@ -62,7 +63,8 @@ URL, hooks).
 
 1. Send your first message — leopardcode replies immediately with a plan of concrete, testable
    steps.
-2. As tasks complete, the graph reshapes: cancelled work disappears, new tasks arrive.
+2. Send a second prompt while work is running. Watch pending cards morph: added,
+   renamed, deduped, or dropped. The running card keeps its progress.
 3. Keep sending prompts; when the graph drains, leopardcode reports what finished.
 
 ## Environment

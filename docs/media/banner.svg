@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="300" viewBox="0 0 1200 300" role="img" aria-label="leopardcode — one living plan for your coding agents">
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="300" viewBox="0 0 1200 300" role="img" aria-label="leopardcode — real-time task morphing for coding agents">
   <rect width="1200" height="300" fill="#0F0D0A"/>
   <g transform="translate(1040 96)" fill="none" stroke="#E3A32F" stroke-opacity="0.4" stroke-width="6" stroke-linecap="round">
     <circle cx="0" cy="0" r="18"/>
@@ -11,7 +11,7 @@
   <circle cx="1040" cy="96" r="8" fill="#E3A32F" fill-opacity="0.4"/>
   <g font-family="'JetBrains Mono', 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace">
     <text x="64" y="148" fill="#E3A32F" font-size="104" font-weight="700" letter-spacing="2">leopardcode</text>
-    <text x="66" y="196" fill="#F0E6D4" font-size="28">One living plan for your coding agents.</text>
+    <text x="66" y="196" fill="#F0E6D4" font-size="28">Real-time task morphing for coding agents.</text>
 
     <g fill="#E3A32F" opacity="0.9" font-size="20">
       <text x="66" y="248">prompt 1</text>
@@ -22,7 +22,7 @@
 
       <text x="540" y="248">prompt 2</text>
       <text x="670" y="248">─▶</text>
-      <text x="720" y="248" fill="#E3A32F">re-plan in place</text>
+      <text x="720" y="248" fill="#E3A32F">morph in place</text>
       <text x="920" y="248">─▶</text>
       <text x="970" y="248" fill="#A28A67">running work untouched</text>
     </g>
