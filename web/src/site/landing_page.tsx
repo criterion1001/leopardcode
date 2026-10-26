@@ -68,7 +68,7 @@ export function LandingPage() {
           </a>
           <a
             className="site-btn site-btn-ghost"
-            href="https://github.com/includecctype/leopardcode"
+            href="https://github.com/includecctype/leopardcode-open-agent-hackathon-2026"
           >
             github
           </a>
@@ -192,7 +192,9 @@ prompt 3 · "actually, drop the session work"   (while login-fix runs)
           <a href="./">main</a>
           <a href="./docs/">docs</a>
           <a href="./demo/">demo</a>
-          <a href="https://github.com/includecctype/leopardcode">github</a>
+          <a href="https://github.com/includecctype/leopardcode-open-agent-hackathon-2026">
+            github
+          </a>
         </span>
       </footer>
     </div>
