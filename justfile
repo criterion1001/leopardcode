@@ -1,4 +1,4 @@
-doppler_project := "leopardcode"
+doppler_project := "open-agent-hackathon-2026"
 doppler_config  := "dev_personal"
 
 # Launch opencode with secrets injected
