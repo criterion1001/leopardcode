@@ -1,3 +1,5 @@
+import executionModelUrl from "../../../docs/media/figures/execution-model.svg?url";
+import planTimelineUrl from "../../../docs/media/figures/plan-timeline.svg?url";
 import { RosetteMark } from "./rosette_mark.js";
 import { SiteNav } from "./site_nav.js";
 
@@ -112,32 +114,34 @@ export function LandingPage() {
 
       <section className="site-section">
         <h2>
+          <span className="site-prompt">$</span> how it works
+        </h2>
+        <figure className="site-figure">
+          <img
+            src={executionModelUrl}
+            alt="A prompt goes to the main agent, which plans categories and starts a detached background pass; ready categories run in parallel and their results return as a new message"
+          />
+          <figcaption>
+            One main agent plans; each ready category runs a fresh sub-agent in parallel; results
+            come back as a new message.
+          </figcaption>
+        </figure>
+      </section>
+
+      <section className="site-section">
+        <h2>
           <span className="site-prompt">$</span> see it: one plan, three prompts
         </h2>
-        <pre className="site-diagram">{`prompt 1 · "fix the login bug"
-        │
-        ▼
-   ┌───────────────────────┐
-   │ login-fix        ▶ running │
-   └───────────────────────┘
-        │
-prompt 2 · "also harden session handling"      (while login-fix runs)
-        │
-        ▼
-   ┌───────────────────────┐   ┌───────────────────────┐
-   │ login-fix        ▶ running │   │ session-hardening   pending │  ← added
-   └───────────────────────┘   └───────────────────────┘
-        │
-prompt 3 · "actually, drop the session work"   (while login-fix runs)
-        │
-        ▼
-   ┌───────────────────────┐      session-hardening removed from pending;
-   │ login-fix        ▶ running │   login-fix was never interrupted
-   └───────────────────────┘`}</pre>
-        <p>
-          Each prompt is planned immediately and folded into the same running plan. When the plan
-          drains, leopardcode reports what finished — as its own message.
-        </p>
+        <figure className="site-figure">
+          <img
+            src={planTimelineUrl}
+            alt="Three prompts folded into one running plan: login-fix keeps running while session-hardening is added, then dropped"
+          />
+          <figcaption>
+            Each prompt is planned immediately and folded into the same running plan. Work already
+            running is never interrupted; when the plan drains, leopardcode reports what finished.
+          </figcaption>
+        </figure>
         <p>
           <a className="site-link" href="./demo/">
             → open the demo and run /sample
