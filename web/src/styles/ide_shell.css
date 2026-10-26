@@ -17,7 +17,7 @@
   font-weight: 700;
   color: var(--accent);
   letter-spacing: 2px;
-  text-shadow: 0 0 6px rgb(0 255 65 / 45%);
+  text-shadow: 0 0 6px rgb(227 163 47 / 45%);
 }
 
 .ide-session {

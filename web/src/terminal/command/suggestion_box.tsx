@@ -22,7 +22,7 @@ export function SuggestionBox({ commands, selectedIndex }: SuggestionBoxProps) {
         <Text
           key={entry.name}
           inverse={index === selectedIndex}
-          color={index === selectedIndex ? undefined : "#00ff41"}
+          color={index === selectedIndex ? undefined : "#E3A32F"}
         >
           {entry.name} — {entry.description}
         </Text>

@@ -4,11 +4,11 @@ export type TaskStatus = TaskCategoryDTO["status"];
 
 /** Terminal-theme palette used for both node fills and edge/arrow colours. */
 export const STATUS_COLORS: Record<TaskStatus, string> = {
-  running: "#00ff41",
-  done: "#00b3ff",
-  failed: "#ff3b3b",
-  blocked: "#ffcc00",
-  pending: "#3f8f4f",
+  running: "#E3A32F",
+  done: "#9DBF6B",
+  failed: "#FF6B4A",
+  blocked: "#F2C14E",
+  pending: "#A28A67",
 };
 
 /** Legend order — most active first. */

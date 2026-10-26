@@ -1,4 +1,4 @@
-/* Landing + docs pages: terminal aesthetic matching banner.svg (#00ff41 on black). */
+/* Landing + docs pages: savanna palette (amber on warm black), matching banner.svg. */
 
 .site-page {
   min-height: 100%;
@@ -54,7 +54,7 @@
   text-align: center;
   padding: 72px 24px 56px;
   border-bottom: 1px solid var(--border);
-  background: radial-gradient(ellipse at 50% -20%, #001d08 0%, var(--bg) 65%);
+  background: radial-gradient(ellipse at 50% -20%, #241904 0%, var(--bg) 65%);
 }
 
 .site-hero-banner {
@@ -63,7 +63,7 @@
   font-size: clamp(28px, 6vw, 56px);
   font-weight: 700;
   letter-spacing: 0.08em;
-  text-shadow: 0 0 18px rgba(0, 255, 65, 0.35);
+  text-shadow: 0 0 18px rgba(227, 163, 47, 0.35);
 }
 
 .site-hero-tagline {
@@ -95,7 +95,7 @@
   border: 1px solid var(--accent);
   border-radius: 4px;
   background: var(--accent);
-  color: #000000;
+  color: #0f0d0a;
   font-weight: 700;
   text-decoration: none;
 }
@@ -433,7 +433,7 @@
 
 .hljs-comment,
 .hljs-quote {
-  color: #3f8f4f;
+  color: var(--fg-dim);
   font-style: italic;
 }
 
@@ -447,36 +447,36 @@
 .hljs-string,
 .hljs-regexp,
 .hljs-addition {
-  color: #7ee787;
+  color: #c9d69a;
 }
 
 .hljs-number,
 .hljs-symbol,
 .hljs-bullet {
-  color: #ffcc00;
+  color: var(--warn);
 }
 
 .hljs-title,
 .hljs-section,
 .hljs-name,
 .hljs-function .hljs-title {
-  color: #00e676;
+  color: var(--success);
 }
 
 .hljs-attr,
 .hljs-attribute,
 .hljs-variable,
 .hljs-template-variable {
-  color: #c8ffd4;
+  color: var(--fg);
 }
 
 .hljs-built_in,
 .hljs-type {
-  color: #00b32d;
+  color: var(--accent-dim);
 }
 
 .hljs-deletion {
-  color: #ff3b3b;
+  color: var(--error);
 }
 
 /* Responsive */
