@@ -102,6 +102,8 @@ row, the FILESTORE table served the seeded rows, and a row appended by the CLI
 appeared on the next query without re-registration. The `Zetaris REST Smoke` CI
 job stays skipped because a local instance is not reachable from GitHub Actions.
 
+![Zetaris SQL Workspace showing task-run counts](../media/zetaris-verification.png)
+
 ## Configuration
 
 Variable names are documented in `.env.example`: `ZETARIS_REST_URL`,
