@@ -19,9 +19,6 @@ backend:
 terminal:
 	doppler run --project {{doppler_project}} --config {{doppler_config}} -- sh -c "cd terminal && pnpm install --frozen-lockfile && pnpm dev"
 
-# Alias for `terminal`
-frontend: terminal
-
 # Install dependencies and start the web workspace
 web:
 	doppler run --project {{doppler_project}} --config {{doppler_config}} -- sh -c "cd web && pnpm install --frozen-lockfile && pnpm dev"
