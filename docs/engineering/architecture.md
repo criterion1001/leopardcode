@@ -128,9 +128,11 @@ The invariant that makes "keep typing prompts" safe:
 
 - Per model call: `callWithRateLimitRetry` — 3 attempts, 429-aware
   `Retry-After`, per-attempt timeout (`backend/gateway/retry/rate_limit.py`).
-- Agent turn caps: `MODEL_CALL_TIMEOUT_SECONDS=60`,
-  `AGENT_TURN_TIMEOUT_SECONDS=600`, `SUBAGENT_TIMEOUT_SECONDS=120`
-  (`backend/systemconfig/limits.py`).
+- Agent turn caps: `AGENT_TURN_TIMEOUT_SECONDS=600`,
+  `SUBAGENT_TIMEOUT_SECONDS=300` (`backend/systemconfig/limits.py`).
+- A sub-agent timeout is retried once with a fresh agent and a full budget
+  (`SUBAGENT_ATTEMPTS=2`, `SUBAGENT_RETRY_BACKOFF_SECONDS=5`); a second timeout
+  fails the category.
 - Provider failure after retries → `emitAgentError`; the client bounces
   `agent_error_response`; the main agent gets a limited "give up tools and ask
   plainly" loop (`MAX_GIVE_UP_BOUNCES=2`, `ERROR_COOLDOWN_SECONDS=15`).

@@ -130,13 +130,22 @@ loop:
 ```
 for index, item in enumerate(category.tasks):
   item.status = "running"; updateTaskDisplay()
-  sub_agent = createSubAgentWithTools(main_agent_id, api_key, sid)   # fresh agent per task
   prompt = buildTaskPrompt(category, index, lookup, last_user_request, graph_overview)
-  try:    result = await callWithRateLimitRetry(invoke, timeout=SUBAGENT_TIMEOUT_SECONDS)
+  try:    content = await runTaskWithRetries(prompt)   # fresh agent per attempt
   except: item.status=failed; remaining items=failed; category.status=failed
           emitAgentError + subAgentResponse("failed"); return
   item.result = content; item.status = "done"; subAgentResponse("done"); updateTaskDisplay()
 category.status = "done"; updateTaskDisplay()
+```
+
+`runTaskWithRetries`:
+
+```
+for attempt in 1..SUBAGENT_ATTEMPTS (2):
+  sub_agent = createSubAgentWithTools(main_agent_id, api_key, sid)  # new agent + thread
+  try:   return await callWithRateLimitRetry(invoke, timeout=SUBAGENT_TIMEOUT_SECONDS)
+  except TimeoutError: sleep SUBAGENT_RETRY_BACKOFF_SECONDS; retry
+  except Exception:    raise                                      # no retry
 ```
 
 `buildTaskPrompt` assembles the overall user request + graph overview +
@@ -219,10 +228,12 @@ backend enqueues a `QUESTIONNAIRE_SYSTEM` turn.
 
 ```
 every model call (main or sub):
-  callWithRateLimitRetry(fn, attempts=3, timeout=MODEL_CALL_TIMEOUT_SECONDS)
+  callWithRateLimitRetry(fn, attempts=3, timeout=...)
     429 → sleep Retry-After → retry; timeout → raise; other → raise
-agent turn: AGENT_TURN_TIMEOUT_SECONDS=600, sub-agent: SUBAGENT_TIMEOUT_SECONDS=120
-provider failure after retries:
+agent turn: AGENT_TURN_TIMEOUT_SECONDS=600
+sub-agent:  SUBAGENT_TIMEOUT_SECONDS=300, SUBAGENT_ATTEMPTS=2
+            timeout → 5s backoff → fresh agent with a full 300s budget
+provider failure after the last attempt:
   emitAgentError(sid, msg)  (deduped within ERROR_COOLDOWN_SECONDS=15)
   client shows error → emits agent_error_response
   backend: while bounce count <= MAX_GIVE_UP_BOUNCES (2): enqueue a GIVE_UP_SYSTEM_PROMPT turn

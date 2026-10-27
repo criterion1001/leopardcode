@@ -14,8 +14,52 @@ from ai_tool.task.task_graph import (
 from ai_tool.task.task_models import TaskCategory
 from gateway.retry.agent_error import emitAgentError
 from model.agent_session import lastTextFromResult
+from systemconfig.limits import SUBAGENT_ATTEMPTS, SUBAGENT_RETRY_BACKOFF_SECONDS
 
 logger = logging.getLogger(__name__)
+
+
+async def runTaskWithRetries(
+    *,
+    agent_id: int,
+    api_key: str,
+    category_name: str,
+    sid: str,
+    prompt: str,
+    create_sub_agent_fn,
+    call_with_retry_fn,
+    subagent_timeout: int,
+) -> str:
+    """Run one task, building a fresh sub-agent for every attempt.
+
+    Only TimeoutError is retried: a fresh agent and thread_id avoid replaying the
+    timed-out attempt's messages. Other failures surface immediately, and each
+    attempt keeps the full sub-agent budget.
+    """
+    last_timeout: TimeoutError | None = None
+    for attempt in range(1, SUBAGENT_ATTEMPTS + 1):
+        sub_agent = create_sub_agent_fn(agent_id=agent_id, api_key=api_key, sid=sid)
+        try:
+            result = await call_with_retry_fn(
+                lambda agent=sub_agent: agent.ainvoke(prompt),
+                timeout=subagent_timeout,
+            )
+            return lastTextFromResult(result)
+        except TimeoutError as exc:
+            last_timeout = exc
+            logger.warning(
+                "Sub-agent timed out in category '%s' (attempt %d/%d)",
+                category_name,
+                attempt,
+                SUBAGENT_ATTEMPTS,
+            )
+            if attempt >= SUBAGENT_ATTEMPTS:
+                break
+            await asyncio.sleep(SUBAGENT_RETRY_BACKOFF_SECONDS)
+
+    if last_timeout is None:
+        raise RuntimeError("retry loop exited without a result or a timeout")
+    raise last_timeout
 
 
 async def runCategory(
@@ -39,12 +83,6 @@ async def runCategory(
         item.status = "running"
         await updateTaskDisplay(sid, connected_users)
 
-        sub_agent = create_sub_agent_fn(
-            agent_id=user.main_agent.agent_id,
-            api_key=user.api_key,
-            sid=sid,
-        )
-
         graph_overview = buildGraphOverview(
             user.pending_categories,
             user.running_categories,
@@ -59,11 +97,16 @@ async def runCategory(
         )
 
         try:
-            result = await call_with_retry_fn(
-                lambda agent=sub_agent, task=prompt: agent.ainvoke(task),
-                timeout=subagent_timeout,
+            content = await runTaskWithRetries(
+                agent_id=user.main_agent.agent_id,
+                api_key=user.api_key,
+                category_name=category.name,
+                sid=sid,
+                prompt=prompt,
+                create_sub_agent_fn=create_sub_agent_fn,
+                call_with_retry_fn=call_with_retry_fn,
+                subagent_timeout=subagent_timeout,
             )
-            content = lastTextFromResult(result)
             item.result = content
             item.status = "done"
             await updateTaskDisplay(sid, connected_users)
@@ -75,9 +118,16 @@ async def runCategory(
             for remaining in category.tasks[index + 1 :]:
                 remaining.status = "failed"
             category.status = "failed"
-            await emitAgentError(sid, f"Sub-agent model failed after retries: {exc}")
+            if isinstance(exc, TimeoutError):
+                message = (
+                    f"Sub-agent timed out after {subagent_timeout}s "
+                    f"({SUBAGENT_ATTEMPTS} attempts)"
+                )
+            else:
+                message = f"Sub-agent model failed: {exc}"
+            await emitAgentError(sid, message)
             await updateTaskDisplay(sid, connected_users)
-            await subAgentResponse(sid, category.name, "failed", str(exc))
+            await subAgentResponse(sid, category.name, "failed", message)
             return
 
     category.status = "done"
