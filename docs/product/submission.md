@@ -22,6 +22,11 @@
 - Integrate **NVIDIA technology** wherever it contributes to the project.
 - Work committed before the window opens is not eligible, except clearly
   declared pre-existing components.
+
+**Cursor note (2026-10-26).** The rules text above names Cursor; the event's
+updated onboarding guide allows any AI coding tool. Development ran through
+opencode configured with NVIDIA Nemotron, and Cursor was not used during
+development (see [integration_writeup](integration_writeup.md)).
 - Pre-existing product code must be declared in the submission form. Generated
   code is allowed and expected — you own the result and are accountable for it.
 
@@ -70,17 +75,21 @@ and drops color output. The running command card never changes.
 
 | Artifact | Purpose |
 |---|---|
-| `AGENTS.md` | Working agreement: plan first, ask before assuming, follow the rules. |
-| `.opencode/opencode.json` | opencode MCP servers: Obsidian, Penpot, and LibreOffice. |
-| `.opencode/rules/*` | The structure, variable, Obsidian, LibreOffice, and project-layout rules the agent follows. |
+| `AGENTS.md` | Working agreement: plan first, ask before assuming, follow the rules, one worktree per concern. |
+| `docs/` | Engineering, product, and hackathon notes that ship with the code. |
+
+Agent configuration (opencode MCP servers — Obsidian, Penpot, LibreOffice — and
+the workspace rule files) lives in the development workspace, not in this
+repository, so the repo carries only the neutral working agreement.
 
 ### One worktree and one pull request per concern
 
 Every change lives in its own **git worktree** under `LEOPARDCODE/`, named
 `leopardcode-<PURPOSE>` (for instance `leopardcode-DOCUMENTS`), beside
 `leopardcode-MAIN` — one concern per worktree, small scoped commits, one pull
-request per concern, so `main` never holds unreviewed work. *(TODO: record the
-final concern/PR count here once changes land.)*
+request per concern, so `main` never holds unreviewed work. The build shipped
+67 merged pull requests (#1–#67); every PR was merged only after
+its triggered checks were green.
 
 ### MCP tooling for everything that is not code
 
@@ -95,17 +104,31 @@ Three MCP servers cover planning, documentation, design, and the presentation:
 Files created through these tools belong in the `OPEN-AGENT-HACKATHON-2026`
 directory.
 
-TODO: replace the sections below with leopardcode's real build story once the
-first commits land.
-
 ### What the agent built
 
-- **Backend** — TODO.
-- **CLI** — TODO.
-- **Web** — TODO.
-- **Review and hardening** — TODO. Explore alternatives (see
-  [competition_analysis](competition_analysis.md)) and enforce the checks in
-  [build_and_run](../engineering/build_and_run.md).
+- **Backend** (`backend/`, Python 3.13 + `python-socketio`). One
+  `ConnectedUserMemory` per session holds the main agent (LangChain
+  `create_agent`) and the persistent category graph. `merge_task_lists` morphs
+  only pending categories, `task_graph` validates/repairs the DAG and computes
+  readiness, and `exec_scheduler` runs a detached background pass with a
+  planning gate, so a new prompt plans immediately while ready categories
+  execute. Models 2–4 are NVIDIA Nemotron through NIM with the user's key;
+  `zetarisQuery` gives sub-agents read-only SQL; OCI Object Storage backs web
+  sessions; per-IP rate limits, retries, and `/health` ship with it.
+- **CLI** (`terminal/`, Ink + TypeScript). Two panes (conversation + live task
+  graph), the questionnaire flow, slash commands (`/model`, `/key`, `/session`,
+  `/memory`, `/runs`, `/sample`, `/exit`, `/restart`), file/shell tools executed
+  on the user's machine, H-MEM project memory (`packages/hmem`), and
+  `user_config/task_runs.csv` recorded for the Zetaris feed.
+- **Web** (`web/`, Vite + React). The same Ink UI through ink-web and xterm.js:
+  three panes (terminal, OCI file explorer, file viewer), a live task graph
+  pane, `/sample` scenarios, `/memory` and `/runs` over browser storage, plus
+  the landing page and docs site deployed to GitHub Pages.
+- **Review and hardening.** CI runs gitleaks, ruff/black/bandit,
+  biome/tsc/vite build, the pinned Meterless H-MEM conformance suite (13/13),
+  and the Zetaris REST smoke, whose query now runs against the task-runs
+  FILESTORE table and falls back to a connectivity check. Checks and commands
+  are listed in [build_and_run](../engineering/build_and_run.md).
 
 ## Deck outline
 
@@ -137,7 +160,8 @@ first commits land.
 - Point at the running command card and say it never restarted.
 - Close with the user promise: keep prompting; the plan morphs; the work keeps
   running.
-- AI voice for clarity; video link (fill in); **1–4 minutes**.
+- AI voice for clarity; **1–4 minutes**. The upload link is set in the
+  submission form.
 
 ## Repo
 
