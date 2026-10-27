@@ -8,6 +8,16 @@ import { LOGO_PROMPT_WIDTH, useScreenSize, WINDOW_PAD } from "../hooks/use_layou
 import { PromptBox } from "./prompt_box";
 import { BG_BLACK } from "./theme";
 
+const LOGO_BANNER_COLS = 90;
+const LOGO_BANNER = [
+  "██╗     ███████╗ ██████╗ ██████╗  █████╗ ██████╗ ██████╗  ██████╗ ██████╗ ██████╗ ███████╗",
+  "██║     ██╔════╝██╔═══██╗██╔══██╗██╔══██╗██╔══██╗██╔══██╗██╔════╝██╔═══██╗██╔══██╗██╔════╝",
+  "██║     █████╗  ██║   ██║██████╔╝███████║██████╔╝██║  ██║██║     ██║   ██║██║  ██║█████╗",
+  "██║     ██╔══╝  ██║   ██║██╔═══╝ ██╔══██║██╔══██╗██║  ██║██║     ██║   ██║██║  ██║██╔══╝",
+  "███████╗███████╗╚██████╔╝██║     ██║  ██║██║  ██║██████╔╝╚██████╗╚██████╔╝██████╔╝███████╗",
+  "╚══════╝╚══════╝ ╚═════╝ ╚═╝     ╚═╝  ╚═╝╚═╝  ╚═╝╚═════╝  ╚═════╝ ╚═════╝ ╚═════╝ ╚══════╝",
+].join("\n");
+
 type LogoViewProps = {
   innerWidth: number;
   logoPromptWidth: number;
@@ -59,6 +69,7 @@ export function LogoView({
 }: LogoViewProps) {
   const { width: screen_width, height: screen_height } = useScreenSize();
   const compact = screen_width < 80;
+  const show_banner = screen_width >= LOGO_BANNER_COLS + 4 && screen_height >= 18;
 
   return (
     <Box
@@ -80,9 +91,13 @@ export function LogoView({
         alignItems="center"
         paddingY={compact ? 1 : 0}
       >
-        <Text bold color="#E3A32F">
-          leopardcode
-        </Text>
+        {show_banner ? (
+          <Text color="#E3A32F">{LOGO_BANNER}</Text>
+        ) : (
+          <Text bold color="#E3A32F">
+            leopardcode
+          </Text>
+        )}
         {compact ? null : (
           <Box flexDirection="column" alignItems="center" marginTop={1} marginBottom={1}>
             <Text bold color="#F0E6D4">
