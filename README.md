@@ -176,13 +176,33 @@ selection. Your key stays in the client's local config and is sent to your
 backend for the session; the backend holds no NVIDIA credential of its own. The
 web workspace also offers model 6 (DeepSeek Flash), funded by the operator via
 `PROVIDED_MODEL_KEY` and refused for non-web clients, so the demo runs without a
-key. In the CLI, `/memory` shows the project memories H-MEM has stored, `/runs`
-lists the task-run rows recorded in `user_config/task_runs.csv`, `↑`/`↓` and
-`PageUp`/`PageDown` scroll the chat, `Ctrl+↑`/`Ctrl+↓` scroll the Tasks pane, and
-`Esc` clears the prompt.
+key. In the CLI, `/memory` shows the project memories H-MEM has stored and
+`/runs` lists the task-run rows recorded in `user_config/task_runs.csv`. Keyboard
+shortcuts are below.
 
 Setup details — environment variables, OCI storage, rate limits, and checks —
 live in [build_and_run](docs/engineering/build_and_run.md).
+
+## Keyboard shortcuts
+
+The CLI and the web workspace share the same command set and editing keys; the
+CLI adds the Tasks-pane scroll.
+
+| Key | Action |
+|---|---|
+| `Enter` | Send the prompt |
+| `Shift+Enter` | New line in the draft |
+| `Tab` | Complete the highlighted `/command` |
+| `↑` / `↓` | Pick a suggestion; move within a multi-line draft; otherwise scroll the chat one line |
+| `←` / `→` | Move the cursor |
+| `PageUp` / `PageDown` | Scroll the chat one screen |
+| `Home` / `End` | Jump the chat to the top / bottom |
+| `Ctrl+↑` / `Ctrl+↓` | Scroll the Tasks pane (CLI only — the web has a task-graph pane) |
+| `Esc` | Close the command overlay, leave the questionnaire write-in box, cancel a running `/sample` (web), or close the file viewer |
+| Mouse wheel | Scroll the chat; over the Tasks pane in the CLI |
+
+Pasting multi-line text inserts it without submitting. Full input notes live in
+[terminal reference](docs/engineering/terminal_reference.md#keybindings--input).
 
 ## Built with opencode
 
