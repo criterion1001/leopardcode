@@ -75,7 +75,7 @@ same engine runs in both frontends.
 ## CLI wiring
 
 `terminal/src/session/project_memory.ts` builds `HMEM` with
-`persistDir = user_config/memory/` and, per prompt:
+`persist: fsPersistence(user_config/memory/)` and, per prompt:
 
 - `preparePrompt()` recalls the top 5 records above threshold 0.2 and prepends
   them to the outgoing prompt (shown as "Recalled N project memories").

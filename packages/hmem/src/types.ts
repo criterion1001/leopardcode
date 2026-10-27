@@ -1,3 +1,5 @@
+import type { MemoryPersistence } from "./persistence";
+
 export type MemoryType = "personal" | "factual" | "preference" | "general";
 
 export type MemoryLayer = "short_term" | "working" | "long_term";
@@ -140,7 +142,7 @@ export interface QueryResult {
 
 export interface HmemOptions {
   clock?: () => number;
-  persistDir?: string;
+  persist?: MemoryPersistence;
   actor?: string;
   minerFn?: (prompt: string) => Promise<string>;
 }

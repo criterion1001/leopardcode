@@ -1,10 +1,10 @@
-import fs from "node:fs";
-import path from "node:path";
 import { DEFAULTS, clamp01 } from "./types";
 import type { MemoryLayer, MemoryRecord, MemoryType, Provenance } from "./types";
 import { cosine, embed } from "./embeddings";
 import { classifyDomain, extractEntities, namespaceFor } from "./enrichment";
 import type { TrustLedger } from "./ledger";
+import type { MemoryPersistence } from "./persistence";
+import { STATE_FILE } from "./persistence";
 
 const CORRECTION_PATTERN = /\b(actually|instead|no longer|not anymore|changed to|correction)\b/i;
 const SUPERSEDE_SIMILARITY = 0.85;
@@ -32,24 +32,21 @@ export function snapshotOf(record: MemoryRecord): Partial<MemoryRecord> {
 export class MemoryStore {
   private records = new Map<string, MemoryRecord>();
   private seq = 0;
-  private stateFile?: string;
 
   constructor(
     private clock: () => number,
     private ledger: TrustLedger,
     private actor: string,
-    persistDir?: string,
+    private storage?: MemoryPersistence,
   ) {
-    if (!persistDir) return;
-    fs.mkdirSync(persistDir, { recursive: true });
-    this.stateFile = path.join(persistDir, "state.json");
-    if (!fs.existsSync(this.stateFile)) return;
-    const saved = JSON.parse(fs.readFileSync(this.stateFile, "utf-8")) as {
+    const saved = this.storage?.readText(STATE_FILE);
+    if (!saved) return;
+    const parsed = JSON.parse(saved) as {
       seq: number;
       records: MemoryRecord[];
     };
-    this.seq = saved.seq;
-    for (const record of saved.records) this.records.set(record.id, record);
+    this.seq = parsed.seq;
+    for (const record of parsed.records) this.records.set(record.id, record);
   }
 
   add(input: AddInput): MemoryRecord {
@@ -138,13 +135,9 @@ export class MemoryStore {
   }
 
   persist(): void {
-    if (!this.stateFile) return;
+    if (!this.storage) return;
     const records = [...this.records.values()].sort((a, b) => a.id.localeCompare(b.id));
-    fs.writeFileSync(
-      this.stateFile,
-      `${JSON.stringify({ seq: this.seq, records }, null, 2)}\n`,
-      "utf-8",
-    );
+    this.storage.writeText(STATE_FILE, `${JSON.stringify({ seq: this.seq, records }, null, 2)}\n`);
   }
 
   snapshotAll(): { records: MemoryRecord[]; seq: number } {
