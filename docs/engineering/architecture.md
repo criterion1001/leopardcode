@@ -177,6 +177,7 @@ backend/
     storage/                  OCI storage socket handlers/emitters
     dto/                      wire parsing + legacy migration
     observability/timing.py   [timing] logs
+    health.py                 standalone /health ASGI app
   model/                      agent factory, sessions, provider selection, prompts
   ai_tool/
     task/                     graph logic, scheduler, tools, emit, results
@@ -184,21 +185,26 @@ backend/
     file_ops/                 server-side (OCI) file/shell tools
     question/                 makeQuestion
     network/                  webSearch / webFetch
+    zetaris/                  zetarisQuery (read-only SQL for sub-agents)
     tool_registry.py          the main/sub tool sets
+  sponsor/                    Zetaris client, config, smoke runner, verification SQL
   storage/                    OCI client, service, session folders, cleanup
   systemconfig/               limits.py, websearch.py
+packages/hmem/                H-MEM (Meterless) engine: store, retrieval, mining, ledger, sleep, dreaming
 terminal/
   src/app.tsx                 TUI composition + input handling
   src/socket/                 client, listener, handler_registry, emitters
   src/tool/                   local file/shell executor + workspace sandbox
   src/save/                   config read/write/create
-  src/session/user_data.ts    in-memory user state
-  src/command/                slash commands + overlays
+  src/session/                user state, project memory wiring, task_runs.csv
+  src/command/                slash commands + overlays (/model, /memory, /runs, ...)
   src/ui/                     panes, viewport, prompt box, theme
   src/systemconfig/           limits.ts, model.ts, file.ts
 web/
   src/ide_shell.tsx           three-pane layout
   src/terminal/               Ink UI ported through ink-web
+  src/task_graph/             task graph pane + mermaid rendering
+  src/site/                   landing page and docs site
   src/storage/                storage socket client + React hooks
   src/file_explorer/, file_viewer/
 ```
