@@ -43,7 +43,7 @@ demo.
 
 Meterless contributes through its H-MEM engine, implemented in the product.
 
-**H-MEM in the product.** `terminal/src/memory/` is our implementation of the
+**H-MEM in the product.** `packages/hmem/src/` is our implementation of the
 H-MEM engine: canonical records with mandatory source and provenance, the
 tiered store with enrichment and decay, the documented hybrid ranking formula
 (0.35 semantic / 0.20 keyword / 0.10 tag / 0.10 domain / 0.15 entity / 0.05
@@ -67,10 +67,11 @@ The official conformance suite runs against that implementation:
 npx -y degit meterless/meterless/engines/hmem#1742dec56a66e58eef9dda2d2b865823758ca8cd hmem-engine
 cd hmem-engine/reference
 npm install --no-audit --no-fund
-HMEM_IMPL=/abs/path/to/leopardcode/terminal/src/memory/index.ts npx tsx ../conformance/runner.ts
+HMEM_IMPL=/abs/path/to/leopardcode/packages/hmem/src/index.ts npx tsx ../conformance/runner.ts
 ```
 
-Last run: 13/13 checks, exit 0. The `H-MEM Conformance` job in
+The pinned-spec run is archived at `docs/media/hmem-conformance.txt` (13/13
+checks passed). The `H-MEM Conformance` job in
 `meterless-conformance.yml` runs the same suite on pull requests that touch the
 engine and on `main`.
 
@@ -103,10 +104,13 @@ tool. In other words, Zetaris records the task runs behind each morph and lets t
 user ask what ran. The loop was verified locally: seeded rows were queryable, and a row the
 CLI appended mid-session appeared on the next query without re-registration.
 
-The verification query is committed at
-`backend/sponsor/sql/zetaris_verification_select.sql` and the `Zetaris REST
-Smoke` job runs it through the REST API after listing datasources. Locally the
-same check is:
+The primary verification query is committed at
+`backend/sponsor/sql/zetaris_task_runs_select.sql`: it counts the task runs the
+CLI has recorded, grouped by status, against the `LEOPARDCODE_RUNS.task_runs`
+FILESTORE table. If the table is not registered on the target instance, the
+smoke falls back to `backend/sponsor/sql/zetaris_verification_select.sql`
+(`SELECT 1`), so the check still proves connectivity and authentication. Both run
+through `Zetaris REST Smoke` after listing datasources, and locally:
 
 ```bash
 cd backend
@@ -127,16 +131,15 @@ small scoped commits, a pull request, and a merge only after the triggered
 checks were green.
 
 **Cursor was not used during development**, so there is no Cursor usage to
-report. Cursor is optional under the current guide; development ran through
-opencode configured with NVIDIA Nemotron, GitHub Actions, and the scripts in
-`backend/` and `docs/`.
+report; opencode with NVIDIA Nemotron, GitHub Actions, and the scripts in
+`backend/` and `docs/` was used throughout.
 
 ## Where the sponsor proof lives
 
 | Check | Where | What it proves |
 |---|---|---|
-| `H-MEM Conformance` | `.github/workflows/meterless-conformance.yml` | our H-MEM engine against the pinned conformance suite (13/13) |
-| `Zetaris REST Smoke` | `.github/workflows/sponsor-smoke.yml` | datasource listing plus the committed verification query |
+| `H-MEM Conformance` | `.github/workflows/meterless-conformance.yml` | our H-MEM engine against the pinned conformance suite (13/13; output archived at `docs/media/hmem-conformance.txt`) |
+| `Zetaris REST Smoke` | `.github/workflows/sponsor-smoke.yml` | datasource listing plus the committed verification query, with a `SELECT 1` fallback when the task_runs table is not registered |
 
 Zetaris variable names live in `.env.example`; values come from the environment
 locally and GitHub Actions secrets in CI, and the job guards its live step on its

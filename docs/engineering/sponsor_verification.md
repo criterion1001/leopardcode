@@ -25,17 +25,17 @@ planning and execution turn runs on the selected model.
 ## Meterless
 
 The H-MEM engine conformance suite runs against the engine implemented in this
-repository (`terminal/src/memory/index.ts`):
+repository (`packages/hmem/src/index.ts`):
 
 ```bash
 npx -y degit meterless/meterless/engines/hmem#1742dec56a66e58eef9dda2d2b865823758ca8cd hmem-engine
 cd hmem-engine/reference
 npm install --no-audit --no-fund
-HMEM_IMPL=/abs/path/to/leopardcode/terminal/src/memory/index.ts npx tsx ../conformance/runner.ts
+HMEM_IMPL=/abs/path/to/leopardcode/packages/hmem/src/index.ts npx tsx ../conformance/runner.ts
 ```
 
-Last local run against the pinned spec (`1742dec`): 13/13 checks, exit 0. The
-`H-MEM Conformance` job in
+The pinned-spec run is archived at [`docs/media/hmem-conformance.txt`](../../media/hmem-conformance.txt)
+(13/13 checks passed). The `H-MEM Conformance` job in
 [`meterless-conformance.yml`](../../.github/workflows/meterless-conformance.yml)
 runs the same command on pull requests that touch the engine and on `main`.
 
@@ -46,8 +46,14 @@ and inspected with `/memory` (see [terminal_reference](terminal_reference.md)).
 ## Zetaris
 
 Queries go through the documented REST API (`/sql-editor/sqls/run` with a
-Bearer key, `X-Org-ID`, and a per-request `X-Request-ID`). The verification
-query is committed at `backend/sponsor/sql/zetaris_verification_select.sql`.
+Bearer key, `X-Org-ID`, and a per-request `X-Request-ID`).
+
+The primary verification query is committed at
+`backend/sponsor/sql/zetaris_task_runs_select.sql`: it counts the task runs the
+CLI has recorded, grouped by status, against the `LEOPARDCODE_RUNS.task_runs`
+FILESTORE table. If the table is not registered on the target instance, the
+smoke falls back to `backend/sponsor/sql/zetaris_verification_select.sql`
+(`SELECT 1`) so the check still proves connectivity and authentication.
 
 ```bash
 cd backend
@@ -66,7 +72,7 @@ credentials are absent.
 
 The CLI writes terminal task runs to `<project>/user_config/task_runs.csv`. A
 local Zetaris bundle exposes that file through its restricted local file root
-(`ZETARIS_LOCAL_FILE_SYTEM_ROOT_PATH`, for example
+(`ZETARIS_LOCAL_FILE_SYSTEM_ROOT_PATH`, for example
 `/home/zetaris/customer-data/shared`):
 
 1. Mount only the CSV into the API and driver containers; never mount the whole
