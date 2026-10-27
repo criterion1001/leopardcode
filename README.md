@@ -10,6 +10,8 @@ Most agents run a task list. leopardcode morphs a graph that is still running.
 
 [![CI](https://github.com/includecctype/leopardcode-open-agent-hackathon-2026/actions/workflows/ci.yml/badge.svg)](https://github.com/includecctype/leopardcode-open-agent-hackathon-2026/actions/workflows/ci.yml)
 [![Sponsor Smoke](https://github.com/includecctype/leopardcode-open-agent-hackathon-2026/actions/workflows/sponsor-smoke.yml/badge.svg)](https://github.com/includecctype/leopardcode-open-agent-hackathon-2026/actions/workflows/sponsor-smoke.yml)
+[![H-MEM Conformance](https://github.com/includecctype/leopardcode-open-agent-hackathon-2026/actions/workflows/meterless-conformance.yml/badge.svg)](https://github.com/includecctype/leopardcode-open-agent-hackathon-2026/actions/workflows/meterless-conformance.yml)
+· **Sponsor stack:** [NVIDIA Nemotron](#sponsor-technology) (models 2–4) · [Meterless](#sponsor-technology) H-MEM · [Zetaris](#sponsor-technology) FILESTORE
 · [Website](https://includecctype.github.io/leopardcode-open-agent-hackathon-2026/)
 · [Live web demo](https://includecctype.github.io/leopardcode-open-agent-hackathon-2026/demo/)
 · [Documentation](docs/README.md)
@@ -17,9 +19,11 @@ Most agents run a task list. leopardcode morphs a graph that is still running.
 ![leopardcode — real-time task morphing for coding agents](docs/media/banner.svg)
 
 > **Try it in 30 seconds.** Open the [live web demo](https://includecctype.github.io/leopardcode-open-agent-hackathon-2026/demo/),
-> pick the provided model (6), and type **`/sample`**. Each scenario seeds a task graph, then
-> sends five follow-up prompts that **morph the plan live** — work already running is never
-> interrupted.
+> pick **model 2 (Nemotron)** and paste your own `nvapi-...` NVIDIA API key when
+> prompted, then type **`/sample`**. Each scenario seeds a task graph, then sends
+> five follow-up prompts that **morph the plan live** — work already running is
+> never interrupted. Model 6 (DeepSeek Flash) remains the no-key, operator-funded
+> fallback.
 
 ## The problem: plans freeze when work starts
 
@@ -124,8 +128,8 @@ product and, for the hosted services, in guarded CI smoke jobs:
 | Sponsor | Where it lives | Proof |
 |---|---|---|
 | **NVIDIA Nemotron** | Models 2–4 (`model/model_client.py`) run on Nemotron through NIM, keyed by the user's own NVIDIA API key | The model that plans each live morph; every planning and execution turn on models 2–4 runs on the selected Nemotron model |
-| **Meterless** | `terminal/src/memory/` — our H-MEM engine, wired as per-project CLI memory (durable preferences, plan completions, `/memory`) | H-MEM recalls durable preferences into the next morph; `H-MEM Conformance` passes the pinned suite (13/13) |
-| **Zetaris** | `backend/sponsor/zetaris_client.py` — documented REST queries (`/sql-editor/sqls/run` with Bearer key, `X-Org-ID`, and `X-Request-ID`); `zetarisQuery` gives sub-agents read-only SQL during tasks; the CLI's `user_config/task_runs.csv` is exposed as a Zetaris FILESTORE table | Records the task runs behind each morph; `Zetaris REST Smoke` runs the committed verification query (`backend/sponsor/sql/zetaris_verification_select.sql`) through the REST API; the task-run table and analytics query were verified against a local instance |
+| **Meterless** | `packages/hmem/src/` — our H-MEM engine, wired as per-project CLI memory (durable preferences, plan completions, `/memory`) | H-MEM recalls durable preferences into the next morph; `H-MEM Conformance` passes the pinned suite (13/13, output archived at `docs/media/hmem-conformance.txt`) |
+| **Zetaris** | `backend/sponsor/zetaris_client.py` — documented REST queries (`/sql-editor/sqls/run` with Bearer key, `X-Org-ID`, and `X-Request-ID`); `zetarisQuery` gives sub-agents read-only SQL during tasks; the CLI's `user_config/task_runs.csv` is exposed as a Zetaris FILESTORE table | Records the task runs behind each morph; `Zetaris REST Smoke` runs the committed `task_runs` analytics query through the REST API, falling back to `SELECT 1` when the table is not yet registered; the table and analytics query were verified against a local instance |
 
 Zetaris values stay environment-only: names are documented in `.env.example`,
 the smoke job reports a skip until its secret exists, and the same check runs
@@ -186,16 +190,14 @@ The agent configuration is committed so the setup is reproducible:
 
 | Artifact | Purpose |
 |---|---|
-| `AGENTS.md` | Working agreement: plan first, ask before assuming, follow the rules. |
-| `.opencode/opencode.json` | MCP servers: Obsidian, Penpot, and LibreOffice. |
-| `.opencode/rules/*` | The structure, variable, project-layout, Obsidian, and LibreOffice rules the agent follows. |
+| `AGENTS.md` | Working agreement: plan first, ask before assuming, follow the rules. Agent configuration lives in the development workspace; this repository keeps a neutral working agreement. |
 
 ### One worktree per concern
 
 Every change lives in its own **git worktree** under `LEOPARDCODE/`, named
 `leopardcode-<PURPOSE>` beside `leopardcode-MAIN` — one concern per worktree,
 small scoped commits, one pull request per concern. `main` never holds
-unreviewed work. *(TODO: record the concern/PR count as changes land.)*
+unreviewed work. Merged PRs to date: #52–#60.
 
 ### MCP tooling for everything that is not code
 

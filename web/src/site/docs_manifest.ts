@@ -18,6 +18,11 @@ import officialRulesDoc from "../../../docs/hackathon/official_rules.md?raw";
 import overviewDoc from "../../../docs/hackathon/overview.md?raw";
 import tracksAndPrizesDoc from "../../../docs/hackathon/tracks_and_prizes.md?raw";
 import gettingStartedDoc from "../../../docs/getting_started.md?raw";
+import taskMorphingDoc from "../../../docs/engineering/task_morphing.md?raw";
+import sponsorVerificationDoc from "../../../docs/engineering/sponsor_verification.md?raw";
+import memoryEngineDoc from "../../../docs/engineering/memory_engine.md?raw";
+import userWorkflowsDoc from "../../../docs/product/user_workflows.md?raw";
+import integrationWriteupDoc from "../../../docs/product/integration_writeup.md?raw";
 
 export type DocGroup = "start" | "engineering" | "product" | "hackathon";
 
@@ -62,6 +67,19 @@ export const DOC_ENTRIES: ReadonlyArray<DocEntry> = [
     markdown: terminalReferenceDoc,
   },
   { id: "web-reference", title: "Web reference", group: "engineering", markdown: webReferenceDoc },
+  { id: "task-morphing", title: "Task morphing", group: "engineering", markdown: taskMorphingDoc },
+  {
+    id: "sponsor-verification",
+    title: "Sponsor verification",
+    group: "engineering",
+    markdown: sponsorVerificationDoc,
+  },
+  {
+    id: "memory-engine",
+    title: "Memory engine (H-MEM)",
+    group: "engineering",
+    markdown: memoryEngineDoc,
+  },
   { id: "problem", title: "Problem", group: "product", markdown: problemDoc },
   { id: "solution", title: "Solution", group: "product", markdown: solutionDoc },
   {
@@ -72,6 +90,18 @@ export const DOC_ENTRIES: ReadonlyArray<DocEntry> = [
   },
   { id: "business-value", title: "Business value", group: "product", markdown: businessValueDoc },
   { id: "submission", title: "Submission", group: "product", markdown: submissionDoc },
+  {
+    id: "user-workflows",
+    title: "User workflows",
+    group: "product",
+    markdown: userWorkflowsDoc,
+  },
+  {
+    id: "integration-writeup",
+    title: "Integration write-up",
+    group: "product",
+    markdown: integrationWriteupDoc,
+  },
   { id: "hackathon-overview", title: "Overview", group: "hackathon", markdown: overviewDoc },
   { id: "official-rules", title: "Official rules", group: "hackathon", markdown: officialRulesDoc },
   {
