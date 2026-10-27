@@ -15,6 +15,7 @@ folder is the reference documentation for leopardcode, built for the
 
 | Note | Covers |
 |---|---|
+| [getting_started](getting_started.md) | First run: backend, CLI, and web workspace |
 | [task_morphing](engineering/task_morphing.md) | Real-time task morphing: operations, invariants, call path, verification |
 | [architecture](engineering/architecture.md) | Components, runtime topology, delegation, deployment |
 | [tech_stack](engineering/tech_stack.md) | Exact languages, frameworks, and tooling |
@@ -27,6 +28,7 @@ folder is the reference documentation for leopardcode, built for the
 | [web_reference](engineering/web_reference.md) | Browser workspace, storage panes, build and deploy |
 | [build_and_run](engineering/build_and_run.md) | Setup, environment, Docker, CI, deploy |
 | [sponsor_verification](engineering/sponsor_verification.md) | Repeatable proof for the Nemotron, Meterless, and Zetaris integrations |
+| [memory_engine](engineering/memory_engine.md) | H-MEM (Meterless) engine: record schema, ranking, trust ledger, conformance |
 
 ## Product (why)
 
