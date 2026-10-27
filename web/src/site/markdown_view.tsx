@@ -1,6 +1,7 @@
 import rehypeHighlight from "rehype-highlight";
 import ReactMarkdown, { type Components } from "react-markdown";
 import remarkGfm from "remark-gfm";
+import { withRepoIdentity } from "./repo_identity.js";
 
 const MEDIA = import.meta.glob("../../../docs/media/**/*.{svg,png}", {
   eager: true,
@@ -32,7 +33,7 @@ export function MarkdownView({ markdown }: MarkdownViewProps) {
         rehypePlugins={[rehypeHighlight]}
         components={COMPONENTS}
       >
-        {markdown}
+        {withRepoIdentity(markdown)}
       </ReactMarkdown>
     </div>
   );

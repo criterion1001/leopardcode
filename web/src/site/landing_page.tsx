@@ -1,5 +1,6 @@
 import executionModelUrl from "../../../docs/media/figures/execution-model.svg?url";
 import planTimelineUrl from "../../../docs/media/figures/plan-timeline.svg?url";
+import { GITHUB_URL } from "./repo_identity.js";
 import { RosetteMark } from "./rosette_mark.js";
 import { SiteNav } from "./site_nav.js";
 
@@ -85,10 +86,7 @@ export function LandingPage() {
           <a className="site-btn site-btn-ghost" href="./docs/">
             read the docs
           </a>
-          <a
-            className="site-btn site-btn-ghost"
-            href="https://github.com/includecctype/leopardcode-open-agent-hackathon-2026"
-          >
+          <a className="site-btn site-btn-ghost" href={GITHUB_URL}>
             github
           </a>
         </div>
@@ -233,9 +231,7 @@ export function LandingPage() {
           <a href="./">main</a>
           <a href="./docs/">docs</a>
           <a href="./demo/">demo</a>
-          <a href="https://github.com/includecctype/leopardcode-open-agent-hackathon-2026">
-            github
-          </a>
+          <a href={GITHUB_URL}>github</a>
         </span>
       </footer>
     </div>

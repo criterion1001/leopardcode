@@ -1,3 +1,4 @@
+import { GITHUB_URL } from "./repo_identity.js";
 import { RosetteMark } from "./rosette_mark.js";
 
 type SiteNavProps = {
@@ -5,8 +6,6 @@ type SiteNavProps = {
   root: string;
   active: "main" | "docs";
 };
-
-const GITHUB_URL = "https://github.com/includecctype/leopardcode-open-agent-hackathon-2026";
 
 export function SiteNav({ root, active }: SiteNavProps) {
   return (
