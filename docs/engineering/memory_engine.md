@@ -6,7 +6,7 @@ preferences from every prompt, ranks them on recall, guards writes with a trust
 ledger, and feeds recalled context into the next planning turn so preferences
 compound across morphs instead of vanishing at the end of a session.
 
-It lives in [`packages/hmem/src`](../../../packages/hmem/src), is imported by
+It lives in [`packages/hmem/src`](../../packages/hmem/src), is imported by
 both the terminal CLI and the web workspace, and is the target of the pinned
 Meterless conformance suite in `.github/workflows/meterless-conformance.yml`
 (last run: 13/13; output archived to `docs/media/hmem-conformance.txt` by the sponsor-proof PR and cross-linked from `docs/engineering/sponsor_verification.md`).
@@ -106,5 +106,5 @@ The commit that arches the last run's output is referenced from
 
 - [`docs/engineering/sponsor_verification.md`](sponsor_verification.md) — Zetaris
   smoke test and how the task-run table reaches Zetaris FILESTORE
-- [`docs/product/integration_writeup.md`](../../product/integration_writeup.md) —
+- [`docs/product/integration_writeup.md`](../product/integration_writeup.md) —
   sponsor integration write-up (Nemotron, Meterless, Zetaris)
