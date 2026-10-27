@@ -57,8 +57,11 @@ scheduling + interaction shell around agents that already exist.
 
 ## Alignment with the scoring rubric
 
-TODO: map each value lever above onto the Open Agent Hackathon 2026 scoring
-rubric (Impact 30, Technical 20, Innovation 15, Demo 15, Product & UX 10,
-Sponsor tech 10 — see [tracks_and_prizes](../hackathon/tracks_and_prizes.md)),
-and show where the sponsor technologies (Zetaris, Meterless, NVIDIA, Cursor)
-strengthen the Impact and Sponsor tech scores.
+| Score | Weight | Where leopardcode earns it |
+|---|---|---|
+| Impact | 30 | Live morphing removes the restart-and-re-explain tax for teams that keep discovering work mid-run; the persistent graph preserves intent across prompts ([problem](problem.md), [user_workflows](user_workflows.md)). |
+| Technical | 20 | Explicit DAG with dependency readiness, a morph operation that touches only pending work, a detached execution pass with a planning gate, and client-side tool execution ([architecture](../engineering/architecture.md), [pipelines](../engineering/pipelines.md)). |
+| Innovation | 15 | Not scheduling but *morphing a running plan from prose*: add, remove, rename, dedupe, and rewire pending work while running categories stay immutable ([task_morphing](../engineering/task_morphing.md)). |
+| Demo | 15 | Five live morphs on one running plan; the running command card never changes; the web `/sample` scenarios replay them ([user_workflows](user_workflows.md)). |
+| Product & UX | 10 | One questionnaire flow, a two-pane CLI, a three-pane web workspace, `/model`, `/memory`, `/runs`, and a live task graph. |
+| Sponsor tech | 10 | Nemotron plans every morph, H-MEM (Meterless) informs the next one, and Zetaris records the task runs behind it ([integration_writeup](integration_writeup.md), [sponsor_verification](../engineering/sponsor_verification.md)). |

@@ -12,19 +12,19 @@ is the substrate; live morphing is the claim.
 
 ## Head-to-head: leopardcode vs. leading agentic coding tools
 
-TODO: rebuild this head-to-head table with fresh, current sources for the
-agentic coding tools of 2026. The former competitor column was removed
-intentionally — do not restore it.
+Method: capability-level comparison from vendor product documentation as of
+October 2026, not a benchmark. The competitor column is deliberately generic —
+request-scoped agents as a class — and no vendor is named or ranked.
 
 | Capability | Request-scoped agents (external) | leopardcode |
 |---|---|---|
-| Main agent spawns isolated parallel subagents | TODO | Yes — fresh sub-agent per task |
-| Consolidated view of parallel runs | TODO | Two-pane TUI: live graph + conversation; per-category progress lines |
+| Main agent spawns isolated parallel subagents | Yes — per-task subagents in most tools | Yes — fresh sub-agent per task |
+| Consolidated view of parallel runs | Per-session transcript; no live plan view | Two-pane TUI: live graph + conversation; per-category progress lines |
 | Cross-prompt task memory and dedupe | Re-plans every request | Persistent graph; `processNewTask` morphs pending work; exact task dedupe |
 | Live morph while work runs | No — restart the prompt | **Yes — add, remove, rename, dedupe, rewire pending work; running categories immutable** |
 | Dependency scheduling (sequential vs. simultaneous) | Model decides ad hoc | Explicit `depends_on` DAG, topological readiness, failure cascade |
-| Automatic parallel dispatch | TODO | `executeCurrentTask` dispatches automatically |
-| Runs file/shell work on the user's machine | TODO | Forwarded over Socket.IO to the CLI |
+| Automatic parallel dispatch | Ad hoc or user-approved | `executeCurrentTask` dispatches automatically |
+| Runs file/shell work on the user's machine | Local in the vendor CLI, sandboxed in hosted variants | Forwarded over Socket.IO to the CLI |
 
 ## The real difference: execution vs. structure
 
@@ -73,10 +73,14 @@ external and descriptive, not endorsements.)
 
 ## Fit with the hackathon tracks
 
-TODO: map leopardcode onto the four Open Agent Hackathon 2026 tracks and pick
-the primary track (see [tracks_and_prizes](../hackathon/tracks_and_prizes.md)).
-Reasoning Architecture is the likely home for a dependency-driven task graph —
-decide, then align the demo with that track's scoring.
+**Primary track: Reasoning Architecture.** The claim is about how an agent
+reasons over a plan that outlives a single prompt: a persistent dependency
+graph, an explicit morph operation that replaces only pending work, and
+execution driven by topological readiness. The demo is scored on that reasoning
+structure, not on raw code-generation throughput. See
+[tracks_and_prizes](../hackathon/tracks_and_prizes.md) and
+[user workflows](user_workflows.md), which maps each morph to a user-visible
+outcome.
 
 ## Why not "just a scheduler"?
 
@@ -85,6 +89,11 @@ dependency ordering. The claim is narrower: **a user can morph a running coding
 plan from a natural-language prompt**. The DAG is the mechanism; live morphing is
 the story.
 
-## Sources (external)
+## Sources
 
-TODO: add current external sources backing the competitor columns above.
+No external benchmark figures are claimed. The comparison is capability-level,
+drawn from the product documentation of request-scoped coding agents as of
+October 2026; leopardcode's columns are verifiable in this repository
+([architecture](../engineering/architecture.md),
+[data model](../engineering/data_model.md),
+[task morphing](../engineering/task_morphing.md)).

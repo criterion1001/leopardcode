@@ -31,12 +31,12 @@ showcase what they can build using emerging AI and data technologies.
 
 | | |
 |---|---|
-| Status | Upcoming — Online |
+| Status | Build window closed; submissions close Oct 27, 2026, 23:45 UTC |
 | Dates | Oct 22–27, 2026 |
 | Length | 144 hours |
 | Format | Fully online |
 | Team size | 1–5 builders (solo allowed) |
-| Registered | 4,293 (as of 2026-10-18) |
+| Registered | 4,293 (as of 2026-10-18; the event no longer publishes a live count) |
 | Registration closes | Oct 22, 2026, 23:59 UTC |
 | Prize pool | Up to $20,000 |
 
