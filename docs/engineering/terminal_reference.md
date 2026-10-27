@@ -40,14 +40,21 @@ Unknown `/...` input prints a hint listing the valid commands
 
 ## Keybindings & input
 
-- **Chat scroll:** PageUp/PageDown (viewport), Home/End (top/bottom), ↑/↓ (1 line,
-  suppressed when the prompt is multi-line).
-- **Tasks scroll:** Ctrl+↑ / Ctrl+↓.
-- **Mouse wheel:** scrolls chat, or the Tasks pane when the pointer is over it.
-- **Esc:** cancels an overlay or exits the questionnaire write-in box.
-- **Bracketed paste:** paste markers are stripped and CR→LF normalised so
-  multi-line paste never auto-submits (`hooks/use_bracketed_paste.ts`).
-- **SIGINT/SIGTERM:** flush `user_data` to disk then exit.
+| Key | Action |
+|---|---|
+| Enter | Submit the prompt; Shift+Enter inserts a newline |
+| Tab | Complete the highlighted slash command |
+| ↑ / ↓ | Select a suggestion; move within a multi-line draft; otherwise scroll the chat one line |
+| ← / → | Move the cursor |
+| PageUp / PageDown | Scroll the chat one viewport |
+| Home / End | Jump the chat to the top / bottom |
+| Ctrl+↑ / Ctrl+↓ | Scroll the Tasks pane |
+| Esc | Cancel an overlay, or leave the questionnaire write-in box |
+| Mouse wheel | Scroll the chat, or the Tasks pane when the pointer is over it |
+
+Bracketed paste strips paste markers and normalises CR→LF so multi-line paste
+never auto-submits (`hooks/use_bracketed_paste.ts`). SIGINT/SIGTERM flush
+`user_data` to disk then exit.
 
 ## Questionnaire UX
 
