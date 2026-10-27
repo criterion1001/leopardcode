@@ -40,8 +40,8 @@ export class HMEM {
   constructor(options: HmemOptions = {}) {
     this.clock = options.clock ?? Date.now;
     const actor = options.actor ?? "system";
-    this.ledger = new TrustLedger(this.clock, options.persistDir);
-    this.store = new MemoryStore(this.clock, this.ledger, actor, options.persistDir);
+    this.ledger = new TrustLedger(this.clock, options.persist);
+    this.store = new MemoryStore(this.clock, this.ledger, actor, options.persist);
     this.retrieval = new MemoryRetrieval(this.store, this.ledger, this.clock, actor);
     this.mining = new MemoryMining(this.store, this.clock, options.minerFn);
     this.conflicts = new ConflictDetection(this.store, this.ledger, this.clock, actor);

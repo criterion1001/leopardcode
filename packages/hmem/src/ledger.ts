@@ -1,6 +1,6 @@
-import fs from "node:fs";
-import path from "node:path";
 import type { LedgerAction, LedgerEntry, MemoryRecord } from "./types";
+import type { MemoryPersistence } from "./persistence";
+import { LEDGER_FILE } from "./persistence";
 
 export interface LedgerExtra {
   previousState?: Partial<MemoryRecord>;
@@ -10,23 +10,26 @@ export interface LedgerExtra {
 
 export class TrustLedger {
   private entries: LedgerEntry[] = [];
-  private filePath?: string;
 
   constructor(
     private clock: () => number,
-    persistDir?: string,
+    private storage?: MemoryPersistence,
   ) {
-    if (!persistDir) return;
-    this.filePath = path.join(persistDir, "ledger.jsonl");
-    if (!fs.existsSync(this.filePath)) return;
-    const lines = fs.readFileSync(this.filePath, "utf-8").split("\n").filter(Boolean);
-    this.entries = lines.map((line) => JSON.parse(line) as LedgerEntry);
+    const saved = this.storage?.readText(LEDGER_FILE);
+    if (!saved) return;
+    this.entries = saved
+      .split("\n")
+      .filter(Boolean)
+      .map((line) => JSON.parse(line) as LedgerEntry);
   }
 
   log(memoryId: string, action: LedgerAction, actor: string, extra?: LedgerExtra): LedgerEntry {
     const entry: LedgerEntry = { memoryId, action, actor, timestamp: this.clock(), ...extra };
     this.entries.push(entry);
-    if (this.filePath) fs.appendFileSync(this.filePath, `${JSON.stringify(entry)}\n`, "utf-8");
+    if (this.storage) {
+      const previous = this.storage.readText(LEDGER_FILE) ?? "";
+      this.storage.writeText(LEDGER_FILE, `${previous}${JSON.stringify(entry)}\n`);
+    }
     return entry;
   }
 

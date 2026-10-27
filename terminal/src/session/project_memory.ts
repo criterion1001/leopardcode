@@ -2,6 +2,7 @@ import { join } from "node:path";
 import type { TaskCategoryDTO } from "../dto/wire";
 import { HMEM } from "../../../packages/hmem/src";
 import type { MemoryRecord, RetrievedMemory } from "../../../packages/hmem/src";
+import { fsPersistence } from "../../../packages/hmem/src/persistence_fs";
 import { configDirPath } from "../save/config_path";
 
 const RECALL_TOP_N = 5;
@@ -20,7 +21,7 @@ const seen_done_categories = new Set<string>();
 function projectMemory(): HMEM {
   if (memory === undefined) {
     memory = new HMEM({
-      persistDir: join(configDirPath(), "memory"),
+      persist: fsPersistence(join(configDirPath(), "memory")),
       actor: "leopardcode-cli",
     });
   }
