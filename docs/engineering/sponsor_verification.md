@@ -34,7 +34,7 @@ npm install --no-audit --no-fund
 HMEM_IMPL=/abs/path/to/leopardcode/packages/hmem/src/index.ts npx tsx ../conformance/runner.ts
 ```
 
-The pinned-spec run is archived at [`docs/media/hmem-conformance.txt`](../../media/hmem-conformance.txt)
+The pinned-spec run is archived at [`docs/media/hmem-conformance.txt`](../media/hmem-conformance.txt)
 (13/13 checks passed). The `H-MEM Conformance` job in
 [`meterless-conformance.yml`](../../.github/workflows/meterless-conformance.yml)
 runs the same command on pull requests that touch the engine and on `main`.
