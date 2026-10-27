@@ -72,20 +72,26 @@ The engine core imports no `node:fs`; persistence is injected as a small
 `user_config/memory/`; the web workspace wires a browser-storage adapter so the
 same engine runs in both frontends.
 
-## CLI wiring
+## Frontend wiring
 
 `terminal/src/session/project_memory.ts` builds `HMEM` with
 `persist: fsPersistence(user_config/memory/)` and, per prompt:
 
 - `preparePrompt()` recalls the top 5 records above threshold 0.2 and prepends
   them to the outgoing prompt (shown as "Recalled N project memories").
-- `rememberPrompt()` mines durable preferences from assistant responses.
+- `rememberPrompt()` mines durable preferences from the user prompt (called by
+  `preparePrompt`).
 - `trackPlanProgress()` records completed categories.
 - `forgetMemory()` lowers confidence via `feedback(id, "wrong")`.
 
 Commands: `/memory` (list), `/memory find <text>`, `/memory forget <id>`.
 Task runs are recorded to `user_config/task_runs.csv` (the Zetaris FILESTORE
 feed — see `docs/engineering/sponsor_verification.md`).
+
+`web/src/terminal/session/project_memory.ts` mirrors that flow against the same
+engine with `browserPersistence("hmem")` over `localStorage`, so `/memory` and
+recall work in the browser workspace too; task runs use the shared
+`packages/task_runs` recorder with a matching browser adapter.
 
 ## Conformance
 

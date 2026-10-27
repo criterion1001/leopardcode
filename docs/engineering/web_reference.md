@@ -25,6 +25,28 @@ Task graph pane renders the live morph from `task_update`; see
 Terminal look is set in `TERMINAL_OPTIONS` (`src/ide_shell.tsx`): `fontSize: 13`
 with a green-on-black theme.
 
+## Slash commands
+
+The web workspace runs the same command set as the CLI, plus `/sample`:
+
+| Command | Does |
+|---|---|
+| `/model` | pick a model (2–4 Nemotron with the user's NVIDIA key, or the funded model 6) |
+| `/key` | change the model API key |
+| `/session` | continue a saved session |
+| `/memory` | inspect H-MEM project memory (`find <text>`, `forget <id>`) |
+| `/runs` | show recorded task runs |
+| `/sample` | run a scripted morph scenario |
+| `/exit` / `/restart` | save and quit / restart UI and connection |
+
+`/memory` and `/runs` share their implementation with the CLI through
+`packages/hmem` and `packages/task_runs`, with browser persistence
+(`src/terminal/session/browser_storage.ts` over `localStorage`). Each prompt is
+recalled against H-MEM before it is sent and mined afterwards, so the same
+memory that informs the CLI informs the browser workspace; completed categories
+are recorded as task runs, the same rows the CLI writes to
+`user_config/task_runs.csv` for the Zetaris FILESTORE table.
+
 ## Connection
 
 `src/terminal/socket/client.ts`:
