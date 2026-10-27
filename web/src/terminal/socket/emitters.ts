@@ -1,12 +1,15 @@
 import type { QuestionnaireAnswerDTO, ToolResultDTO } from "../dto/wire";
 import { saveDisplayHistory } from "../save/config_writer";
 import { commitSession } from "../session/user_data";
+import { preparePrompt } from "../session/project_memory";
 import { socket } from "./client";
 
-export function emitUserPrompt(prompt: string) {
+export function emitUserPrompt(prompt: string): number {
   commitSession();
   saveDisplayHistory({ role: "user", content: prompt });
-  socket.emit("user_prompt", prompt);
+  const prepared = preparePrompt(prompt);
+  socket.emit("user_prompt", prepared.wire_prompt);
+  return prepared.recalled_count;
 }
 
 export function emitQuestionnaireAnswers(answers: QuestionnaireAnswerDTO[]) {

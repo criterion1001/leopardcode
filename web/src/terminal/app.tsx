@@ -12,7 +12,9 @@ import {
 } from "./command/model_command";
 import { buildModelSelectOptions } from "./command/model_options";
 import { QuestionnaireBox } from "./command/questionnaire_box";
+import { isMemoryCommand, runMemoryCommand } from "./command/memory_command";
 import { isRestartCommand, restartConnection } from "./command/restart_command";
+import { isRunsCommand, runRunsCommand } from "./command/runs_command";
 import { isSampleCommand, loadSampleOptions } from "./command/sample_command";
 import { createSettleWaiter, playSample } from "./command/sample_player";
 import type { SampleScenario } from "./command/sample_scenarios";
@@ -30,6 +32,8 @@ import { useMouseWheel } from "./hooks/use_mouse_wheel";
 import { readConfig } from "./save/config_reader";
 import { saveDisplayHistory } from "./save/config_writer";
 import { ensureConfigFile } from "./save/create_config_file";
+import { trackPlanProgress } from "./session/project_memory";
+import { initTaskRuns, recordTaskRuns } from "./session/task_runs";
 import { setUserData, user_data } from "./session/user_data";
 import { connectSocket } from "./socket/client";
 import { emitQuestionnaireAnswers, emitUserPrompt } from "./socket/emitters";
@@ -253,6 +257,7 @@ export function App() {
       await ensureConfigFile();
       const data = await readConfig();
       setUserData(data);
+      initTaskRuns();
       setDisplayScroll(0);
       connectSocket();
     })();
@@ -266,6 +271,9 @@ export function App() {
     });
     onTaskUpdate(() => {
       settle_ref.current.noteActivity();
+      const categories = user_data?.categories ?? [];
+      trackPlanProgress(categories);
+      recordTaskRuns(categories, user_data?.session_id ?? "", user_data?.main_agent_id ?? 0);
     });
     // Display-only progress line — sub-agent reports never reach the main agent.
     onSubagentResponse((data) => {
@@ -521,6 +529,18 @@ export function App() {
       return;
     }
 
+    if (command_mode.type === "none" && isRunsCommand(trimmed)) {
+      for (const line of runRunsCommand()) appendSystemNote(line);
+      setLogoShow(false);
+      return;
+    }
+
+    if (command_mode.type === "none" && isMemoryCommand(trimmed)) {
+      for (const line of runMemoryCommand(trimmed)) appendSystemNote(line);
+      setLogoShow(false);
+      return;
+    }
+
     if (command_mode.type === "none" && isExitCommand(trimmed)) {
       void exitApp();
       return;
@@ -547,15 +567,20 @@ export function App() {
 
     if (command_mode.type === "none" && isSlashCommand(trimmed)) {
       appendSystemNote(
-        `Unknown command: ${trimmed}. Try /model, /key, /session, /sample, /exit, or /restart`,
+        `Unknown command: ${trimmed}. Try /model, /key, /session, /memory, /runs, /sample, /exit, or /restart`,
       );
       setLogoShow(false);
       return;
     }
 
     if (trimmed) {
-      emitUserPrompt(trimmed);
+      const recalled_count = emitUserPrompt(trimmed);
       setDisplays((prev) => [...prev, { role: "user", content: trimmed }]);
+      if (recalled_count > 0) {
+        appendSystemNote(
+          `Recalled ${recalled_count} project ${recalled_count === 1 ? "memory" : "memories"}`,
+        );
+      }
     }
     setLogoShow(false);
   };
