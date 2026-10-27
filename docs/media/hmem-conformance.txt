@@ -1,0 +1,192 @@
+# H-MEM conformance run archive
+# Source: .github/workflows/meterless-conformance.yml (H-MEM Conformance job)
+# Run: 40453669248, main, 2026-10-27T05:09:06Z
+# Conclusion: success — 13/13 checks passed
+
+H-MEM Conformance	Set up job	﻿2026-10-27T05:09:11.0451846Z Current runner version: '2.338.0'
+H-MEM Conformance	Set up job	2026-10-27T05:09:11.0477756Z ##[group]Runner Image Provisioner
+H-MEM Conformance	Set up job	2026-10-27T05:09:11.0478701Z Hosted Compute Agent
+H-MEM Conformance	Set up job	2026-10-27T05:09:11.0479286Z Version: 20261021.618
+H-MEM Conformance	Set up job	2026-10-27T05:09:11.0479888Z Commit: 21505ad2541d5be6135ed84fc33697146cf75b8e
+H-MEM Conformance	Set up job	2026-10-27T05:09:11.0480684Z Build Date: 2026-10-21T00:45:21Z
+H-MEM Conformance	Set up job	2026-10-27T05:09:11.0481395Z Worker ID: {6aab7590-e120-43eb-a3e3-e35e4c283126}
+H-MEM Conformance	Set up job	2026-10-27T05:09:11.0482141Z Region: northcentralus
+H-MEM Conformance	Set up job	2026-10-27T05:09:11.0482767Z Cloud: Azure
+H-MEM Conformance	Set up job	2026-10-27T05:09:11.0483276Z ##[endgroup]
+H-MEM Conformance	Set up job	2026-10-27T05:09:11.0485097Z ##[group]Operating System
+H-MEM Conformance	Set up job	2026-10-27T05:09:11.0485784Z Ubuntu
+H-MEM Conformance	Set up job	2026-10-27T05:09:11.0486372Z 26.04.1
+H-MEM Conformance	Set up job	2026-10-27T05:09:11.0487114Z LTS
+H-MEM Conformance	Set up job	2026-10-27T05:09:11.0487617Z ##[endgroup]
+H-MEM Conformance	Set up job	2026-10-27T05:09:11.0488218Z ##[group]Runner Image
+H-MEM Conformance	Set up job	2026-10-27T05:09:11.0488850Z Image: ubuntu-26.04
+H-MEM Conformance	Set up job	2026-10-27T05:09:11.0489384Z Version: 20261012.163.1
+H-MEM Conformance	Set up job	2026-10-27T05:09:11.0490540Z Included Software: https://github.com/actions/runner-images/blob/ubuntu26/20261012.163/images/ubuntu/Ubuntu2604-Readme.md
+H-MEM Conformance	Set up job	2026-10-27T05:09:11.0492333Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu26%2F20261012.163
+H-MEM Conformance	Set up job	2026-10-27T05:09:11.0493330Z ##[endgroup]
+H-MEM Conformance	Set up job	2026-10-27T05:09:11.0494557Z ##[group]GITHUB_TOKEN Permissions
+H-MEM Conformance	Set up job	2026-10-27T05:09:11.0496998Z Contents: read
+H-MEM Conformance	Set up job	2026-10-27T05:09:11.0497708Z Metadata: read
+H-MEM Conformance	Set up job	2026-10-27T05:09:11.0498319Z Packages: read
+H-MEM Conformance	Set up job	2026-10-27T05:09:11.0498867Z ##[endgroup]
+H-MEM Conformance	Set up job	2026-10-27T05:09:11.0500939Z Secret source: Actions
+H-MEM Conformance	Set up job	2026-10-27T05:09:11.0501865Z Cache mode: write
+H-MEM Conformance	Set up job	2026-10-27T05:09:11.0503138Z Prepare workflow directory
+H-MEM Conformance	Set up job	2026-10-27T05:09:11.0933332Z Prepare all required actions
+H-MEM Conformance	Set up job	2026-10-27T05:09:11.1006056Z Getting action download info
+H-MEM Conformance	Set up job	2026-10-27T05:09:11.3334611Z Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+H-MEM Conformance	Set up job	2026-10-27T05:09:11.4215435Z Download action repository 'actions/setup-node@v4' (SHA:49933ea5288caeca8642d1e84afbd3f7d6820020)
+H-MEM Conformance	Set up job	2026-10-27T05:09:11.5934224Z Complete job name: H-MEM Conformance
+H-MEM Conformance	Run actions/checkout@v4	﻿2026-10-27T05:09:11.6701954Z ##[group]Run actions/checkout@v4
+H-MEM Conformance	Run actions/checkout@v4	2026-10-27T05:09:11.6702861Z with:
+H-MEM Conformance	Run actions/checkout@v4	2026-10-27T05:09:11.6703466Z   repository: includecctype/leopardcode-open-agent-hackathon-2026
+H-MEM Conformance	Run actions/checkout@v4	2026-10-27T05:09:11.6708110Z   token: ***
+H-MEM Conformance	Run actions/checkout@v4	2026-10-27T05:09:11.6708570Z   ssh-strict: true
+H-MEM Conformance	Run actions/checkout@v4	2026-10-27T05:09:11.6709000Z   ssh-user: git
+H-MEM Conformance	Run actions/checkout@v4	2026-10-27T05:09:11.6709431Z   persist-credentials: true
+H-MEM Conformance	Run actions/checkout@v4	2026-10-27T05:09:11.6709900Z   clean: true
+H-MEM Conformance	Run actions/checkout@v4	2026-10-27T05:09:11.6710337Z   sparse-checkout-cone-mode: true
+H-MEM Conformance	Run actions/checkout@v4	2026-10-27T05:09:11.6710848Z   fetch-depth: 1
+H-MEM Conformance	Run actions/checkout@v4	2026-10-27T05:09:11.6711276Z   fetch-tags: false
+H-MEM Conformance	Run actions/checkout@v4	2026-10-27T05:09:11.6711709Z   show-progress: true
+H-MEM Conformance	Run actions/checkout@v4	2026-10-27T05:09:11.6712137Z   lfs: false
+H-MEM Conformance	Run actions/checkout@v4	2026-10-27T05:09:11.6712549Z   submodules: false
+H-MEM Conformance	Run actions/checkout@v4	2026-10-27T05:09:11.6712987Z   set-safe-directory: true
+H-MEM Conformance	Run actions/checkout@v4	2026-10-27T05:09:11.6713478Z   allow-unsafe-pr-checkout: false
+H-MEM Conformance	Run actions/checkout@v4	2026-10-27T05:09:11.6714400Z ##[endgroup]
+H-MEM Conformance	Run actions/checkout@v4	2026-10-27T05:09:11.9303764Z Syncing repository: includecctype/leopardcode-open-agent-hackathon-2026
+H-MEM Conformance	Run actions/checkout@v4	2026-10-27T05:09:11.9307758Z ##[group]Getting Git version info
+H-MEM Conformance	Run actions/checkout@v4	2026-10-27T05:09:11.9310242Z Working directory is '/home/runner/work/leopardcode-open-agent-hackathon-2026/leopardcode-open-agent-hackathon-2026'
+H-MEM Conformance	Run actions/checkout@v4	2026-10-27T05:09:11.9313314Z [command]/usr/bin/git version
+H-MEM Conformance	Run actions/checkout@v4	2026-10-27T05:09:11.9314545Z git version 2.55.0
+H-MEM Conformance	Run actions/checkout@v4	2026-10-27T05:09:11.9331796Z ##[endgroup]
+H-MEM Conformance	Run actions/checkout@v4	2026-10-27T05:09:11.9348775Z Temporarily overriding HOME='/home/runner/work/_temp/b4342faf-5b2d-4283-8904-4c1f6bbdfc11' before making global git config changes
+H-MEM Conformance	Run actions/checkout@v4	2026-10-27T05:09:11.9351690Z Adding repository directory to the temporary git global config as a safe directory
+H-MEM Conformance	Run actions/checkout@v4	2026-10-27T05:09:11.9356002Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/leopardcode-open-agent-hackathon-2026/leopardcode-open-agent-hackathon-2026
+H-MEM Conformance	Run actions/checkout@v4	2026-10-27T05:09:11.9414893Z Deleting the contents of '/home/runner/work/leopardcode-open-agent-hackathon-2026/leopardcode-open-agent-hackathon-2026'
+H-MEM Conformance	Run actions/checkout@v4	2026-10-27T05:09:11.9420803Z ##[group]Initializing the repository
+H-MEM Conformance	Run actions/checkout@v4	2026-10-27T05:09:11.9426350Z [command]/usr/bin/git init /home/runner/work/leopardcode-open-agent-hackathon-2026/leopardcode-open-agent-hackathon-2026
+H-MEM Conformance	Run actions/checkout@v4	2026-10-27T05:09:11.9563448Z hint: Using 'master' as the name for the initial branch. This default branch name
+H-MEM Conformance	Run actions/checkout@v4	2026-10-27T05:09:11.9564970Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+H-MEM Conformance	Run actions/checkout@v4	2026-10-27T05:09:11.9566033Z hint: to use in all of your new repositories, which will suppress this warning,
+H-MEM Conformance	Run actions/checkout@v4	2026-10-27T05:09:11.9567231Z hint: call:
+H-MEM Conformance	Run actions/checkout@v4	2026-10-27T05:09:11.9567696Z hint:
+H-MEM Conformance	Run actions/checkout@v4	2026-10-27T05:09:11.9568291Z hint: 	git config --global init.defaultBranch <name>
+H-MEM Conformance	Run actions/checkout@v4	2026-10-27T05:09:11.9568957Z hint:
+H-MEM Conformance	Run actions/checkout@v4	2026-10-27T05:09:11.9569611Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+H-MEM Conformance	Run actions/checkout@v4	2026-10-27T05:09:11.9570618Z hint: 'development'. The just-created branch can be renamed via this command:
+H-MEM Conformance	Run actions/checkout@v4	2026-10-27T05:09:11.9571426Z hint:
+H-MEM Conformance	Run actions/checkout@v4	2026-10-27T05:09:11.9571872Z hint: 	git branch -m <name>
+H-MEM Conformance	Run actions/checkout@v4	2026-10-27T05:09:11.9572440Z hint:
+H-MEM Conformance	Run actions/checkout@v4	2026-10-27T05:09:11.9573121Z hint: Disable this message with "git config set advice.defaultBranchName false"
+H-MEM Conformance	Run actions/checkout@v4	2026-10-27T05:09:11.9581340Z Initialized empty Git repository in /home/runner/work/leopardcode-open-agent-hackathon-2026/leopardcode-open-agent-hackathon-2026/.git/
+H-MEM Conformance	Run actions/checkout@v4	2026-10-27T05:09:11.9594379Z [command]/usr/bin/git remote add origin https://github.com/includecctype/leopardcode-open-agent-hackathon-2026
+H-MEM Conformance	Run actions/checkout@v4	2026-10-27T05:09:11.9643917Z ##[endgroup]
+H-MEM Conformance	Run actions/checkout@v4	2026-10-27T05:09:11.9645288Z ##[group]Disabling automatic garbage collection
+H-MEM Conformance	Run actions/checkout@v4	2026-10-27T05:09:11.9649122Z [command]/usr/bin/git config --local gc.auto 0
+H-MEM Conformance	Run actions/checkout@v4	2026-10-27T05:09:11.9684067Z ##[endgroup]
+H-MEM Conformance	Run actions/checkout@v4	2026-10-27T05:09:11.9685577Z ##[group]Setting up auth
+H-MEM Conformance	Run actions/checkout@v4	2026-10-27T05:09:11.9691250Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+H-MEM Conformance	Run actions/checkout@v4	2026-10-27T05:09:11.9728421Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+H-MEM Conformance	Run actions/checkout@v4	2026-10-27T05:09:12.0209191Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+H-MEM Conformance	Run actions/checkout@v4	2026-10-27T05:09:12.0246267Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+H-MEM Conformance	Run actions/checkout@v4	2026-10-27T05:09:12.0519264Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+H-MEM Conformance	Run actions/checkout@v4	2026-10-27T05:09:12.0557616Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+H-MEM Conformance	Run actions/checkout@v4	2026-10-27T05:09:12.0841270Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+H-MEM Conformance	Run actions/checkout@v4	2026-10-27T05:09:12.0881973Z ##[endgroup]
+H-MEM Conformance	Run actions/checkout@v4	2026-10-27T05:09:12.0884130Z ##[group]Fetching the repository
+H-MEM Conformance	Run actions/checkout@v4	2026-10-27T05:09:12.0894449Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +c2d38555ee133bb475a2d7100cacd798425b5100:refs/remotes/origin/main
+H-MEM Conformance	Run actions/checkout@v4	2026-10-27T05:09:12.4978885Z From https://github.com/includecctype/leopardcode-open-agent-hackathon-2026
+H-MEM Conformance	Run actions/checkout@v4	2026-10-27T05:09:12.4980484Z  * [new ref]         c2d38555ee133bb475a2d7100cacd798425b5100 -> origin/main
+H-MEM Conformance	Run actions/checkout@v4	2026-10-27T05:09:12.4983960Z ##[endgroup]
+H-MEM Conformance	Run actions/checkout@v4	2026-10-27T05:09:12.4985018Z ##[group]Determining the checkout info
+H-MEM Conformance	Run actions/checkout@v4	2026-10-27T05:09:12.4986872Z ##[endgroup]
+H-MEM Conformance	Run actions/checkout@v4	2026-10-27T05:09:12.4992740Z [command]/usr/bin/git sparse-checkout disable
+H-MEM Conformance	Run actions/checkout@v4	2026-10-27T05:09:12.5060667Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+H-MEM Conformance	Run actions/checkout@v4	2026-10-27T05:09:12.5091655Z ##[group]Checking out the ref
+H-MEM Conformance	Run actions/checkout@v4	2026-10-27T05:09:12.5097288Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+H-MEM Conformance	Run actions/checkout@v4	2026-10-27T05:09:12.5327032Z Switched to a new branch 'main'
+H-MEM Conformance	Run actions/checkout@v4	2026-10-27T05:09:12.5331105Z branch 'main' set up to track 'origin/main'.
+H-MEM Conformance	Run actions/checkout@v4	2026-10-27T05:09:12.5344409Z ##[endgroup]
+H-MEM Conformance	Run actions/checkout@v4	2026-10-27T05:09:12.5388426Z [command]/usr/bin/git log -1 --format=%H
+H-MEM Conformance	Run actions/checkout@v4	2026-10-27T05:09:12.5412968Z c2d38555ee133bb475a2d7100cacd798425b5100
+H-MEM Conformance	Run actions/setup-node@v4	﻿2026-10-27T05:09:12.5793560Z ##[group]Run actions/setup-node@v4
+H-MEM Conformance	Run actions/setup-node@v4	2026-10-27T05:09:12.5794704Z with:
+H-MEM Conformance	Run actions/setup-node@v4	2026-10-27T05:09:12.5795513Z   node-version: 22
+H-MEM Conformance	Run actions/setup-node@v4	2026-10-27T05:09:12.5796404Z   always-auth: false
+H-MEM Conformance	Run actions/setup-node@v4	2026-10-27T05:09:12.5797518Z   check-latest: false
+H-MEM Conformance	Run actions/setup-node@v4	2026-10-27T05:09:12.5807918Z   token: ***
+H-MEM Conformance	Run actions/setup-node@v4	2026-10-27T05:09:12.5808770Z ##[endgroup]
+H-MEM Conformance	Run actions/setup-node@v4	2026-10-27T05:09:12.7289387Z (node:2461) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+H-MEM Conformance	Run actions/setup-node@v4	2026-10-27T05:09:12.7293717Z (Use `node --trace-deprecation ...` to show where the warning was created)
+H-MEM Conformance	Run actions/setup-node@v4	2026-10-27T05:09:12.7295622Z Found in cache @ /opt/hostedtoolcache/node/22.23.3/x64
+H-MEM Conformance	Run actions/setup-node@v4	2026-10-27T05:09:12.7297816Z ##[group]Environment details
+H-MEM Conformance	Run actions/setup-node@v4	2026-10-27T05:09:13.1484411Z node: v22.23.3
+H-MEM Conformance	Run actions/setup-node@v4	2026-10-27T05:09:13.1485575Z npm: 10.9.9
+H-MEM Conformance	Run actions/setup-node@v4	2026-10-27T05:09:13.1486457Z yarn: 1.22.22
+H-MEM Conformance	Run actions/setup-node@v4	2026-10-27T05:09:13.1489006Z ##[endgroup]
+H-MEM Conformance	Fetch the H-MEM engine spec	﻿2026-10-27T05:09:13.1678572Z ##[group]Run npx -y degit meterless/meterless/engines/hmem#1742dec56a66e58eef9dda2d2b865823758ca8cd hmem-engine
+H-MEM Conformance	Fetch the H-MEM engine spec	2026-10-27T05:09:13.1682139Z [36;1mnpx -y degit meterless/meterless/engines/hmem#1742dec56a66e58eef9dda2d2b865823758ca8cd hmem-engine[0m
+H-MEM Conformance	Fetch the H-MEM engine spec	2026-10-27T05:09:13.1859458Z shell: /usr/bin/bash -e {0}
+H-MEM Conformance	Fetch the H-MEM engine spec	2026-10-27T05:09:13.1860616Z ##[endgroup]
+H-MEM Conformance	Fetch the H-MEM engine spec	2026-10-27T05:09:17.1878256Z [36m> cloned [1mmeterless/meterless[22m#[1m1742dec56a66e58eef9dda2d2b865823758ca8cd[22m to hmem-engine[39m
+H-MEM Conformance	Install the conformance runner	﻿2026-10-27T05:09:17.2228656Z ##[group]Run npm install --no-audit --no-fund
+H-MEM Conformance	Install the conformance runner	2026-10-27T05:09:17.2229099Z [36;1mnpm install --no-audit --no-fund[0m
+H-MEM Conformance	Install the conformance runner	2026-10-27T05:09:17.2291894Z shell: /usr/bin/bash -e {0}
+H-MEM Conformance	Install the conformance runner	2026-10-27T05:09:17.2292205Z ##[endgroup]
+H-MEM Conformance	Install the conformance runner	2026-10-27T05:09:18.4334264Z 
+H-MEM Conformance	Install the conformance runner	2026-10-27T05:09:18.4335033Z added 47 packages in 1s
+H-MEM Conformance	Run the engine conformance suite	﻿2026-10-27T05:09:18.4510660Z ##[group]Run HMEM_IMPL="$GITHUB_WORKSPACE/packages/hmem/src/index.ts" npx tsx ../conformance/runner.ts
+H-MEM Conformance	Run the engine conformance suite	2026-10-27T05:09:18.4511431Z [36;1mHMEM_IMPL="$GITHUB_WORKSPACE/packages/hmem/src/index.ts" npx tsx ../conformance/runner.ts[0m
+H-MEM Conformance	Run the engine conformance suite	2026-10-27T05:09:18.4572391Z shell: /usr/bin/bash -e {0}
+H-MEM Conformance	Run the engine conformance suite	2026-10-27T05:09:18.4572666Z ##[endgroup]
+H-MEM Conformance	Run the engine conformance suite	2026-10-27T05:09:19.0880551Z 
+H-MEM Conformance	Run the engine conformance suite	2026-10-27T05:09:19.0882745Z H-MEM conformance: implementation = /home/runner/work/leopardcode-open-agent-hackathon-2026/leopardcode-open-agent-hackathon-2026/packages/hmem/src/index.ts
+H-MEM Conformance	Run the engine conformance suite	2026-10-27T05:09:19.0884040Z 
+H-MEM Conformance	Run the engine conformance suite	2026-10-27T05:09:19.0884561Z   record-validation
+H-MEM Conformance	Run the engine conformance suite	2026-10-27T05:09:19.0885276Z     PASS rv-001 a record with no source is rejected by construction
+H-MEM Conformance	Run the engine conformance suite	2026-10-27T05:09:19.0885831Z     PASS rv-002 a record with a source is accepted
+H-MEM Conformance	Run the engine conformance suite	2026-10-27T05:09:19.0886071Z 
+H-MEM Conformance	Run the engine conformance suite	2026-10-27T05:09:19.0886178Z   feedback-deltas
+H-MEM Conformance	Run the engine conformance suite	2026-10-27T05:09:19.0886938Z     PASS fd-001 helpful adds exactly +0.05 confidence and +1 accessCount
+H-MEM Conformance	Run the engine conformance suite	2026-10-27T05:09:19.0887761Z     PASS fd-002 not_helpful subtracts exactly 0.03
+H-MEM Conformance	Run the engine conformance suite	2026-10-27T05:09:19.0888403Z     PASS fd-003 wrong subtracts exactly 0.20 and adds the review tag
+H-MEM Conformance	Run the engine conformance suite	2026-10-27T05:09:19.0888951Z     PASS fd-004 confidence clamps at 0 (wrong at 0.1)
+H-MEM Conformance	Run the engine conformance suite	2026-10-27T05:09:19.0889439Z     PASS fd-005 confidence clamps at 1 (helpful at 0.98)
+H-MEM Conformance	Run the engine conformance suite	2026-10-27T05:09:19.0889712Z 
+H-MEM Conformance	Run the engine conformance suite	2026-10-27T05:09:19.0889836Z   ranking-order
+H-MEM Conformance	Run the engine conformance suite	2026-10-27T05:09:19.0890468Z     PASS ro-001 superseded penalty dominates: a superseded record ranks below a fresh one with identical content relevance
+H-MEM Conformance	Run the engine conformance suite	2026-10-27T05:09:19.0891378Z     PASS ro-002 confidence multiplies the whole score: identical records rank by confidence
+H-MEM Conformance	Run the engine conformance suite	2026-10-27T05:09:19.0891772Z 
+H-MEM Conformance	Run the engine conformance suite	2026-10-27T05:09:19.0891909Z   sleep-guardrails
+H-MEM Conformance	Run the engine conformance suite	2026-10-27T05:09:19.0892454Z     PASS sg-001 old low-access plain record archives; dream-derived record with identical age does not
+H-MEM Conformance	Run the engine conformance suite	2026-10-27T05:09:19.0892883Z 
+H-MEM Conformance	Run the engine conformance suite	2026-10-27T05:09:19.0893000Z   conflict-gate
+H-MEM Conformance	Run the engine conformance suite	2026-10-27T05:09:19.0893425Z     PASS cg-001 auto-resolve marks the loser supersededBy and deletes nothing
+H-MEM Conformance	Run the engine conformance suite	2026-10-27T05:09:19.0893780Z 
+H-MEM Conformance	Run the engine conformance suite	2026-10-27T05:09:19.0893884Z   ledger-audit
+H-MEM Conformance	Run the engine conformance suite	2026-10-27T05:09:19.0894465Z     PASS la-001 create then feedback reconstructs: actions in order, previous and new confidence present
+H-MEM Conformance	Run the engine conformance suite	2026-10-27T05:09:19.0895422Z 
+H-MEM Conformance	Run the engine conformance suite	2026-10-27T05:09:19.0895540Z   dream-boundary
+H-MEM Conformance	Run the engine conformance suite	2026-10-27T05:09:19.0896145Z     PASS db-001 dream proposals never materialize before approval; approval creates a long_term record with lineage
+H-MEM Conformance	Run the engine conformance suite	2026-10-27T05:09:19.0896911Z 
+H-MEM Conformance	Run the engine conformance suite	2026-10-27T05:09:19.0897074Z   13/13 checks passed
+H-MEM Conformance	Post Run actions/setup-node@v4	﻿2026-10-27T05:09:19.1219143Z Post job cleanup.
+H-MEM Conformance	Post Run actions/setup-node@v4	2026-10-27T05:09:19.2462585Z (node:2604) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+H-MEM Conformance	Post Run actions/setup-node@v4	2026-10-27T05:09:19.2463577Z (Use `node --trace-deprecation ...` to show where the warning was created)
+H-MEM Conformance	Post Run actions/checkout@v4	﻿2026-10-27T05:09:19.2712877Z Post job cleanup.
+H-MEM Conformance	Post Run actions/checkout@v4	2026-10-27T05:09:19.3612354Z [command]/usr/bin/git version
+H-MEM Conformance	Post Run actions/checkout@v4	2026-10-27T05:09:19.3656830Z git version 2.55.0
+H-MEM Conformance	Post Run actions/checkout@v4	2026-10-27T05:09:19.3695680Z Temporarily overriding HOME='/home/runner/work/_temp/518d5fa3-8161-45e3-ba98-a33ebd565abc' before making global git config changes
+H-MEM Conformance	Post Run actions/checkout@v4	2026-10-27T05:09:19.3697567Z Adding repository directory to the temporary git global config as a safe directory
+H-MEM Conformance	Post Run actions/checkout@v4	2026-10-27T05:09:19.3701392Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/leopardcode-open-agent-hackathon-2026/leopardcode-open-agent-hackathon-2026
+H-MEM Conformance	Post Run actions/checkout@v4	2026-10-27T05:09:19.3742844Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+H-MEM Conformance	Post Run actions/checkout@v4	2026-10-27T05:09:19.3784446Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+H-MEM Conformance	Post Run actions/checkout@v4	2026-10-27T05:09:19.4091403Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+H-MEM Conformance	Post Run actions/checkout@v4	2026-10-27T05:09:19.4117563Z http.https://github.com/.extraheader
+H-MEM Conformance	Post Run actions/checkout@v4	2026-10-27T05:09:19.4130446Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+H-MEM Conformance	Post Run actions/checkout@v4	2026-10-27T05:09:19.4167599Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+H-MEM Conformance	Post Run actions/checkout@v4	2026-10-27T05:09:19.4480505Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+H-MEM Conformance	Post Run actions/checkout@v4	2026-10-27T05:09:19.4518132Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+H-MEM Conformance	Complete job	﻿2026-10-27T05:09:19.4965926Z Cleaning up orphan processes
+H-MEM Conformance	Complete job	2026-10-27T05:09:19.5302812Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
