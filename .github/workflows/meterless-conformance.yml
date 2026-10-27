@@ -6,7 +6,7 @@ on:
       - main
       - master
     paths:
-      - "terminal/src/memory/**"
+      - "packages/hmem/src/**"
       - "backend/sponsor/**"
       - ".github/workflows/meterless-conformance.yml"
   pull_request:
@@ -14,7 +14,7 @@ on:
       - main
       - master
     paths:
-      - "terminal/src/memory/**"
+      - "packages/hmem/src/**"
       - "backend/sponsor/**"
       - ".github/workflows/meterless-conformance.yml"
   workflow_dispatch:
@@ -35,4 +35,4 @@ jobs:
         run: npm install --no-audit --no-fund
       - name: Run the engine conformance suite
         working-directory: hmem-engine/reference
-        run: HMEM_IMPL="$GITHUB_WORKSPACE/terminal/src/memory/index.ts" npx tsx ../conformance/runner.ts
+        run: HMEM_IMPL="$GITHUB_WORKSPACE/packages/hmem/src/index.ts" npx tsx ../conformance/runner.ts

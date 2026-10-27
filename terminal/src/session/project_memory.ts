@@ -1,7 +1,7 @@
 import { join } from "node:path";
 import type { TaskCategoryDTO } from "../dto/wire";
-import { HMEM } from "../memory";
-import type { MemoryRecord, RetrievedMemory } from "../memory";
+import { HMEM } from "../../../packages/hmem/src";
+import type { MemoryRecord, RetrievedMemory } from "../../../packages/hmem/src";
 import { configDirPath } from "../save/config_path";
 
 const RECALL_TOP_N = 5;

@@ -1,4 +1,4 @@
-import type { MemoryRecord } from "../memory";
+import type { MemoryRecord } from "../../../packages/hmem/src";
 import { forgetMemory, recentMemories, searchMemories } from "../session/project_memory";
 
 function formatMemory(record: MemoryRecord): string {

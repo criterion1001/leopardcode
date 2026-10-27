@@ -10,10 +10,9 @@
     "skipLibCheck": true,
     "noEmit": true,
     "outDir": "dist",
-    "rootDir": "src",
     "baseUrl": ".",
     "paths": {}
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "packages/hmem/src/**/*"],
   "exclude": ["node_modules", "dist"]
 }
