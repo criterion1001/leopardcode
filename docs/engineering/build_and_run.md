@@ -71,7 +71,7 @@ LEOPARDCODE_BACKEND_URL=http://localhost:8000 pnpm dev
 | Recipe | Does |
 |---|---|
 | `just backend` | uvicorn gateway on `:8000` (Doppler-wrapped) |
-| `just terminal` | `pnpm install --frozen-lockfile && pnpm dev` for the CLI (`frontend` is an alias) |
+| `just terminal` | `pnpm install --frozen-lockfile && pnpm dev` for the CLI |
 | `just web` | `pnpm install --frozen-lockfile && pnpm dev` for the web workspace |
 | `just web-build` | `pnpm install --frozen-lockfile && pnpm build` for the web workspace |
 | `just run` | `docker-up`, then the CLI in the foreground |
