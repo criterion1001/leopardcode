@@ -8,15 +8,6 @@ import { LOGO_PROMPT_WIDTH, useScreenSize, WINDOW_PAD } from "../hooks/use_layou
 import { PromptBox } from "./prompt_box";
 import { BG_BLACK } from "./theme";
 
-const BANNER = [
-  " ███╗   ██╗ ███████╗ ██████╗  ██╗   ██╗ ███████╗",
-  " ████╗  ██║ ██╔════╝ ██╔══██╗ ██║   ██║ ██╔════╝",
-  " ██╔██╗ ██║ █████╗   ██████╔╝ ██║   ██║ █████╗",
-  " ██║╚██╗██║ ██╔══╝   ██╔══██╗ ╚██╗ ██╔╝ ██╔══╝",
-  " ██║ ╚████║ ███████╗ ██║  ██║  ╚████╔╝  ███████╗",
-  " ╚═╝  ╚═══╝ ╚══════╝ ╚═╝  ╚═╝   ╚═══╝   ╚══════╝",
-].join("\n");
-
 type LogoViewProps = {
   innerWidth: number;
   logoPromptWidth: number;
@@ -89,22 +80,18 @@ export function LogoView({
         alignItems="center"
         paddingY={compact ? 1 : 0}
       >
-        {compact ? (
-          <Text bold color="#E3A32F">
-            leopardcode
-          </Text>
-        ) : (
-          <>
-            <Text color="#E3A32F">{BANNER}</Text>
-            <Box flexDirection="column" alignItems="center" marginTop={1} marginBottom={1}>
-              <Text bold color="#F0E6D4">
-                Use /sample command to see an example
-              </Text>
-              <Text bold color="#F0E6D4">
-                Try spamming more /sample while a sample is running
-              </Text>
-            </Box>
-          </>
+        <Text bold color="#E3A32F">
+          leopardcode
+        </Text>
+        {compact ? null : (
+          <Box flexDirection="column" alignItems="center" marginTop={1} marginBottom={1}>
+            <Text bold color="#F0E6D4">
+              Use /sample command to see an example
+            </Text>
+            <Text bold color="#F0E6D4">
+              Try spamming more /sample while a sample is running
+            </Text>
+          </Box>
         )}
         {questionnaireActive ? (
           <Box width="100%" display="flex" flexDirection="column" alignItems="center">
