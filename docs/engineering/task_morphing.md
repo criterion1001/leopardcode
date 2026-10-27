@@ -91,6 +91,14 @@ The graph in the Task pane changes at every step; the running card does not.
 - A repeated request does not create duplicate task lines in the same category.
 - Dropping or renaming a running category is refused or renamed, never applied.
 
+## Failure handling
+
+- A sub-agent timeout is retried once with a fresh agent and a full budget
+  (`SUBAGENT_ATTEMPTS=2`, `SUBAGENT_RETRY_BACKOFF_SECONDS=5`); the timed-out
+  attempt's messages are not replayed.
+- Two failed attempts fail the category, and its dependents cascade to `blocked`
+  for the rest of the pass. The next prompt can re-add the work.
+
 ## Boundaries
 
 - Running work cannot be canceled by a prompt. Only pending work can be dropped.
