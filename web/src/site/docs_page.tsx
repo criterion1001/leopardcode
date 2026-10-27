@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { DOC_ENTRIES, DOC_GROUPS, findDoc } from "./docs_manifest.js";
 import { MarkdownView } from "./markdown_view.js";
+import { GITHUB_URL } from "./repo_identity.js";
 import { SiteNav } from "./site_nav.js";
 
 function readDocIdFromHash(): string {
@@ -102,9 +103,7 @@ export function DocsPage() {
             <span className="site-footer-links">
               <a href="../">main</a>
               <a href="../demo/">demo</a>
-              <a href="https://github.com/includecctype/leopardcode-open-agent-hackathon-2026">
-                github
-              </a>
+              <a href={GITHUB_URL}>github</a>
             </span>
           </footer>
         </main>

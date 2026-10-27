@@ -44,6 +44,7 @@ error.
 | Variable | Purpose |
 |---|---|
 | `LEOPARDCODE_BACKEND_URL` | gateway URL baked into the build (defaults to `http://localhost:8000`) |
+| `VITE_GITHUB_REPO` | `<owner>/<repo>` used by the site's GitHub links (the Pages workflow sets `github.repository`) |
 
 Copy `.env.example` to `.env` (git-ignored) for local development. Nothing here
 is secret — Vite inlines the exposed `LEOPARDCODE_*` / `VITE_*` values into the public

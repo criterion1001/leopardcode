@@ -85,6 +85,7 @@ credentials and performs every read/write.
 | Variable | Purpose |
 |---|---|
 | `LEOPARDCODE_BACKEND_URL` / `VITE_LEOPARDCODE_BACKEND_URL` | Gateway URL baked into the build (defaults to `http://localhost:8000`) |
+| `VITE_GITHUB_REPO` | `<owner>/<repo>` baked into the site's GitHub links; the Pages workflow sets it from `github.repository`, so a mirror links to itself (defaults to the reference repo) |
 
 `web/.env.example` documents the backend URL. Everything here is public — Vite
 inlines the exposed `LEOPARDCODE_*` / `VITE_*` values into the bundle.

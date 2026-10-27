@@ -40,6 +40,7 @@ jobs:
       - run: pnpm build
         env:
           VITE_LEOPARDCODE_BACKEND_URL: ${{ vars.LEOPARDCODE_BACKEND_URL }}
+          VITE_GITHUB_REPO: ${{ github.repository }}
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
