@@ -99,10 +99,10 @@ of 10 MB, killing the child at the timeout.
 Set `LEOPARDCODE_BACKEND_URL` explicitly to target a gateway, e.g. your deployed
 `https://<host>` or `http://localhost:8000` for a local backend.
 
-Authentication sends `main_agent_id`, `client_kind: "cli"`, `api_key` (the server
-now funds every model and ignores it), `categories`, and `history`
-(`socket/client.ts`). The CLI offers models 2–4 (Nemotron, funded by the server);
-the provided model 6 is web-only. Each prompt carries the user text plus a
+Authentication sends `main_agent_id`, `client_kind: "cli"`, `api_key` (the user's
+NVIDIA API key for Nemotron models 2–4), `categories`, and `history`
+(`socket/client.ts`). The CLI offers models 2–4 (Nemotron, keyed by the user's
+NVIDIA API key via `/model` then `/key`); model 6 is operator-funded and web-only. Each prompt carries the user text plus a
 recalled-memory block when H-MEM finds relevant records; the chat bubble and the
 saved history keep only the user text.
 

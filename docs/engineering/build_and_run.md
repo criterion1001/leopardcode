@@ -25,6 +25,7 @@ Exact commands and files for running, checking, and deploying the project.
 | `OCI_KEY_CONTENT` | backend (`storage/oci/oci_client.py`) | inline PEM private key with `\n` escapes |
 | `OCI_NAMESPACE` | backend (`storage/oci/oci_client.py`) | Object Storage namespace |
 | `OCI_BUCKET` | backend (`storage/oci/oci_client.py`) | bucket that holds the web session folders |
+| `ZETARIS_REST_URL` / `ZETARIS_API_KEY` / `ZETARIS_ORG_ID` | backend (`sponsor/config.py`, `sponsor/zetaris_client.py`) | Zetaris REST API for `zetarisQuery` and `python -m sponsor.smoke zetaris` |
 
 `.env` and `web/.env` are git-ignored; `.env.example` and `web/.env.example`
 list the keys with blank values. OCI credentials are read entirely from the
@@ -39,8 +40,8 @@ WEB_SEARCH_API=... uv run main.py
 # → Uvicorn on 0.0.0.0:8000; uvicorn "main:app" also works
 ```
 
-The gateway is a pure Socket.IO ASGI app: it exposes no HTTP routes, so a
-`GET /` healthcheck does not apply (the Docker healthcheck opens a TCP socket).
+The gateway serves Socket.IO over HTTP; `/health` is served by a separate ASGI
+app (no trailing slash). The Docker healthcheck opens a TCP socket.
 
 ## Run the CLI
 
@@ -108,6 +109,8 @@ Triggers on push/PR to `main`, `master`, `**github-workflow**`.
 | Terminal Lint / Format / Typecheck | `pnpm lint` / `pnpm format:check` / `pnpm typecheck` |
 | Web Lint / Format / Typecheck / Build | `pnpm lint` / `pnpm format:check` / `pnpm typecheck` / `pnpm build` |
 | Backend Lint / Format / Security | `ruff check .` / `black --check .` / `bandit -r . -c pyproject.toml` |
+| H-MEM Conformance | `meterless-conformance.yml`: pinned spec vs `packages/hmem/src`; `workflow_dispatch` enabled |
+| Zetaris REST Smoke | `uv run python -m sponsor.smoke zetaris`; skips when `ZETARIS_API_KEY` is unset |
 | Secret Scan | `gitleaks` (allowlist: `.env.example`) |
 
 Run the same checks locally:
@@ -123,7 +126,21 @@ cd backend  && uv sync --all-extras && uv run ruff check . && uv run black --che
 - **Backend:** any Docker host (`backend/Dockerfile`, port 8000, WebSocket
   support). Set `PROVIDED_MODEL_KEY` for the keyless demo model 6 and
   `WEB_ALLOWED_ORIGINS` to the web origin (or `*`); `WEB_SEARCH_API` and the
-  `OCI_*` variables are optional. Health: `/health/`.
+  `OCI_*` variables are optional. Health: `/health`.
+
+### Sponsor checks
+
+Three sponsored integrations have guarded CI jobs:
+
+- **H-MEM Conformance** (`meterless-conformance.yml`): runs the pinned Meterless
+  spec against `packages/hmem/src` on changes to `packages/hmem/**` or
+  `backend/sponsor/**`. Passed 13/13 on `main`; output archived at
+  `docs/media/hmem-conformance.txt`.
+- **Zetaris REST Smoke** (`sponsor-smoke.yml`): runs `python -m sponsor.smoke
+  zetaris`, which queries the task_runs FILESTORE table and falls back to a
+  `SELECT 1` connectivity check. Skips cleanly when `ZETARIS_API_KEY` is unset.
+- **Nemotron**: no server-side key or CI smoke job — every planning and
+  execution turn on models 2–4 runs on the user's own NVIDIA key through NIM.
 - **Web:** `.github/workflows/web-pages.yml` builds `web/` with the gateway URL
   from the repository variable `LEOPARDCODE_BACKEND_URL` (exposed to Vite as
   `VITE_LEOPARDCODE_BACKEND_URL`) and deploys to GitHub Pages on pushes that

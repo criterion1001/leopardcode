@@ -13,6 +13,7 @@ Root: `backend/`. Python `>=3.13`, managed with **uv**. For behavior see
 | `gateway/connect/socket_handlers.py` | Socket.IO handlers | `connect`, `user_prompt`, `questionnaire_answers`, `agent_error_response`, `tool_result`, `disconnect`, `promptRateLimited` |
 | `gateway/agent/invoke_main_agent.py` | Run one main-agent turn under the prompt lock, with retry/timeout and timing logs | `invokeMainAgent`, `describeTurnSteps` |
 | `gateway/agent/with_task_context.py` | Append the live task-graph snapshot to the system prompt | `withTaskContext` |
+| `gateway/health.py` | Standalone `/health` ASGI app (no trailing slash) | `healthApp` |
 
 ## Prompts
 
@@ -94,7 +95,7 @@ only for model 6. Models are cached by `(agent_id, api_key)`.
 | `storage/oci/oci_client.py` | OCI API-key client (all from env) | — |
 | `storage/oci/object_ops.py` | Object put/get/delete/list | — |
 | `storage/oci/session_folder.py` | `YYYY-MM-DD:<uuid>` folder per web visit | `makeSessionFolder` |
-| `storage/oci/cleanup.py` | Standalone 6-hour sweep of old session folders | `main` |
+| `storage/oci/cleanup.py` | Standalone 2-hour sweep of old session folders | `main` |
 | `storage/service/storage_service.py` | List/read/write/delete on the bucket | `ensureSession`, `listTree`, `readRaw`, `readText`, `writeText`, `deletePath`, `fileExists` |
 | `storage/service/storage_limits.py` | Storage caps | `MAX_READ_BYTES`, `LIST_PAGE_LIMIT`, `IGNORED_DIRS`, … |
 
@@ -104,6 +105,16 @@ only for model 6. Models are cached by `(agent_id, api_key)`.
 |---|---|
 | `systemconfig/limits.py` | `MAX_MODEL_ATTEMPTS=3`, `DEFAULT_RETRY_AFTER_SECONDS=10`, `MAX_GIVE_UP_BOUNCES=2`, `ERROR_COOLDOWN_SECONDS=15`, `MODEL_CALL_TIMEOUT_SECONDS=60`, `AGENT_TURN_TIMEOUT_SECONDS=600`, `SUBAGENT_TIMEOUT_SECONDS=120`, `TOOL_TIMEOUT_SECONDS=30`, `COMMAND_TIMEOUT_SECONDS=30`, `DEFAULT_READ_LIMIT=500`, `WEB_FETCH_TIMEOUT_SECONDS=15`, `WEB_FETCH_MAX_BYTES=200000`, `RATE_LIMIT_CONNECT_MAX=30`, `RATE_LIMIT_CONNECT_WINDOW_SECONDS=60`, `RATE_LIMIT_PROMPT_MAX=20`, `RATE_LIMIT_PROMPT_WINDOW_SECONDS=14400` |
 | `systemconfig/websearch.py` | `WEB_SEARCH_API = os.getenv("WEB_SEARCH_API")` |
+
+## Sponsor (`sponsor/`)
+
+| File | Purpose | Key symbols |
+|---|---|---|
+| `sponsor/config.py` | Zetaris environment (REST URL, API key, org id) | `zetarisApiKey`, `zetarisRestUrl`, `zetarisOrgId` |
+| `sponsor/zetaris_client.py` | Documented Zetaris REST client: Bearer key, `X-Org-ID`, per-request `X-Request-ID` | `ZetarisClient`, `datasources`, `runQuery` |
+| `sponsor/smoke.py` | CI smoke: task_runs analytics query with a `SELECT 1` fallback | `smokeZetaris`, `main` |
+| `sponsor/sql/*.sql` | Committed verification and FILESTORE statements | `zetaris_task_runs_select.sql`, `zetaris_task_runs_create.sql`, `zetaris_verification_select.sql` |
+| `ai_tool/zetaris/tool.py` | `zetarisQuery` tool (read-only SQL, sub-agents only) | `zetarisQuery`, `readOnlyStatement` |
 
 ## Request path in one line
 
