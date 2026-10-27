@@ -1,8 +1,13 @@
 import { useState } from "react";
 import type { StorageEntry } from "../storage/storage_socket.js";
 import { useDirectory, useSessionFolder } from "../storage/storage_store.js";
-import { formatSize } from "./file_tree_model.js";
 import "../styles/file_browser.css";
+
+function formatSize(bytes: number): string {
+  if (bytes < 1024) return `${bytes} B`;
+  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+}
 
 export interface FileExplorerProps {
   selected_path: string | null;
