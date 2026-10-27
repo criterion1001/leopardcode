@@ -131,6 +131,14 @@ product and, for the hosted services, in guarded CI smoke jobs:
 | **Meterless** | `packages/hmem/src/` — our H-MEM engine, wired as per-project CLI memory (durable preferences, plan completions, `/memory`) | H-MEM recalls durable preferences into the next morph; `H-MEM Conformance` passes the pinned suite (13/13, output archived at `docs/media/hmem-conformance.txt`) |
 | **Zetaris** | `backend/sponsor/zetaris_client.py` — documented REST queries (`/sql-editor/sqls/run` with Bearer key, `X-Org-ID`, and `X-Request-ID`); `zetarisQuery` gives sub-agents read-only SQL during tasks; the CLI's `user_config/task_runs.csv` is exposed as a Zetaris FILESTORE table | Records the task runs behind each morph; `Zetaris REST Smoke` runs the committed `task_runs` analytics query through the REST API, falling back to `SELECT 1` when the table is not yet registered; the table and analytics query were verified against a local instance |
 
+![Zetaris SQL Workspace: SELECT status, COUNT(*) AS runs FROM LEOPARDCODE_RUNS.task_runs GROUP BY status](docs/media/zetaris-verification.png)
+
+*The Zetaris SQL Workspace answering the committed `task_runs` query. The CLI
+writes every finished category to `user_config/task_runs.csv`; the bundle
+exposes that file as the `LEOPARDCODE_RUNS.task_runs` FILESTORE table; this query
+returns the run counts by status (`blocked 1 · done 2 · failed 1`), and
+`zetarisQuery` lets sub-agents ask the same table read-only mid-task.*
+
 Zetaris values stay environment-only: names are documented in `.env.example`,
 the smoke job reports a skip until its secret exists, and the same check runs
 locally with `python -m sponsor.smoke zetaris`.
